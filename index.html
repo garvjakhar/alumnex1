@@ -3,428 +3,931 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alumnex | Campus Digital Ecosystem</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Alumnex — Your Campus. Your Network.</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --bg-main: #f8fafc;
-      --bg-card: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --radius: 12px;
+      --bg-midnight: #080811;
+      --bg-surface: rgba(18, 18, 32, 0.7);
+      --bg-surface-elevated: rgba(28, 28, 48, 0.85);
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.18);
+      
+      --brand-gradient: linear-gradient(135deg, #7928ca 0%, #ff007a 50%, #ff5e3a 100%);
+      --brand-coral: #ff5e3a;
+      --brand-magenta: #ff007a;
+      --brand-purple: #7928ca;
+      
+      --text-white: #ffffff;
+      --text-dim: #9aa0a6;
+      --text-subtle: #6e7681;
+      
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-full: 9999px;
+      --radius-card: 16px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', sans-serif;
     }
 
     body {
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      background-color: var(--bg-midnight);
+      color: var(--text-white);
+      font-family: var(--font-family);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      overflow-x: hidden;
     }
 
-    /* Navbar */
-    header {
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border);
-      height: 64px;
-      display: flex;
+    .hidden { display: none !important; }
+
+    .btn {
+      display: inline-flex;
       align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: var(--font-family);
+      font-weight: 500;
+      font-size: 0.88rem;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-brand {
+      background: var(--brand-gradient);
+      color: #fff;
+      padding: 0.65rem 1.4rem;
+      box-shadow: 0 4px 20px rgba(255, 0, 122, 0.35);
+    }
+    .btn-brand:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(255, 0, 122, 0.5);
+    }
+
+    .btn-dark {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-white);
+      border: 1px solid var(--border-soft);
+      backdrop-filter: blur(12px);
+      padding: 0.65rem 1.4rem;
+    }
+    .btn-dark:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-hover);
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 72px;
+      padding: 0 3.5rem;
+      display: flex;
       justify-content: space-between;
-      padding: 0 24px;
-      z-index: 10;
-    }
-
-    .logo-container {
-      display: flex;
       align-items: center;
-      gap: 10px;
+      background: rgba(8, 8, 17, 0.65);
+      backdrop-filter: blur(25px);
+      border-bottom: 1px solid var(--border-soft);
+      z-index: 1000;
     }
 
-    .logo-badge {
-      background: var(--primary);
-      color: white;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 1.1rem;
-    }
-
-    .user-profile {
+    .brand-container {
       display: flex;
       align-items: center;
       gap: 12px;
-      background: var(--bg-main);
-      padding: 6px 12px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
+      cursor: pointer;
     }
 
-    .avatar {
+    .brand-logo-svg {
       width: 32px;
       height: 32px;
-      border-radius: 50%;
-      background: #0284c7;
-      color: white;
+    }
+
+    .brand-title-wrap h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .brand-title-wrap p {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--text-dim);
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-white);
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--brand-coral);
+      border-radius: 2px;
+    }
+
+    .nav-user-dock {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-container {
+      position: relative;
+      min-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 1.5rem 50px;
+      background: radial-gradient(circle at 50% 25%, rgba(121, 40, 202, 0.22) 0%, rgba(8, 8, 17, 0.85) 60%),
+                  linear-gradient(180deg, rgba(8, 8, 17, 0.2) 0%, rgba(8, 8, 17, 0.98) 100%),
+                  url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop') center center / cover no-repeat;
+    }
+
+    .hero-pretitle {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-pretitle::before, .hero-pretitle::after {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--brand-magenta);
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 5.2vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.2px;
+      margin-bottom: 1.25rem;
+    }
+
+    .gradient-word {
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+      margin-top: 0.25rem;
+    }
+
+    .hero-desc {
+      max-width: 580px;
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      font-weight: 400;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .scroll-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-subtle);
+      font-size: 0.72rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 2.5rem;
+    }
+    .scroll-mouse {
+      width: 16px;
+      height: 26px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      position: relative;
+    }
+    .scroll-mouse::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 5px;
+      background: var(--brand-coral);
+      border-radius: 1px;
+    }
+
+    .metrics-container {
+      width: 100%;
+      max-width: 960px;
+      background: rgba(18, 18, 32, 0.65);
+      border: 1px solid var(--border-soft);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      padding: 1.4rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .metric-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-align: left;
+    }
+
+    .metric-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-soft);
       display: flex;
       align-items: center;
       justify-content: center;
+      color: var(--brand-coral);
+      font-size: 1.15rem;
+    }
+
+    .metric-number {
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .metric-name {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .workspace-wrap {
+      max-width: 1120px;
+      margin: 2rem auto 6rem;
+      padding: 0 1.5rem;
+    }
+
+    .glass-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      backdrop-filter: blur(25px);
+    }
+
+    .pill-tag {
+      font-size: 0.72rem;
       font-weight: 600;
-      font-size: 0.85rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      background: rgba(255, 94, 58, 0.12);
+      color: var(--brand-coral);
+      border: 1px solid rgba(255, 94, 58, 0.2);
     }
 
-    .user-info {
-      font-size: 0.85rem;
+    input, select, textarea {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      color: #fff;
+      padding: 0.65rem 0.9rem;
+      font-family: var(--font-family);
+      font-size: 0.88rem;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: 1px solid var(--brand-coral);
+      border-color: transparent;
     }
 
-    .user-info span {
-      display: block;
-      color: var(--text-muted);
-      font-size: 0.75rem;
+    .feed-split {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.75rem;
     }
 
-    /* Layout */
-    .app-container {
-      display: flex;
-      flex: 1;
+    .card-entry {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .chat-wrapper {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
       overflow: hidden;
+      min-height: 540px;
     }
 
-    /* Sidebar */
-    aside {
-      width: 240px;
-      background: var(--bg-card);
-      border-right: 1px solid var(--border);
-      padding: 20px 12px;
+    .contacts-pane {
+      background: rgba(14, 14, 26, 0.75);
+      border-right: 1px solid var(--border-soft);
+      overflow-y: auto;
+    }
+
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.9rem 1.2rem;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      transition: background 0.15s ease;
+    }
+    .contact-card:hover, .contact-card.active {
+      background: rgba(255, 94, 58, 0.08);
+    }
+
+    .avatar-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--brand-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: 0.85rem;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .online-indicator {
+      width: 9px;
+      height: 9px;
+      background: #10b981;
+      border-radius: 50%;
+      border: 2px solid #0e0e1a;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+
+    .chat-thread-pane {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      background: rgba(20, 20, 36, 0.4);
     }
 
-    .nav-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      border-radius: var(--radius);
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: 500;
-      font-size: 0.95rem;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.2s ease;
-    }
-
-    .nav-btn:hover {
-      background: var(--bg-main);
-      color: var(--text-main);
-    }
-
-    .nav-btn.active {
-      background: #eff6ff;
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    /* Main Area */
-    main {
+    .thread-body {
       flex: 1;
+      padding: 1.5rem;
       overflow-y: auto;
-      padding: 24px;
-      max-width: 900px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    /* Cards & Post Creation */
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-    }
-
-    .create-post textarea {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-      resize: none;
-      height: 80px;
-      outline: none;
-      font-size: 0.95rem;
-      margin-bottom: 12px;
-    }
-
-    .create-post textarea:focus {
-      border-color: var(--primary);
-    }
-
-    .post-controls {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 0.85rem;
+      max-height: 380px;
     }
 
-    select, input[type="text"] {
-      padding: 8px 12px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      outline: none;
-      background: var(--bg-main);
+    .msg-bubble {
+      max-width: 72%;
+      padding: 0.65rem 1rem;
+      border-radius: 14px;
+      font-size: 0.88rem;
+    }
+    .msg-bubble.peer {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-soft);
+    }
+    .msg-bubble.me {
+      align-self: flex-end;
+      background: var(--brand-gradient);
+      color: #fff;
     }
 
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
+    @media (max-width: 900px) {
+      .metrics-container { grid-template-columns: repeat(2, 1fr); }
+      .feed-split, .chat-wrapper { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .navbar { padding: 0 1.5rem; }
     }
-
-    .btn-primary:hover {
-      background: var(--primary-hover);
-    }
-
-    /* Feed Items */
-    .feed-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .author-meta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .badge {
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .badge-student { background: #e0f2fe; color: #0369a1; }
-    .badge-faculty { background: #fef3c7; color: #b45309; }
-    .badge-alumni { background: #dcfce7; color: #15803d; }
-
-    .post-content {
-      line-height: 1.5;
-      color: #334155;
-      margin-bottom: 16px;
-    }
-
-    .post-footer {
-      display: flex;
-      gap: 16px;
-      border-top: 1px solid var(--border);
-      padding-top: 12px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .action-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .action-btn:hover {
-      color: var(--primary);
-    }
-
-    .hidden { display: none; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <div class="logo-container">
-      <span class="logo-badge">Alumnex</span>
-      <span style="color: var(--text-muted); font-size: 0.9rem;">ACEM Campus Network</span>
-    </div>
-    <div class="user-profile">
-      <div class="avatar">DS</div>
-      <div class="user-info">
-        Dev Sharma
-        <span>CSE Student (3rd Sem)</span>
+  <!-- Top Glass Navigation -->
+  <header class="navbar">
+    <div class="brand-container" onclick="switchTab('feed')">
+      <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7928ca" />
+            <stop offset="50%" stop-color="#ff007a" />
+            <stop offset="100%" stop-color="#ff5e3a" />
+          </linearGradient>
+        </defs>
+        <path d="M50 12 L15 82 A 6 6 0 0 0 21 90 L 37 90 A 4 4 0 0 0 40 87 L 50 64 L 60 87 A 4 4 0 0 0 63 90 L 79 90 A 6 6 0 0 0 85 82 Z" fill="url(#logoGrad)"/>
+        <polygon points="50,38 38,62 62,62" fill="#080811" />
+      </svg>
+      <div class="brand-title-wrap">
+        <h1>Alumnex</h1>
+        <p>Your Campus. Your Network.</p>
       </div>
+    </div>
+
+    <ul class="nav-links">
+      <li><span class="nav-link active" onclick="switchTab('feed')">Home</span></li>
+      <li><span class="nav-link" onclick="switchTab('chat')">Messages</span></li>
+      <li><span class="nav-link" onclick="switchTab('community')">Community</span></li>
+      <li><span class="nav-link" onclick="switchTab('notices')">Notices</span></li>
+      <li><span class="nav-link" onclick="switchTab('opps')">Opportunities</span></li>
+    </ul>
+
+    <div class="nav-user-dock">
+      <span class="btn btn-dark" style="padding: 0.45rem 1rem; font-size: 0.8rem;">
+        <i class="fa-regular fa-id-badge" style="color:var(--brand-coral)"></i>&nbsp; Dev Sharma (CSE 2nd Yr)
+      </span>
+      <button class="btn btn-brand" onclick="switchTab('chat')">Active Chat</button>
     </div>
   </header>
 
-  <div class="app-container">
-    <!-- Navigation Sidebar -->
-    <aside>
-      <button class="nav-btn active" onclick="switchTab('feed', this)">📌 Campus Feed</button>
-      <button class="nav-btn" onclick="switchTab('opportunities', this)">💼 Opportunities</button>
-      <button class="nav-btn" onclick="switchTab('mentorship', this)">🎓 Alumni Mentorship</button>
-      <button class="nav-btn" onclick="switchTab('notices', this)">📢 Campus Notices</button>
-    </aside>
+  <!-- Twilight Hero Section -->
+  <section class="hero-container">
+    <div class="hero-pretitle">A L U M N E X</div>
+    <h1 class="hero-title">
+      One Campus.<br>
+      Infinite Connections.<br>
+      <span class="gradient-word">Limitless Growth.</span>
+    </h1>
+    <p class="hero-desc">
+      Alumnex is more than a platform — it's a movement to connect, collaborate, and grow together.
+    </p>
 
-    <!-- Content Workspace -->
-    <main>
-      <!-- Interactive Post Creator -->
-      <div class="card create-post">
-        <textarea id="postInput" placeholder="Share updates, project ideas, or questions with your campus..."></textarea>
-        <div class="post-controls">
+    <div class="hero-ctas">
+      <button class="btn btn-brand" onclick="switchTab('feed')">
+        Explore Campus &nbsp;<i class="fa-solid fa-arrow-right"></i>
+      </button>
+      <button class="btn btn-dark" onclick="switchTab('chat')">
+        Open Messages
+      </button>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-mouse"></div>
+      Scroll to explore
+    </div>
+
+    <!-- Live Floating Statistics -->
+    <div class="metrics-container">
+      <div class="metric-item">
+        <div class="metric-icon-wrap"><i class="fa-solid fa-user-group"></i></div>
+        <div>
+          <div class="metric-number">10K+</div>
+          <div class="metric-name">Students</div>
+        </div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-icon-wrap"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div>
+          <div class="metric-number">500+</div>
+          <div class="metric-name">Colleges</div>
+        </div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-icon-wrap"><i class="fa-solid fa-circle-nodes"></i></div>
+        <div>
+          <div class="metric-number">25K+</div>
+          <div class="metric-name">Connections</div>
+        </div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-icon-wrap"><i class="fa-solid fa-comment-dots"></i></div>
+        <div>
+          <div class="metric-number">100K+</div>
+          <div class="metric-name">Messages</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Content Engine -->
+  <main class="workspace-wrap" id="workspace">
+    <div class="glass-panel">
+
+      <!-- 1. FEED VIEW -->
+      <div id="view-feed" class="tab-pane">
+        <div class="feed-split">
           <div>
-            <select id="roleSelect">
-              <option value="Student">Post as Student</option>
-              <option value="Faculty">Post as Faculty</option>
-              <option value="Alumni">Post as Alumni</option>
-            </select>
-            <select id="categorySelect">
-              <option value="feed">Campus Feed</option>
-              <option value="opportunities">Opportunity</option>
-              <option value="notices">Notice</option>
-            </select>
+            <div class="card-entry" style="margin-bottom: 1.5rem;">
+              <textarea id="post-input" placeholder="Share updates, hackathon team calls, or campus events..." style="width: 100%; min-height: 70px; background: transparent; border: none; outline: none;"></textarea>
+              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-soft); padding-top:0.75rem; margin-top:0.5rem;">
+                <select id="post-tag-select">
+                  <option value="SIH 2026">SIH 2026 Hackathon</option>
+                  <option value="Event">Fest & Celebrations</option>
+                  <option value="Project">Project Collaboration</option>
+                  <option value="Academic">Academic</option>
+                </select>
+                <button class="btn btn-brand" id="submit-post-btn">Publish</button>
+              </div>
+            </div>
+            <div id="feed-items-container"></div>
           </div>
-          <button class="btn-primary" onclick="createPost()">Publish</button>
+
+          <!-- Peer List Quick Access -->
+          <div>
+            <div class="card-entry">
+              <h3 style="font-size: 0.95rem; margin-bottom: 0.85rem; display: flex; justify-content: space-between; align-items: center;">
+                <span>Recent Connections</span>
+                <span class="pill-tag">Online</span>
+              </h3>
+              <div id="quick-connections-list" style="display: flex; flex-direction: column; gap: 0.6rem;"></div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Live Dynamic Feed Container -->
-      <div id="feedContainer"></div>
-    </main>
-  </div>
-
-  <script>
-    // Initial Dataset
-    let posts = [
-      {
-        id: 1,
-        author: "Dr. R. K. Verma",
-        role: "Faculty",
-        category: "notices",
-        content: "Mid-Term Examination Schedule for B.Tech CSE (3rd Semester) has been uploaded to the portal. Examinations start next Monday.",
-        time: "10 mins ago",
-        likes: 14
-      },
-      {
-        id: 2,
-        author: "Garv Jakhar",
-        role: "Student",
-        category: "feed",
-        content: "Looking for 2 more team members for the upcoming Smart India Hackathon internal screening. DM if interested in Frontend/UI work!",
-        time: "1 hour ago",
-        likes: 8
-      },
-      {
-        id: 3,
-        author: "Ankit Mehta (Batch '22)",
-        role: "Alumni",
-        category: "opportunities",
-        content: "Our team at TechCorp is hiring Software Interns. Open to 3rd & 4th year CSE students. Drop your resume links in the responses.",
-        time: "3 hours ago",
-        likes: 32
-      }
-    ];
-
-    let currentTab = 'feed';
-
-    function renderPosts() {
-      const container = document.getElementById('feedContainer');
-      container.innerHTML = '';
-
-      const filteredPosts = posts.filter(p => currentTab === 'feed' || p.category === currentTab);
-
-      if (filteredPosts.length === 0) {
-        container.innerHTML = `<div class="card" style="text-align:center; color: var(--text-muted);">No posts available in this section yet.</div>`;
-        return;
-      }
-
-      filteredPosts.forEach(post => {
-        const badgeClass = `badge-${post.role.toLowerCase()}`;
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="feed-header">
-            <div class="author-meta">
-              <div class="avatar">${post.author.substring(0,2).toUpperCase()}</div>
+      <!-- 2. MESSAGES VIEW -->
+      <div id="view-chat" class="tab-pane hidden">
+        <div class="chat-wrapper">
+          <div class="contacts-pane" id="chat-contacts-mount"></div>
+          <div class="chat-thread-pane">
+            <div style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; gap: 0.75rem;">
+              <div class="avatar-icon" id="active-chat-avatar">I</div>
               <div>
-                <strong>${post.author}</strong>
-                <span style="font-size: 0.8rem; color: var(--text-muted); display: block;">${post.time}</span>
+                <h4 id="active-chat-name" style="font-size: 0.95rem; font-weight: 600;">Ishaan</h4>
+                <p id="active-chat-role" style="font-size: 0.72rem; color: var(--text-dim);">CSE 2nd Year • Connected Peer</p>
               </div>
             </div>
-            <span class="badge ${badgeClass}">${post.role}</span>
+            <div class="thread-body" id="chat-messages-mount"></div>
+            <div style="padding: 1rem 1.5rem; border-top: 1px solid var(--border-soft); display: flex; gap: 0.75rem;">
+              <input type="text" id="chat-text-input" placeholder="Type a message..." style="flex: 1;">
+              <button class="btn btn-brand" id="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
           </div>
-          <div class="post-content">${post.content}</div>
-          <div class="post-footer">
-            <button class="action-btn" onclick="likePost(${post.id})">👍 ${post.likes} Likes</button>
-            <button class="action-btn">💬 Comment</button>
-            <button class="action-btn">🔗 Share</button>
+        </div>
+      </div>
+
+      <!-- 3. COMMUNITY VIEW -->
+      <div id="view-community" class="tab-pane hidden">
+        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Campus Circles & Celebrations</h2>
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Join clubs, cultural committees, and trending innovation squads.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem;" id="communities-mount"></div>
+      </div>
+
+      <!-- 4. NOTICES VIEW -->
+      <div id="view-notices" class="tab-pane hidden">
+        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Official Campus Circulars & Schedules</h2>
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Verified updates from Academic Dean, HOD CSE, and Student Welfare.</p>
+        <div style="display: flex; flex-direction: column; gap: 1rem;" id="notices-mount"></div>
+      </div>
+
+      <!-- 5. OPPORTUNITIES VIEW -->
+      <div id="view-opps" class="tab-pane hidden">
+        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Opportunities & Mentorship Board</h2>
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Placements, referrals, and alumni mentorship programs.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem;" id="opps-mount"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const state = {
+      activeChat: "ishaan",
+      contacts: [
+        { id: "ishaan", name: "Ishaan", role: "CSE 2nd Year", avatar: "I", snippet: "Synced the SIH PPT presentation format!" },
+        { id: "aditya", name: "Aditya", role: "CSE 2nd Year", avatar: "A", snippet: "Node.js route middleware is working fine." },
+        { id: "ankur", name: "Ankur", role: "CSE 2nd Year", avatar: "An", snippet: "Checked the synopsis DFD diagram flow." },
+        { id: "puneet", name: "Puneet", role: "CSE 2nd Year", avatar: "P", snippet: "Rehearsing for the Teachers' Day skit at 4 PM." }
+      ],
+      messages: {
+        ishaan: [
+          { from: "peer", text: "Hey Dev, did you review the problem statements released for SIH 2026?" },
+          { from: "me", text: "Yes! We should target the Smart Education domain with Alumnex." },
+          { from: "peer", text: "Agreed. The internal college shortlisting is next week, so let's finalize the PPT." },
+          { from: "me", text: "I have loaded our glassmorphism UI into the demo prototype!" }
+        ],
+        aditya: [
+          { from: "peer", text: "Dev, I pushed the auth router logic for Student vs Faculty role switches." },
+          { from: "me", text: "Awesome! Make sure only Faculty can broadcast official circulars." },
+          { from: "peer", text: "Done. Also added the database collections as per the synopsis architecture." }
+        ],
+        ankur: [
+          { from: "peer", text: "Hey, did faculty guide confirm our Monday review slot?" },
+          { from: "me", text: "Yes, 11:30 AM in the lab. We need the printed spiral-bound synopsis copies." },
+          { from: "peer", text: "Perfect. Garv and I are verifying the hardware/software tables." }
+        ],
+        puneet: [
+          { from: "peer", text: "Dev, are you attending the Teachers' Day stage rehearsals in the auditorium today?" },
+          { from: "me", text: "Yes, right after 4th period! Did the council finalize the anchors for Freshers'?" },
+          { from: "peer", text: "Yes, 'Aarambh 2026' schedule is confirmed. The poster is dropping this evening." }
+        ]
+      },
+      posts: [
+        { 
+          author: "Garv Jakhar", 
+          role: "Student", 
+          tag: "SIH 2026", 
+          text: "Team registration for Internal SIH 2026 Hackathon Screening is live. Who's submitting ideas in the Campus Collaboration track?" 
+        },
+        { 
+          author: "Student Council", 
+          role: "Community", 
+          tag: "Event", 
+          text: "Freshers' Party 2026 — 'AARAMBH' theme reveal coming this Friday! Tag your batchmates and prepare your audition pieces." 
+        },
+        { 
+          author: "Ishaan", 
+          role: "Student", 
+          tag: "Academic", 
+          text: "Teachers' Day tribute card designs are ready for CSE faculty. Drop your short thank-you messages in the thread below!" 
+        }
+      ],
+      notices: [
+        {
+          title: "SIH 2026 Internal College Round Announcement",
+          dept: "Campus Innovation Cell & SPOC",
+          date: "Sep 04, 2026",
+          desc: "All participating student teams must submit their 3-slide PPT problem solution by September 11, 2026. Top 35 teams will be nominated to the Smart India Hackathon central portal."
+        },
+        {
+          title: "Teachers' Day Celebration & Faculty Felicitation",
+          dept: "Office of Student Affairs",
+          date: "Sep 05, 2026",
+          desc: "Classes will be suspended from 1:30 PM onwards for the Teachers' Day program in the Main Auditorium. All faculty members and students are warmly invited."
+        },
+        {
+          title: "Notice: Gazetted Holiday on Raksha Bandhan",
+          dept: "Registrar Office",
+          date: "Aug 27, 2026",
+          desc: "The college remained closed on Thursday, August 27, 2026 on account of Raksha Bandhan. All labs and academic activities were rescheduled."
+        },
+        {
+          title: "Independence Day & Janmashtami Holidays (Archived)",
+          dept: "Academic Administration",
+          date: "Aug 14, 2026",
+          desc: "Academic break observed on August 15 (Independence Day) and August 17 (Krishna Janmashtami). Regular semester classes resumed on August 18."
+        },
+        {
+          title: "2nd Year Project Synopsis Submission Schedule",
+          dept: "Department of Computer Science & Engineering",
+          date: "Sep 02, 2026",
+          desc: "B.Tech CSE 2nd-year teams (including Alumnex - Dev Sharma & Garv Jakhar) must present their live functional prototypes before the faculty committee by next week."
+        }
+      ],
+      communities: [
+        {
+          name: "Aarambh 2026 — Freshers' Cultural Committee",
+          category: "Campus Events",
+          members: "340 Members",
+          desc: "The official planning hub for freshers' party decorations, talent auditions, Mr./Ms. Fresher contests, and DJ arrangements."
+        },
+        {
+          name: "Teachers' Day Organizers & Felicitation",
+          category: "Student Council",
+          members: "115 Members",
+          desc: "Coordinating auditorium floral setups, personalized faculty tokens, video tribute compilations, and stage anchors."
+        },
+        {
+          name: "SIH & Hackathon Champions Club",
+          category: "Technical",
+          members: "280 Members",
+          desc: "Idea brainstorming, mentorship from past winners, and cross-department team formation for national hackathons."
+        },
+        {
+          name: "Prompt Engineering & GenAI Guild",
+          category: "Trending Hub",
+          members: "190 Members",
+          desc: "Weekly hack sessions building LLM agents, exploring open weights models, and participating in automated dev workflows."
+        },
+        {
+          name: "Esports & Inter-College LAN League",
+          category: "Gaming Circle",
+          members: "220 Members",
+          desc: "Campus gaming tournaments, Valorant/BGMI customs, and LAN gaming coordination for the annual tech fest."
+        }
+      ],
+      opportunities: [
+        { 
+          title: "SIH Prep Fellowship & Mentorship", 
+          company: "Alumni In Tech", 
+          type: "Mentorship", 
+          desc: "Guidance on UI architecture, system design, and pitch delivery from previous Smart India Hackathon finalist alumni." 
+        },
+        { 
+          title: "Frontend Developer Intern", 
+          company: "Campus Tech Labs", 
+          type: "Internship", 
+          desc: "Build modern web apps using HTML, CSS, JavaScript, and React with responsive dark theme components." 
+        }
+      ]
+    };
+
+    function switchTab(tabKey) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+
+      const target = document.getElementById(`view-${tabKey}`);
+      if (target) target.classList.remove('hidden');
+
+      const activeLink = Array.from(document.querySelectorAll('.nav-link')).find(el => 
+        el.textContent.toLowerCase().includes(tabKey) || (tabKey === 'feed' && el.textContent.toLowerCase() === 'home')
+      );
+      if (activeLink) activeLink.classList.add('active');
+
+      document.getElementById('workspace').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function renderChat() {
+      const contactsContainer = document.getElementById('chat-contacts-mount');
+      const quickContainer = document.getElementById('quick-connections-list');
+      contactsContainer.innerHTML = '';
+      quickContainer.innerHTML = '';
+
+      state.contacts.forEach(c => {
+        const item = document.createElement('div');
+        item.className = `contact-card ${c.id === state.activeChat ? 'active' : ''}`;
+        item.onclick = () => selectContact(c.id);
+        item.innerHTML = `
+          <div class="avatar-icon">${c.avatar}<div class="online-indicator"></div></div>
+          <div style="overflow:hidden;">
+            <h4 style="font-size: 0.88rem; font-weight: 600;">${c.name}</h4>
+            <p style="font-size: 0.72rem; color: var(--text-dim); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${c.snippet}</p>
           </div>
         `;
-        container.appendChild(card);
+        contactsContainer.appendChild(item);
+
+        const quick = document.createElement('div');
+        quick.style.cssText = 'display:flex; align-items:center; gap:0.75rem; cursor:pointer; padding:0.4rem; border-radius:8px;';
+        quick.onclick = () => { selectContact(c.id); switchTab('chat'); };
+        quick.innerHTML = `
+          <div class="avatar-icon" style="width:30px; height:30px; font-size:0.75rem;">${c.avatar}</div>
+          <div style="font-size:0.82rem;">
+            <strong>${c.name}</strong>
+            <span style="font-size:0.7rem; color:var(--text-dim); display:block;">${c.role}</span>
+          </div>
+        `;
+        quickContainer.appendChild(quick);
+      });
+
+      renderChatThread();
+    }
+
+    function selectContact(contactId) {
+      state.activeChat = contactId;
+      const c = state.contacts.find(x => x.id === contactId);
+      document.getElementById('active-chat-name').textContent = c.name;
+      document.getElementById('active-chat-role').textContent = `${c.role} • Connected Peer`;
+      document.getElementById('active-chat-avatar').textContent = c.avatar;
+      renderChat();
+    }
+
+    function renderChatThread() {
+      const mount = document.getElementById('chat-messages-mount');
+      mount.innerHTML = '';
+      const list = state.messages[state.activeChat] || [];
+      list.forEach(m => {
+        const bubble = document.createElement('div');
+        bubble.className = `msg-bubble ${m.from === 'me' ? 'me' : 'peer'}`;
+        bubble.textContent = m.text;
+        mount.appendChild(bubble);
+      });
+      mount.scrollTop = mount.scrollHeight;
+    }
+
+    document.getElementById('chat-send-btn').addEventListener('click', () => {
+      const input = document.getElementById('chat-text-input');
+      const val = input.value.trim();
+      if (!val) return;
+
+      if (!state.messages[state.activeChat]) state.messages[state.activeChat] = [];
+      state.messages[state.activeChat].push({ from: "me", text: val });
+      
+      const currentContact = state.contacts.find(c => c.id === state.activeChat);
+      if (currentContact) currentContact.snippet = val;
+
+      input.value = '';
+      renderChat();
+    });
+
+    function renderPosts() {
+      const mount = document.getElementById('feed-items-container');
+      mount.innerHTML = '';
+      state.posts.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'card-entry';
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem;">
+            <div><strong>${p.author}</strong> <span style="font-size:0.72rem; color:var(--text-dim);">(${p.role})</span></div>
+            <span class="pill-tag">${p.tag}</span>
+          </div>
+          <p style="font-size:0.9rem; color:#cbd5e1;">${p.text}</p>
+        `;
+        mount.appendChild(card);
       });
     }
 
-    function createPost() {
-      const text = document.getElementById('postInput').value.trim();
-      const role = document.getElementById('roleSelect').value;
-      const category = document.getElementById('categorySelect').value;
+    document.getElementById('submit-post-btn').addEventListener('click', () => {
+      const input = document.getElementById('post-input');
+      const val = input.value.trim();
+      const tag = document.getElementById('post-tag-select').value;
+      if (!val) return;
 
-      if (!text) return alert("Please write some content before publishing.");
-
-      const newPost = {
-        id: Date.now(),
-        author: role === 'Student' ? 'Dev Sharma' : (role === 'Faculty' ? 'Prof. Guest' : 'Alumni Guest'),
-        role: role,
-        category: category,
-        content: text,
-        time: "Just now",
-        likes: 0
-      };
-
-      posts.unshift(newPost);
-      document.getElementById('postInput').value = '';
+      state.posts.unshift({ author: "Dev Sharma", role: "Student", tag, text: val });
+      input.value = '';
       renderPosts();
+    });
+
+    function renderStaticSections() {
+      // Notices
+      const nMount = document.getElementById('notices-mount');
+      nMount.innerHTML = '';
+      state.notices.forEach(n => {
+        const item = document.createElement('div');
+        item.className = 'card-entry';
+        item.style.borderLeft = '3px solid var(--brand-coral)';
+        item.innerHTML = `
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+            <h3 style="font-size:0.98rem; font-weight:600;">${n.title}</h3>
+            <span style="font-size:0.75rem; color:var(--brand-coral); font-weight:500;">${n.date}</span>
+          </div>
+          <p style="font-size:0.87rem; color:#cbd5e1; margin-bottom:0.5rem; line-height:1.4;">${n.desc}</p>
+          <span style="font-size:0.72rem; color:var(--text-dim);"><i class="fa-solid fa-building-columns"></i> ${n.dept}</span>
+        `;
+        nMount.appendChild(item);
+      });
+
+      // Communities
+      const cMount = document.getElementById('communities-mount');
+      cMount.innerHTML = '';
+      state.communities.forEach(c => {
+        const item = document.createElement('div');
+        item.className = 'card-entry';
+        item.innerHTML = `
+          <span class="pill-tag" style="margin-bottom:0.5rem; display:inline-block;">${c.category}</span>
+          <h3 style="font-size:1rem; margin-bottom:0.3rem;">${c.name}</h3>
+          <p style="font-size:0.84rem; color:var(--text-dim); margin-bottom:0.85rem; line-height:1.4;">${c.desc}</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-soft); padding-top:0.6rem;">
+            <span style="font-size:0.75rem; color:var(--text-dim);"><i class="fa-regular fa-user"></i> ${c.members}</span>
+            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.8rem;" onclick="alert('You joined ${c.name}')">Join Circle</button>
+          </div>
+        `;
+        cMount.appendChild(item);
+      });
+
+      // Opportunities
+      const oMount = document.getElementById('opps-mount');
+      oMount.innerHTML = '';
+      state.opportunities.forEach(o => {
+        const item = document.createElement('div');
+        item.className = 'card-entry';
+        item.innerHTML = `
+          <span class="pill-tag">${o.type}</span>
+          <h3 style="font-size:0.98rem; margin:0.4rem 0 0.2rem;">${o.title}</h3>
+          <p style="font-size:0.8rem; color:var(--brand-coral); margin-bottom:0.5rem;">${o.company}</p>
+          <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.75rem;">${o.desc}</p>
+          <button class="btn btn-brand" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Application details sent.')">Apply Now</button>
+        `;
+        oMount.appendChild(item);
+      });
     }
 
-    function likePost(id) {
-      const post = posts.find(p => p.id === id);
-      if (post) {
-        post.likes++;
-        renderPosts();
-      }
-    }
-
-    function switchTab(tabName, element) {
-      currentTab = tabName;
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-      element.classList.add('active');
-      renderPosts();
-    }
-
-    // Initial Render
+    renderChat();
     renderPosts();
+    renderStaticSections();
   </script>
 </body>
 </html>
