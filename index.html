@@ -13,7 +13,7 @@
   <style>
     :root {
       --bg-midnight: #080811;
-      --bg-surface: rgba(18, 18, 32, 0.7);
+      --bg-surface: rgba(18, 18, 32, 0.75);
       --bg-surface-elevated: rgba(28, 28, 48, 0.85);
       --border-soft: rgba(255, 255, 255, 0.08);
       --border-hover: rgba(255, 255, 255, 0.18);
@@ -32,11 +32,7 @@
       --radius-card: 16px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-midnight);
@@ -49,6 +45,7 @@
 
     .hidden { display: none !important; }
 
+    /* Button Styles */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -71,7 +68,6 @@
       box-shadow: 0 4px 20px rgba(255, 0, 122, 0.35);
     }
     .btn-brand:hover {
-      opacity: 0.95;
       transform: translateY(-1px);
       box-shadow: 0 6px 24px rgba(255, 0, 122, 0.5);
     }
@@ -88,15 +84,28 @@
       border-color: var(--border-hover);
     }
 
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 0.65rem 1.4rem;
+    }
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+      color: #fff;
+    }
+
+    /* Fixed Glass Navbar */
     .navbar {
       position: fixed;
       top: 0; left: 0; right: 0;
       height: 72px;
-      padding: 0 3.5rem;
+      padding: 0 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(8, 8, 17, 0.65);
+      background: rgba(8, 8, 17, 0.7);
       backdrop-filter: blur(25px);
       border-bottom: 1px solid var(--border-soft);
       z-index: 1000;
@@ -109,10 +118,7 @@
       cursor: pointer;
     }
 
-    .brand-logo-svg {
-      width: 32px;
-      height: 32px;
-    }
+    .brand-logo-svg { width: 32px; height: 32px; }
 
     .brand-title-wrap h1 {
       font-size: 1.25rem;
@@ -121,17 +127,15 @@
       color: #ffffff;
       line-height: 1.1;
     }
-
     .brand-title-wrap p {
       font-size: 0.65rem;
       color: var(--text-dim);
-      font-weight: 400;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 2.2rem;
+      gap: 2rem;
       list-style: none;
     }
 
@@ -143,36 +147,44 @@
       position: relative;
       transition: color 0.2s;
     }
-    .nav-link:hover, .nav-link.active {
-      color: var(--text-white);
-    }
+    .nav-link:hover, .nav-link.active { color: var(--text-white); }
     .nav-link.active::after {
       content: '';
       position: absolute;
       bottom: -6px;
-      left: 0;
-      right: 0;
+      left: 0; right: 0;
       height: 2px;
       background: var(--brand-coral);
       border-radius: 2px;
     }
 
-    .nav-user-dock {
+    .profile-pill {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-soft);
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .profile-pill:hover, .profile-pill.active {
+      border-color: var(--brand-coral);
+      background: rgba(255, 94, 58, 0.08);
     }
 
+    /* Hero Section */
     .hero-container {
       position: relative;
-      min-height: 88vh;
+      min-height: 85vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 120px 1.5rem 50px;
-      background: radial-gradient(circle at 50% 25%, rgba(121, 40, 202, 0.22) 0%, rgba(8, 8, 17, 0.85) 60%),
+      padding: 110px 1.5rem 50px;
+      background: radial-gradient(circle at 50% 25%, rgba(121, 40, 202, 0.25) 0%, rgba(8, 8, 17, 0.85) 60%),
                   linear-gradient(180deg, rgba(8, 8, 17, 0.2) 0%, rgba(8, 8, 17, 0.98) 100%),
                   url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop') center center / cover no-repeat;
     }
@@ -186,21 +198,21 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
     }
     .hero-pretitle::before, .hero-pretitle::after {
       content: '';
-      width: 28px;
+      width: 24px;
       height: 1px;
       background: var(--brand-magenta);
     }
 
     .hero-title {
-      font-size: clamp(2.4rem, 5.2vw, 4.2rem);
+      font-size: clamp(2.2rem, 4.8vw, 4rem);
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -1.2px;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.2rem;
     }
 
     .gradient-word {
@@ -208,15 +220,13 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       display: block;
-      margin-top: 0.25rem;
     }
 
     .hero-desc {
       max-width: 580px;
       font-size: 1.05rem;
       color: var(--text-dim);
-      font-weight: 400;
-      margin-bottom: 2.2rem;
+      margin-bottom: 2rem;
     }
 
     .hero-ctas {
@@ -225,43 +235,15 @@
       margin-bottom: 3rem;
     }
 
-    .scroll-indicator {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-subtle);
-      font-size: 0.72rem;
-      letter-spacing: 0.5px;
-      margin-bottom: 2.5rem;
-    }
-    .scroll-mouse {
-      width: 16px;
-      height: 26px;
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
-      border-radius: 10px;
-      position: relative;
-    }
-    .scroll-mouse::before {
-      content: '';
-      position: absolute;
-      top: 4px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 2px;
-      height: 5px;
-      background: var(--brand-coral);
-      border-radius: 1px;
-    }
-
+    /* Floating Metrics */
     .metrics-container {
       width: 100%;
-      max-width: 960px;
+      max-width: 950px;
       background: rgba(18, 18, 32, 0.65);
       border: 1px solid var(--border-soft);
       backdrop-filter: blur(20px);
       border-radius: var(--radius-card);
-      padding: 1.4rem 2rem;
+      padding: 1.25rem 2rem;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1.5rem;
@@ -275,8 +257,8 @@
     }
 
     .metric-icon-wrap {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-soft);
@@ -284,23 +266,15 @@
       align-items: center;
       justify-content: center;
       color: var(--brand-coral);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
     }
 
-    .metric-number {
-      font-size: 1.45rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      line-height: 1.1;
-    }
+    .metric-number { font-size: 1.4rem; font-weight: 700; line-height: 1.1; }
+    .metric-name { font-size: 0.78rem; color: var(--text-dim); }
 
-    .metric-name {
-      font-size: 0.8rem;
-      color: var(--text-dim);
-    }
-
+    /* Workspace */
     .workspace-wrap {
-      max-width: 1120px;
+      max-width: 1100px;
       margin: 2rem auto 6rem;
       padding: 0 1.5rem;
     }
@@ -313,36 +287,6 @@
       backdrop-filter: blur(25px);
     }
 
-    .pill-tag {
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 0.25rem 0.65rem;
-      border-radius: var(--radius-full);
-      background: rgba(255, 94, 58, 0.12);
-      color: var(--brand-coral);
-      border: 1px solid rgba(255, 94, 58, 0.2);
-    }
-
-    input, select, textarea {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-soft);
-      border-radius: 8px;
-      color: #fff;
-      padding: 0.65rem 0.9rem;
-      font-family: var(--font-family);
-      font-size: 0.88rem;
-    }
-    input:focus, select:focus, textarea:focus {
-      outline: 1px solid var(--brand-coral);
-      border-color: transparent;
-    }
-
-    .feed-split {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 1.75rem;
-    }
-
     .card-entry {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--border-soft);
@@ -351,26 +295,38 @@
       margin-bottom: 1rem;
     }
 
+    .pill-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      background: rgba(255, 94, 58, 0.12);
+      color: var(--brand-coral);
+      border: 1px solid rgba(255, 94, 58, 0.2);
+    }
+
+    /* Chat Layout */
     .chat-wrapper {
       display: grid;
-      grid-template-columns: 300px 1fr;
+      grid-template-columns: 320px 1fr;
       border: 1px solid var(--border-soft);
       border-radius: 12px;
       overflow: hidden;
-      min-height: 540px;
+      min-height: 580px;
     }
 
     .contacts-pane {
       background: rgba(14, 14, 26, 0.75);
       border-right: 1px solid var(--border-soft);
       overflow-y: auto;
+      max-height: 580px;
     }
 
     .contact-card {
       display: flex;
       align-items: center;
       gap: 0.85rem;
-      padding: 0.9rem 1.2rem;
+      padding: 0.85rem 1.1rem;
       cursor: pointer;
       border-bottom: 1px solid rgba(255, 255, 255, 0.03);
       transition: background 0.15s ease;
@@ -380,8 +336,8 @@
     }
 
     .avatar-icon {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: var(--brand-gradient);
       display: flex;
@@ -401,8 +357,7 @@
       border-radius: 50%;
       border: 2px solid #0e0e1a;
       position: absolute;
-      bottom: 0;
-      right: 0;
+      bottom: 0; right: 0;
     }
 
     .chat-thread-pane {
@@ -418,7 +373,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.85rem;
-      max-height: 380px;
+      max-height: 420px;
     }
 
     .msg-bubble {
@@ -438,9 +393,121 @@
       color: #fff;
     }
 
+    /* Profile / ERP Academic Dashboard Layout */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+    }
+
+    .profile-sidebar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border-right: 1px solid var(--border-soft);
+      padding-right: 1.5rem;
+    }
+
+    .profile-avatar-lg {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--brand-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 20px rgba(255, 0, 122, 0.35);
+    }
+
+    .erp-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .erp-stat-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      padding: 1.1rem;
+      position: relative;
+    }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      margin-top: 0.6rem;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--brand-gradient);
+      border-radius: 4px;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 0.75rem;
+    }
+    .data-table th, .data-table td {
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .data-table th {
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    /* Auth Overlay */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 8, 17, 0.92);
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .auth-card {
+      background: #0f1322;
+      border: 1px solid rgba(255, 0, 122, 0.3);
+      border-radius: var(--radius-card);
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    input, select, textarea {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      color: #fff;
+      padding: 0.65rem 0.9rem;
+      font-family: var(--font-family);
+      font-size: 0.88rem;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: 1px solid var(--brand-coral);
+      border-color: transparent;
+    }
+
     @media (max-width: 900px) {
-      .metrics-container { grid-template-columns: repeat(2, 1fr); }
-      .feed-split, .chat-wrapper { grid-template-columns: 1fr; }
+      .metrics-container, .profile-grid { grid-template-columns: 1fr; }
+      .chat-wrapper { grid-template-columns: 1fr; }
       .nav-links { display: none; }
       .navbar { padding: 0 1.5rem; }
     }
@@ -448,7 +515,28 @@
 </head>
 <body>
 
-  <!-- Top Glass Navigation -->
+  <!-- Re-Login / Authentication Overlay (Used for Logout feature) -->
+  <div id="auth-modal" class="auth-overlay hidden">
+    <div class="auth-card">
+      <div class="avatar-icon" style="margin: 0 auto 1rem; width: 48px; height: 48px; font-size: 1.2rem;">A</div>
+      <h2 style="font-size: 1.4rem; font-weight:700; margin-bottom: 0.25rem;">Sign In to Alumnex</h2>
+      <p style="color: var(--text-dim); font-size: 0.82rem; margin-bottom: 1.5rem;">Enter college credentials to restore your session</p>
+      
+      <form id="relogin-form" style="display: flex; flex-direction: column; gap: 0.9rem; text-align: left;">
+        <div>
+          <label style="font-size: 0.75rem; color: var(--text-dim);">College Email ID</label>
+          <input type="email" id="login-email" value="dev@acem.edu.in" style="width: 100%; margin-top: 3px;" required />
+        </div>
+        <div>
+          <label style="font-size: 0.75rem; color: var(--text-dim);">Password</label>
+          <input type="password" value="••••••••" style="width: 100%; margin-top: 3px;" required />
+        </div>
+        <button type="submit" class="btn btn-brand" style="width: 100%; margin-top: 0.5rem;">Access Portal</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Glass Navbar -->
   <header class="navbar">
     <div class="brand-container" onclick="switchTab('feed')">
       <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -473,18 +561,20 @@
       <li><span class="nav-link" onclick="switchTab('chat')">Messages</span></li>
       <li><span class="nav-link" onclick="switchTab('community')">Community</span></li>
       <li><span class="nav-link" onclick="switchTab('notices')">Notices</span></li>
-      <li><span class="nav-link" onclick="switchTab('opps')">Opportunities</span></li>
+      <li><span class="nav-link" onclick="switchTab('opps')">Opportunities & Trials</span></li>
     </ul>
 
-    <div class="nav-user-dock">
-      <span class="btn btn-dark" style="padding: 0.45rem 1rem; font-size: 0.8rem;">
-        <i class="fa-regular fa-id-badge" style="color:var(--brand-coral)"></i>&nbsp; Dev Sharma (CSE 2nd Yr)
-      </span>
-      <button class="btn btn-brand" onclick="switchTab('chat')">Active Chat</button>
+    <!-- Academic Profile Pill -->
+    <div class="profile-pill" onclick="switchTab('profile')" id="nav-profile-pill" title="Click to view Academic Record & ERP Details">
+      <div class="avatar-icon" style="width:28px; height:28px; font-size:0.75rem;">D</div>
+      <div style="font-size: 0.82rem; text-align:left;">
+        <span style="display:block; font-weight:600; line-height:1.1;">Dev Sharma</span>
+        <span style="font-size:0.68rem; color:var(--text-dim);">CSE • 2nd Year (3rd Sem)</span>
+      </div>
     </div>
   </header>
 
-  <!-- Twilight Hero Section -->
+  <!-- Hero Section -->
   <section class="hero-container">
     <div class="hero-pretitle">A L U M N E X</div>
     <h1 class="hero-title">
@@ -497,20 +587,15 @@
     </p>
 
     <div class="hero-ctas">
-      <button class="btn btn-brand" onclick="switchTab('feed')">
-        Explore Campus &nbsp;<i class="fa-solid fa-arrow-right"></i>
+      <button class="btn btn-brand" onclick="switchTab('profile')">
+        My Academic Portal &nbsp;<i class="fa-solid fa-id-card"></i>
       </button>
       <button class="btn btn-dark" onclick="switchTab('chat')">
-        Open Messages
+        Open Peer Chat
       </button>
     </div>
 
-    <div class="scroll-indicator">
-      <div class="scroll-mouse"></div>
-      Scroll to explore
-    </div>
-
-    <!-- Live Floating Statistics -->
+    <!-- Live Statistics Dock -->
     <div class="metrics-container">
       <div class="metric-item">
         <div class="metric-icon-wrap"><i class="fa-solid fa-user-group"></i></div>
@@ -543,34 +628,27 @@
     </div>
   </section>
 
-  <!-- Interactive Content Engine -->
+  <!-- Workspace Container -->
   <main class="workspace-wrap" id="workspace">
     <div class="glass-panel">
 
       <!-- 1. FEED VIEW -->
       <div id="view-feed" class="tab-pane">
-        <div class="feed-split">
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
           <div>
-            <div class="card-entry" style="margin-bottom: 1.5rem;">
-              <textarea id="post-input" placeholder="Share updates, hackathon team calls, or campus events..." style="width: 100%; min-height: 70px; background: transparent; border: none; outline: none;"></textarea>
+            <div class="card-entry">
+              <textarea id="post-input" placeholder="Share updates, project ideas, or campus queries..." style="width: 100%; min-height: 70px; background: transparent; border: none; outline: none; color:#fff;"></textarea>
               <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-soft); padding-top:0.75rem; margin-top:0.5rem;">
-                <select id="post-tag-select">
-                  <option value="SIH 2026">SIH 2026 Hackathon</option>
-                  <option value="Event">Fest & Celebrations</option>
-                  <option value="Project">Project Collaboration</option>
-                  <option value="Academic">Academic</option>
-                </select>
+                <span class="pill-tag">Discussion</span>
                 <button class="btn btn-brand" id="submit-post-btn">Publish</button>
               </div>
             </div>
             <div id="feed-items-container"></div>
           </div>
-
-          <!-- Peer List Quick Access -->
           <div>
             <div class="card-entry">
-              <h3 style="font-size: 0.95rem; margin-bottom: 0.85rem; display: flex; justify-content: space-between; align-items: center;">
-                <span>Recent Connections</span>
+              <h3 style="font-size: 0.95rem; margin-bottom: 0.85rem; display: flex; justify-content: space-between;">
+                <span>Active Peers</span>
                 <span class="pill-tag">Online</span>
               </h3>
               <div id="quick-connections-list" style="display: flex; flex-direction: column; gap: 0.6rem;"></div>
@@ -579,7 +657,7 @@
         </div>
       </div>
 
-      <!-- 2. MESSAGES VIEW -->
+      <!-- 2. MESSAGES VIEW (9 Active Peer Contacts) -->
       <div id="view-chat" class="tab-pane hidden">
         <div class="chat-wrapper">
           <div class="contacts-pane" id="chat-contacts-mount"></div>
@@ -600,165 +678,523 @@
         </div>
       </div>
 
-      <!-- 3. COMMUNITY VIEW -->
+      <!-- 3. COMMUNITY VIEW (Celebrations, Fests & Social Causes) -->
       <div id="view-community" class="tab-pane hidden">
-        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Campus Circles & Celebrations</h2>
-        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Join clubs, cultural committees, and trending innovation squads.</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem;" id="communities-mount"></div>
+        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Campus Communities & Celebrations</h2>
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Join active fest committees, cultural circles, and social initiatives.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.25rem;">
+          <!-- Freshers Party Circle -->
+          <div class="card-entry" style="border-top: 3px solid #ec4899;">
+            <span class="pill-tag">Campus Fest Event</span>
+            <h3 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem;">🎉 Freshers' Party 2026: "Aura Horizon"</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.85rem;">
+              Organizing hub led by 2nd-year CSE students. Open calls for anchors, DJ coordination, stage decorations, and badge distribution teams.
+            </p>
+            <div style="font-size: 0.75rem; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
+              <span>Target: Late September 2026</span>
+              <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Joined Freshers Organizing Team!')">Volunteer</button>
+            </div>
+          </div>
+
+          <!-- Teachers Day Circle -->
+          <div class="card-entry" style="border-top: 3px solid #7928ca;">
+            <span class="pill-tag">Annual Tribute</span>
+            <h3 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem;">💐 Teachers' Day 2026 Celebration</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.85rem;">
+              Honoring our faculty guides across departments. Submit greeting notes, coordinate memento distributions, or join the tribute chorus.
+            </p>
+            <div style="font-size: 0.75rem; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
+              <span>Auditorium Hall • Sep 5</span>
+              <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Submitted gratitude greeting to Faculty guide!')">Send Card</button>
+            </div>
+          </div>
+
+          <!-- NSS Blood Donation Camp -->
+          <div class="card-entry" style="border-top: 3px solid #ef4444;">
+            <span class="pill-tag">Social Drive</span>
+            <h3 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem;">🩸 Mega Blood Donation & Health Camp</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.85rem;">
+              Organized by NSS ACEM Chapter in association with Red Cross Society. Donors will receive recognized certificates and refreshments.
+            </p>
+            <div style="font-size: 0.75rem; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
+              <span>Campus Dispensary • Sep 22</span>
+              <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Donor Pre-Registration confirmed!')">Register Donor</button>
+            </div>
+          </div>
+
+          <!-- Plantation Drive -->
+          <div class="card-entry" style="border-top: 3px solid #10b981;">
+            <span class="pill-tag">Eco-Green Initiative</span>
+            <h3 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem;">🌱 "Green Campus" Tree Plantation Drive</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.85rem;">
+              Join student volunteers planting over 250 native saplings across the sports complex and cafeteria perimeter this weekend.
+            </p>
+            <div style="font-size: 0.75rem; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
+              <span>North Lawn • Sep 19</span>
+              <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Eco volunteer badge awarded!')">Join Drive</button>
+            </div>
+          </div>
+
+          <!-- Diwali Fest Pre-Planning -->
+          <div class="card-entry" style="border-top: 3px solid #f97316;">
+            <span class="pill-tag">Cultural Buzz</span>
+            <h3 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem;">🪔 Diwali Mela & Rangoli Arena Committee</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.85rem;">
+              Early conceptualization of student stalls, fundraising charity games, musical open-mics, and inter-department rangoli competitions.
+            </p>
+            <div style="font-size: 0.75rem; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
+              <span>Cultural Council Circle</span>
+              <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Added to Diwali Mela planning channel!')">Participate</button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- 4. NOTICES VIEW -->
+      <!-- 4. NOTICES VIEW (10 Comprehensive Circulars: Exams, Fees, Holidays, SIH) -->
       <div id="view-notices" class="tab-pane hidden">
-        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Official Campus Circulars & Schedules</h2>
-        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Verified updates from Academic Dean, HOD CSE, and Student Welfare.</p>
-        <div style="display: flex; flex-direction: column; gap: 1rem;" id="notices-mount"></div>
+        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Official Campus Circulars (10 Notices)</h2>
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Verified administrative circulars, exam datesheets, fee deadlines, and holiday notices.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          
+          <!-- Notice 1 -->
+          <div class="card-entry" style="border-left: 3px solid #ff007a;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <h3 style="font-size:0.98rem; font-weight:600;">1. Smart India Hackathon (SIH 2026) — Internal Scrutiny Round</h3>
+              <span class="pill-tag">Hackathon</span>
+            </div>
+            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
+              All registered student teams must submit their problem statement PPT abstract and architecture flowcharts by September 10, 2026. Top 15 teams will be nominated for the National Portal.
+            </p>
+            <span style="font-size:0.72rem; color:var(--text-dim);">Sep 02, 2026 • Innovation & Incubation Cell (IIC)</span>
+          </div>
+
+          <!-- Notice 2 -->
+          <div class="card-entry" style="border-left: 3px solid #f97316;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <h3 style="font-size:0.98rem; font-weight:600;">2. Gazetted Campus Holiday: Eid-e-Milad</h3>
+              <span class="pill-tag">Holiday</span>
+            </div>
+            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
+              The college will remain closed on Wednesday, September 16, 2026, on account of Eid-e-Milad. Regular B.Tech theory lectures and lab sessions will resume on September 17.
+            </p>
+            <span style="font-size:0.72rem; color:var(--text-dim);">Sep 01, 2026 • Office of the Registrar</span>
+          </div>
+
+          <!-- Notice 3 -->
+          <div class="card-entry" style="border-left: 3px solid #7928ca;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <h3 style="font-size:0.98rem; font-weight:600;">3. Mid-Term Examination (Odd Semester 2026-27) Datesheet Announcement</h3>
+              <span class="pill-tag">Examination</span>
+            </div>
+            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
+              The 1st Sessional Mid-Term examinations for 2nd, 3rd, and 4th-year B.Tech students will commence from October 12, 2026. Detailed seating plans will be displayed on department noticeboards.
+            </p>
+            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 30, 2026 • Controller of Examinations (COE)</span>
+          </div>
+
+          <!-- Notice 4 -->
+          <div class="card-entry" style="border-left: 3px solid #10b981;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <h3 style="font-size:0.98rem; font-weight:600;">4. Semester Tuition Fee Installment Deadline Notice</h3>
+              <span class="pill-tag">Fee Notice</span>
+            </div>
+            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
+              The last date to deposit the remaining fee installment for Academic Session 2026-27 without a late fine is September 25, 2026. Online receipts can be generated via the student portal.
+            </p>
+            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 28, 2026 • Finance & Accounts Branch</span>
+          </div>
+
+          <!-- Notice 5 -->
+          <div class="card-entry" style="border-left: 3px solid #3b82f6;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <h3 style="font-size:0.98rem; font-weight:600;">5. August 2026 Holiday Recaps: Janmashtami & Independence Day</h3>
+              <span class="pill-tag">Holiday</span>
+            </div>
+            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
+              Classes stood suspended on August 15 (Independence Day) and August 26 (Shri Krishna Janmashtami). Subject coordinators have adjusted the lab syllabus accordingly.
+            </p>
+            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 27, 2026 • Academic Affairs</span>
+          </div>
+
+          <!-- Notice 6 -->
+          <div class="card-entry" style="border-left: 3px solid #eab308;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <h3 style="font-size:0.98rem; font-weight:600;">6. Backlog Re-appear Examination Form Submission (Odd Sem)</h3>
+              <span class="pill-tag">Examination</span>
+            </div>
+            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
+              Students with re-appear subjects in Semesters 1 and 3 must fill their university examination forms through the ERP counter before September 20, 2026.
+            </p>
+            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 25, 2026 • Academic Cell</span>
+          </div>
+
+          <!-- Notice 7 -->
+          <div class="card-entry" style="border-left: 3px solid #ec4899;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <h3 style="font-size:0.98rem; font-weight:600;">7. 2nd Year Mini-Project Synopsis Verification</h3>
+              <span class="pill-tag">Academic</span>
+            </div>
+            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
+              CSE 2nd Year students must submit approved copies of their project synopsis (Alumnex / MERN / AI tracks) signed by their respective faculty guides by next Monday.
+            </p>
+            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 24, 2026 • HOD Computer Science & Engineering</span>
+          </div>
+
+          <!-- Notice 8 -->
+          <div class="card-entry" style="border-left: 3px solid #6366f1;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <h3 style="font-size:0.98rem; font-weight:600;">8. Upcoming National Holiday: Mahatma Gandhi Jayanti</h3>
+              <span class="pill-tag">Holiday</span>
+            </div>
+            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
+              Notification of holiday on Friday, October 02, 2026, observing Mahatma Gandhi Jayanti. All administrative and academic divisions will remain shut.
+            </p>
+            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 22, 2026 • General Administration</span>
+          </div>
+
+          <!-- Notice 9 -->
+          <div class="card-entry" style="border-left: 3px solid #06b6d4;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <h3 style="font-size:0.98rem; font-weight:600;">9. Central Library Dues Clearance & Book Renewal Week</h3>
+              <span class="pill-tag">Library</span>
+            </div>
+            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
+              A special window with a 100% late-fee waiver on delayed textbook returns is active from September 07 to September 14, 2026, at the central library circulation desk.
+            </p>
+            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 20, 2026 • Head Librarian</span>
+          </div>
+
+          <!-- Notice 10 -->
+          <div class="card-entry" style="border-left: 3px solid #a855f7;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <h3 style="font-size:0.98rem; font-weight:600;">10. IEEE Student Branch Membership Drive 2026-27</h3>
+              <span class="pill-tag">Professional</span>
+            </div>
+            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
+              Subsidized IEEE Student Memberships are open for 2nd and 3rd year engineering students. Gain free access to IEEE Xplore digital library papers and technical symposiums.
+            </p>
+            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 18, 2026 • IEEE Branch Counselor</span>
+          </div>
+
+        </div>
       </div>
 
-      <!-- 5. OPPORTUNITIES VIEW -->
+      <!-- 5. OPPORTUNITIES & TRIALS VIEW (8 Clubs, Recruitment & Sports Trials) -->
       <div id="view-opps" class="tab-pane hidden">
-        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Opportunities & Mentorship Board</h2>
-        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Placements, referrals, and alumni mentorship programs.</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem;" id="opps-mount"></div>
+        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Club Recruitments & Sports Trials (8 Opportunities)</h2>
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Explore team inductions, technical core recruitments, and varsity team trials.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.25rem;">
+          
+          <!-- 1. GDSC -->
+          <div class="card-entry">
+            <span class="pill-tag">Tech Chapter</span>
+            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">Google Developer Student Clubs (GDSC)</h3>
+            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Recruiting: Web, Cloud, AI & Management Leads</p>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
+              Join the core leadership team for upcoming Google Solution Challenges. Interviews for 2nd year students start this Friday.
+            </p>
+            <button class="btn btn-brand" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Application submitted for GDSC Core team!')">Apply for Core</button>
+          </div>
+
+          <!-- 2. Cricket Trials -->
+          <div class="card-entry">
+            <span class="pill-tag">Sports Trials</span>
+            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">College Varsity Cricket Team Trials</h3>
+            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Venue: Main Cricket Turf • Sep 11, 3:30 PM</p>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
+              Selection trials for the upcoming Inter-University State Championship. Open for batsmen, wicket-keepers, and fast bowlers in whites.
+            </p>
+            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Trial Slot #44 confirmed for Dev Sharma!')">Register for Trials</button>
+          </div>
+
+          <!-- 3. Badminton Trials -->
+          <div class="card-entry">
+            <span class="pill-tag">Sports Trials</span>
+            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">Inter-College Badminton Trials</h3>
+            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Indoor Sports Complex • Sep 14, 4:00 PM</p>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
+              Singles and doubles team trials for male and female categories. Bring non-marking shoes and personal racquets.
+            </p>
+            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Slot registered with Sports Officer!')">Join Trials</button>
+          </div>
+
+          <!-- 4. Robotics Club -->
+          <div class="card-entry">
+            <span class="pill-tag">Hardware Club</span>
+            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">Robotics & IoT Innovation Guild</h3>
+            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Robo-War, Drone Tech & Embedded C</p>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
+              Hands-on lab recruitment. Work with Arduino, ESP32, and Raspberry Pi modules representing the college in national bot-fights.
+            </p>
+            <button class="btn btn-brand" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Applied for Robotics Guild!')">Submit Portfolio</button>
+          </div>
+
+          <!-- 5. Dramatics & Cultural Society -->
+          <div class="card-entry">
+            <span class="pill-tag">Cultural Club</span>
+            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">"Rangmanch" Dramatics & Nukkad Natak Society</h3>
+            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Auditions: Open Amphitheatre • Sep 15</p>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
+              Auditions for actors, voice-artists, script writers, and stage directors for youth festival skits and street plays.
+            </p>
+            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Audition Token #18 generated!')">Book Audition</button>
+          </div>
+
+          <!-- 6. Rotaract Club -->
+          <div class="card-entry">
+            <span class="pill-tag">Youth NGO</span>
+            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">Rotaract Youth Club (RID 3011)</h3>
+            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Community Service & International Relations</p>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
+              Engage in social entrepreneurship, blood donation camps, and leadership exchanges across Delhi-NCR colleges.
+            </p>
+            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Rotaract induction interview slot booked!')">Join Chapter</button>
+          </div>
+
+          <!-- 7. E-Cell -->
+          <div class="card-entry">
+            <span class="pill-tag">Incubation</span>
+            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">Entrepreneurship Cell (E-Cell) Cohort</h3>
+            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Startup Pitching & Venture Seed Funding</p>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
+              Have a campus startup idea? Access alumni angel investors, government incubation grants, and co-working labs.
+            </p>
+            <button class="btn btn-brand" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Startup pitch deck submitted to E-Cell coordinator!')">Pitch Idea</button>
+          </div>
+
+          <!-- 8. CodeChef Chapter -->
+          <div class="card-entry">
+            <span class="pill-tag">Competitive Coding</span>
+            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">CodeChef Campus Chapter</h3>
+            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Event Leads & Problem Setter Induction</p>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
+              Host monthly rating contests on CodeChef and run peer code-review cohorts for 1st and 2nd year students.
+            </p>
+            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Coding assessment link emailed!')">Take Coding Test</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 6. STUDENT ACADEMIC PROFILE WITH LOGOUT FEATURE -->
+      <div id="view-profile" class="tab-pane hidden">
+        <div class="profile-grid">
+          
+          <!-- Left: Identity Details with Logout Button -->
+          <div class="profile-sidebar">
+            <div class="profile-avatar-lg">D</div>
+            <h3 style="font-size: 1.2rem; font-weight:700;">Dev Sharma</h3>
+            <span class="pill-tag" style="margin: 0.35rem 0 0.75rem;">Verified Student</span>
+            <p style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 1.25rem;">
+              B.Tech Computer Science & Engineering<br>
+              Semester: 3rd (2nd Year) • Batch 2024-2028
+            </p>
+
+            <div style="width: 100%; text-align: left; font-size: 0.8rem; display: flex; flex-direction: column; gap: 0.6rem; border-top: 1px solid var(--border-soft); padding-top: 1rem; margin-bottom: 1.5rem;">
+              <div><strong style="color:var(--text-dim);">Roll Number:</strong> 24ACEMCSE042</div>
+              <div><strong style="color:var(--text-dim);">College Mail:</strong> dev@acem.edu.in</div>
+              <div><strong style="color:var(--text-dim);">Faculty Mentor:</strong> [Guide Name]</div>
+              <div><strong style="color:var(--text-dim);">Campus Status:</strong> Day Scholar</div>
+            </div>
+
+            <!-- LOGOUT BUTTON -->
+            <button class="btn btn-danger" style="width: 100%; font-size: 0.85rem;" onclick="handleLogout()">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> &nbsp;Log Out Account
+            </button>
+          </div>
+
+          <!-- Right: Complete Academic Records -->
+          <div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">Academic & Campus Records</h3>
+            
+            <!-- Highlights -->
+            <div class="erp-stats-grid">
+              <!-- Attendance -->
+              <div class="erp-stat-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 0.78rem; color: var(--text-dim);">Cumulative Attendance</span>
+                  <i class="fa-solid fa-clipboard-user" style="color: #10b981;"></i>
+                </div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin-top: 0.3rem;">84.2%</div>
+                <div class="progress-bar-wrap"><div class="progress-fill" style="width: 84.2%;"></div></div>
+                <span style="font-size: 0.7rem; color: #10b981; margin-top: 0.4rem; display: block;">Above minimum threshold (75%)</span>
+              </div>
+
+              <!-- CGPA -->
+              <div class="erp-stat-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 0.78rem; color: var(--text-dim);">Current CGPA</span>
+                  <i class="fa-solid fa-chart-line" style="color: var(--brand-coral);"></i>
+                </div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin-top: 0.3rem;">8.72 / 10</div>
+                <span style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.4rem; display: block;">All backlogs clear (Sem 1 & 2)</span>
+              </div>
+
+              <!-- Fees -->
+              <div class="erp-stat-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 0.78rem; color: var(--text-dim);">Semester 3 Fees</span>
+                  <i class="fa-solid fa-receipt" style="color: var(--brand-magenta);"></i>
+                </div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin-top: 0.3rem; color: #10b981;">Paid in Full</div>
+                <span style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.4rem; display: block;">Transaction: #ACEM-2026-9812</span>
+              </div>
+            </div>
+
+            <!-- Subject-wise Attendance Table -->
+            <div class="card-entry" style="margin-bottom: 1.25rem;">
+              <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Subject-wise Attendance & Sessional Tracking</h4>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Course Code</th>
+                    <th>Subject Name</th>
+                    <th>Lectures</th>
+                    <th>Percentage</th>
+                    <th>Eligibility</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>PCC-CSE-201</td>
+                    <td>Data Structures & Algorithms</td>
+                    <td>38 / 34</td>
+                    <td>89.4%</td>
+                    <td><span style="color:#10b981; font-weight:600;">Eligible</span></td>
+                  </tr>
+                  <tr>
+                    <td>PCC-CSE-203</td>
+                    <td>Database Management Systems</td>
+                    <td>32 / 28</td>
+                    <td>87.5%</td>
+                    <td><span style="color:#10b981; font-weight:600;">Eligible</span></td>
+                  </tr>
+                  <tr>
+                    <td>PCC-CSE-205</td>
+                    <td>Object Oriented Programming</td>
+                    <td>30 / 24</td>
+                    <td>80.0%</td>
+                    <td><span style="color:#10b981; font-weight:600;">Eligible</span></td>
+                  </tr>
+                  <tr>
+                    <td>LC-CSE-209</td>
+                    <td>Web Dev Lab (Full Stack)</td>
+                    <td>14 / 14</td>
+                    <td>100%</td>
+                    <td><span style="color:var(--brand-coral); font-weight:600;">Exemplary</span></td>
+                  </tr>
+                  <tr>
+                    <td>BSC-MATH-201</td>
+                    <td>Discrete Mathematics</td>
+                    <td>28 / 22</td>
+                    <td>78.5%</td>
+                    <td><span style="color:#10b981; font-weight:600;">Eligible</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Library & Project Footnotes -->
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="card-entry">
+                <h4 style="font-size: 0.9rem; margin-bottom: 0.4rem;"><i class="fa-solid fa-book" style="color:var(--brand-coral);"></i> Library Dues & Books</h4>
+                <p style="font-size: 0.8rem; color: var(--text-dim);">Issued: 2 Books (Cormen - DSA, Korth - DBMS). Outstanding late dues: ₹0. Valid until Sep 24.</p>
+              </div>
+              <div class="card-entry">
+                <h4 style="font-size: 0.9rem; margin-bottom: 0.4rem;"><i class="fa-solid fa-award" style="color:#ec4899;"></i> 2nd Year Project Synopsis</h4>
+                <p style="font-size: 0.8rem; color: var(--text-dim);">Project: Alumnex Campus Platform[cite: 1]. Team: Dev Sharma, Garv Jakhar. Guide verification pending.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
 
     </div>
   </main>
 
   <script>
+    // State model populated with 9 active peer contacts
     const state = {
       activeChat: "ishaan",
       contacts: [
-        { id: "ishaan", name: "Ishaan", role: "CSE 2nd Year", avatar: "I", snippet: "Synced the SIH PPT presentation format!" },
-        { id: "aditya", name: "Aditya", role: "CSE 2nd Year", avatar: "A", snippet: "Node.js route middleware is working fine." },
-        { id: "ankur", name: "Ankur", role: "CSE 2nd Year", avatar: "An", snippet: "Checked the synopsis DFD diagram flow." },
-        { id: "puneet", name: "Puneet", role: "CSE 2nd Year", avatar: "P", snippet: "Rehearsing for the Teachers' Day skit at 4 PM." }
+        { id: "ishaan", name: "Ishaan", role: "CSE 2nd Year", avatar: "I" },
+        { id: "aditya", name: "Aditya", role: "CSE 2nd Year", avatar: "A" },
+        { id: "ankur", name: "Ankur", role: "CSE 2nd Year", avatar: "An" },
+        { id: "puneet", name: "Puneet", role: "CSE 2nd Year", avatar: "P" },
+        { id: "garv", name: "Garv Jakhar", role: "CSE 2nd Year (Partner)", avatar: "G" },
+        { id: "sneha", name: "Sneha Rao", role: "CSE 2nd Year", avatar: "S" },
+        { id: "rohan", name: "Rohan Verma", role: "ECE 3rd Year (Senior)", avatar: "R" },
+        { id: "priya", name: "Priya Nair", role: "CSE 2nd Year", avatar: "Pr" },
+        { id: "kartik", name: "Kartik Mehta", role: "CSE 2nd Year", avatar: "K" }
       ],
       messages: {
         ishaan: [
-          { from: "peer", text: "Hey Dev, did you review the problem statements released for SIH 2026?" },
-          { from: "me", text: "Yes! We should target the Smart Education domain with Alumnex." },
-          { from: "peer", text: "Agreed. The internal college shortlisting is next week, so let's finalize the PPT." },
-          { from: "me", text: "I have loaded our glassmorphism UI into the demo prototype!" }
+          { from: "peer", text: "Hey Dev, did you finish making our SIH 2026 architecture diagram?" },
+          { from: "me", text: "Yes! Added the modular flowcharts for the real-time chat and feed sync." },
+          { from: "peer", text: "Great, let's submit it before the internal scrutiny round on September 10th." }
         ],
         aditya: [
-          { from: "peer", text: "Dev, I pushed the auth router logic for Student vs Faculty role switches." },
-          { from: "me", text: "Awesome! Make sure only Faculty can broadcast official circulars." },
-          { from: "peer", text: "Done. Also added the database collections as per the synopsis architecture." }
+          { from: "peer", text: "Dev, are you free to test the Teachers' Day stage microphones today?" },
+          { from: "me", text: "Yes, I will meet you near the auditorium right after our DSA lab." },
+          { from: "peer", text: "Perfect, Garv is already there arranging the projector cords." }
         ],
         ankur: [
-          { from: "peer", text: "Hey, did faculty guide confirm our Monday review slot?" },
-          { from: "me", text: "Yes, 11:30 AM in the lab. We need the printed spiral-bound synopsis copies." },
-          { from: "peer", text: "Perfect. Garv and I are verifying the hardware/software tables." }
+          { from: "peer", text: "Did you check the attendance list on the profile page?" },
+          { from: "me", text: "Yes, currently at 84.2%, so well above 75% for sessional exam hall tickets." },
+          { from: "peer", text: "Nice, same here. Mid-terms are starting October 12." }
         ],
         puneet: [
-          { from: "peer", text: "Dev, are you attending the Teachers' Day stage rehearsals in the auditorium today?" },
-          { from: "me", text: "Yes, right after 4th period! Did the council finalize the anchors for Freshers'?" },
-          { from: "peer", text: "Yes, 'Aarambh 2026' schedule is confirmed. The poster is dropping this evening." }
+          { from: "peer", text: "Hey, what are we preparing for the freshers party committee meeting?" },
+          { from: "me", text: "Drafting the stage decor, sound checklist, and band performance slots." },
+          { from: "peer", text: "Awesome, let's share the final document with the student council tomorrow." }
+        ],
+        garv: [
+          { from: "peer", text: "Dev, check out the Alumnex project synopsis; all modules match our web app!" },
+          { from: "me", text: "Yes Garv! Role-based access, messaging, and opportunities board are integrated." },
+          { from: "peer", text: "Let's print the hard copies for the faculty guide on Monday." }
+        ],
+        sneha: [
+          { from: "peer", text: "Hey Dev, are you attending the GDSC core team interview this Friday?" },
+          { from: "me", text: "Yes, applying under the Web Development track." },
+          { from: "peer", text: "Best of luck! Let's prep some React state management questions." }
+        ],
+        rohan: [
+          { from: "peer", text: "Hey Dev, saw you guys building Alumnex. As an alumni network coordinator, it looks super relevant[cite: 1]." },
+          { from: "me", text: "Thanks Rohan bhaiya! We specifically designed the mentorship board for seniors." },
+          { from: "peer", text: "Happy to run a mock review session whenever you are ready." }
+        ],
+        priya: [
+          { from: "peer", text: "Dev, did you fill out the blood donation drive form for Sep 22?" },
+          { from: "me", text: "Just registered from the community tab!" },
+          { from: "peer", text: "Great, NSS volunteers are setting up the juice counter too." }
+        ],
+        kartik: [
+          { from: "peer", text: "Are you coming to the college cricket trials on September 11?" },
+          { from: "me", text: "Yes, going as a top-order batsman. Registered slot #44." },
+          { from: "peer", text: "Awesome, bring your batting pads to the main turf by 3:30 PM." }
         ]
       },
       posts: [
-        { 
-          author: "Garv Jakhar", 
-          role: "Student", 
-          tag: "SIH 2026", 
-          text: "Team registration for Internal SIH 2026 Hackathon Screening is live. Who's submitting ideas in the Campus Collaboration track?" 
-        },
-        { 
-          author: "Student Council", 
-          role: "Community", 
-          tag: "Event", 
-          text: "Freshers' Party 2026 — 'AARAMBH' theme reveal coming this Friday! Tag your batchmates and prepare your audition pieces." 
-        },
-        { 
-          author: "Ishaan", 
-          role: "Student", 
-          tag: "Academic", 
-          text: "Teachers' Day tribute card designs are ready for CSE faculty. Drop your short thank-you messages in the thread below!" 
-        }
-      ],
-      notices: [
-        {
-          title: "SIH 2026 Internal College Round Announcement",
-          dept: "Campus Innovation Cell & SPOC",
-          date: "Sep 04, 2026",
-          desc: "All participating student teams must submit their 3-slide PPT problem solution by September 11, 2026. Top 35 teams will be nominated to the Smart India Hackathon central portal."
-        },
-        {
-          title: "Teachers' Day Celebration & Faculty Felicitation",
-          dept: "Office of Student Affairs",
-          date: "Sep 05, 2026",
-          desc: "Classes will be suspended from 1:30 PM onwards for the Teachers' Day program in the Main Auditorium. All faculty members and students are warmly invited."
-        },
-        {
-          title: "Notice: Gazetted Holiday on Raksha Bandhan",
-          dept: "Registrar Office",
-          date: "Aug 27, 2026",
-          desc: "The college remained closed on Thursday, August 27, 2026 on account of Raksha Bandhan. All labs and academic activities were rescheduled."
-        },
-        {
-          title: "Independence Day & Janmashtami Holidays (Archived)",
-          dept: "Academic Administration",
-          date: "Aug 14, 2026",
-          desc: "Academic break observed on August 15 (Independence Day) and August 17 (Krishna Janmashtami). Regular semester classes resumed on August 18."
-        },
-        {
-          title: "2nd Year Project Synopsis Submission Schedule",
-          dept: "Department of Computer Science & Engineering",
-          date: "Sep 02, 2026",
-          desc: "B.Tech CSE 2nd-year teams (including Alumnex - Dev Sharma & Garv Jakhar) must present their live functional prototypes before the faculty committee by next week."
-        }
-      ],
-      communities: [
-        {
-          name: "Aarambh 2026 — Freshers' Cultural Committee",
-          category: "Campus Events",
-          members: "340 Members",
-          desc: "The official planning hub for freshers' party decorations, talent auditions, Mr./Ms. Fresher contests, and DJ arrangements."
-        },
-        {
-          name: "Teachers' Day Organizers & Felicitation",
-          category: "Student Council",
-          members: "115 Members",
-          desc: "Coordinating auditorium floral setups, personalized faculty tokens, video tribute compilations, and stage anchors."
-        },
-        {
-          name: "SIH & Hackathon Champions Club",
-          category: "Technical",
-          members: "280 Members",
-          desc: "Idea brainstorming, mentorship from past winners, and cross-department team formation for national hackathons."
-        },
-        {
-          name: "Prompt Engineering & GenAI Guild",
-          category: "Trending Hub",
-          members: "190 Members",
-          desc: "Weekly hack sessions building LLM agents, exploring open weights models, and participating in automated dev workflows."
-        },
-        {
-          name: "Esports & Inter-College LAN League",
-          category: "Gaming Circle",
-          members: "220 Members",
-          desc: "Campus gaming tournaments, Valorant/BGMI customs, and LAN gaming coordination for the annual tech fest."
-        }
-      ],
-      opportunities: [
-        { 
-          title: "SIH Prep Fellowship & Mentorship", 
-          company: "Alumni In Tech", 
-          type: "Mentorship", 
-          desc: "Guidance on UI architecture, system design, and pitch delivery from previous Smart India Hackathon finalist alumni." 
-        },
-        { 
-          title: "Frontend Developer Intern", 
-          company: "Campus Tech Labs", 
-          type: "Internship", 
-          desc: "Build modern web apps using HTML, CSS, JavaScript, and React with responsive dark theme components." 
-        }
+        { author: "Garv Jakhar", role: "Student", text: "Alumnex v2.4 with 10 notices and 9 peer chat channels is live for testing!" },
+        { author: "Ishaan", role: "Student", text: "Reminder to all SIH teams: submit your abstract presentations before September 10th." }
       ]
     };
 
+    // Navigation Switcher
     function switchTab(tabKey) {
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+
+      const profilePill = document.getElementById('nav-profile-pill');
+      if (tabKey === 'profile') {
+        profilePill.classList.add('active');
+      } else {
+        profilePill.classList.remove('active');
+      }
 
       const target = document.getElementById(`view-${tabKey}`);
       if (target) target.classList.remove('hidden');
@@ -771,6 +1207,7 @@
       document.getElementById('workspace').scrollIntoView({ behavior: 'smooth' });
     }
 
+    // Chat Contacts Render
     function renderChat() {
       const contactsContainer = document.getElementById('chat-contacts-mount');
       const quickContainer = document.getElementById('quick-connections-list');
@@ -778,18 +1215,20 @@
       quickContainer.innerHTML = '';
 
       state.contacts.forEach(c => {
+        // Chat Page Contact
         const item = document.createElement('div');
         item.className = `contact-card ${c.id === state.activeChat ? 'active' : ''}`;
         item.onclick = () => selectContact(c.id);
         item.innerHTML = `
           <div class="avatar-icon">${c.avatar}<div class="online-indicator"></div></div>
           <div style="overflow:hidden;">
-            <h4 style="font-size: 0.88rem; font-weight: 600;">${c.name}</h4>
-            <p style="font-size: 0.72rem; color: var(--text-dim); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${c.snippet}</p>
+            <h4 style="font-size: 0.88rem; font-weight: 600; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${c.name}</h4>
+            <p style="font-size: 0.72rem; color: var(--text-dim);">${c.role}</p>
           </div>
         `;
         contactsContainer.appendChild(item);
 
+        // Sidebar Quick Dock in Feed
         const quick = document.createElement('div');
         quick.style.cssText = 'display:flex; align-items:center; gap:0.75rem; cursor:pointer; padding:0.4rem; border-radius:8px;';
         quick.onclick = () => { selectContact(c.id); switchTab('chat'); };
@@ -810,8 +1249,8 @@
       state.activeChat = contactId;
       const c = state.contacts.find(x => x.id === contactId);
       document.getElementById('active-chat-name').textContent = c.name;
-      document.getElementById('active-chat-role').textContent = `${c.role} • Connected Peer`;
       document.getElementById('active-chat-avatar').textContent = c.avatar;
+      document.getElementById('active-chat-role').textContent = `${c.role} • Connected Peer`;
       renderChat();
     }
 
@@ -835,14 +1274,11 @@
 
       if (!state.messages[state.activeChat]) state.messages[state.activeChat] = [];
       state.messages[state.activeChat].push({ from: "me", text: val });
-      
-      const currentContact = state.contacts.find(c => c.id === state.activeChat);
-      if (currentContact) currentContact.snippet = val;
-
       input.value = '';
-      renderChat();
+      renderChatThread();
     });
 
+    // Posts Feed Render
     function renderPosts() {
       const mount = document.getElementById('feed-items-container');
       mount.innerHTML = '';
@@ -852,7 +1288,7 @@
         card.innerHTML = `
           <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem;">
             <div><strong>${p.author}</strong> <span style="font-size:0.72rem; color:var(--text-dim);">(${p.role})</span></div>
-            <span class="pill-tag">${p.tag}</span>
+            <span class="pill-tag">Campus Feed</span>
           </div>
           <p style="font-size:0.9rem; color:#cbd5e1;">${p.text}</p>
         `;
@@ -863,71 +1299,31 @@
     document.getElementById('submit-post-btn').addEventListener('click', () => {
       const input = document.getElementById('post-input');
       const val = input.value.trim();
-      const tag = document.getElementById('post-tag-select').value;
       if (!val) return;
 
-      state.posts.unshift({ author: "Dev Sharma", role: "Student", tag, text: val });
+      state.posts.unshift({ author: "Dev Sharma", role: "Student", text: val });
       input.value = '';
       renderPosts();
     });
 
-    function renderStaticSections() {
-      // Notices
-      const nMount = document.getElementById('notices-mount');
-      nMount.innerHTML = '';
-      state.notices.forEach(n => {
-        const item = document.createElement('div');
-        item.className = 'card-entry';
-        item.style.borderLeft = '3px solid var(--brand-coral)';
-        item.innerHTML = `
-          <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-            <h3 style="font-size:0.98rem; font-weight:600;">${n.title}</h3>
-            <span style="font-size:0.75rem; color:var(--brand-coral); font-weight:500;">${n.date}</span>
-          </div>
-          <p style="font-size:0.87rem; color:#cbd5e1; margin-bottom:0.5rem; line-height:1.4;">${n.desc}</p>
-          <span style="font-size:0.72rem; color:var(--text-dim);"><i class="fa-solid fa-building-columns"></i> ${n.dept}</span>
-        `;
-        nMount.appendChild(item);
-      });
-
-      // Communities
-      const cMount = document.getElementById('communities-mount');
-      cMount.innerHTML = '';
-      state.communities.forEach(c => {
-        const item = document.createElement('div');
-        item.className = 'card-entry';
-        item.innerHTML = `
-          <span class="pill-tag" style="margin-bottom:0.5rem; display:inline-block;">${c.category}</span>
-          <h3 style="font-size:1rem; margin-bottom:0.3rem;">${c.name}</h3>
-          <p style="font-size:0.84rem; color:var(--text-dim); margin-bottom:0.85rem; line-height:1.4;">${c.desc}</p>
-          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-soft); padding-top:0.6rem;">
-            <span style="font-size:0.75rem; color:var(--text-dim);"><i class="fa-regular fa-user"></i> ${c.members}</span>
-            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.8rem;" onclick="alert('You joined ${c.name}')">Join Circle</button>
-          </div>
-        `;
-        cMount.appendChild(item);
-      });
-
-      // Opportunities
-      const oMount = document.getElementById('opps-mount');
-      oMount.innerHTML = '';
-      state.opportunities.forEach(o => {
-        const item = document.createElement('div');
-        item.className = 'card-entry';
-        item.innerHTML = `
-          <span class="pill-tag">${o.type}</span>
-          <h3 style="font-size:0.98rem; margin:0.4rem 0 0.2rem;">${o.title}</h3>
-          <p style="font-size:0.8rem; color:var(--brand-coral); margin-bottom:0.5rem;">${o.company}</p>
-          <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.75rem;">${o.desc}</p>
-          <button class="btn btn-brand" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Application details sent.')">Apply Now</button>
-        `;
-        oMount.appendChild(item);
-      });
+    // Logout and Re-login Handler
+    function handleLogout() {
+      const confirmLogout = confirm("Are you sure you want to log out from Alumnex?");
+      if (confirmLogout) {
+        document.getElementById('auth-modal').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
 
+    document.getElementById('relogin-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('auth-modal').classList.add('hidden');
+      switchTab('feed');
+    });
+
+    // Initial Execution
     renderChat();
     renderPosts();
-    renderStaticSections();
   </script>
 </body>
 </html>
