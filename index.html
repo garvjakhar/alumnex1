@@ -3,1327 +3,1876 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alumnex — Your Campus. Your Network.</title>
-  
+  <title>Alumnex — Next-Gen Campus Network</title>
+
+  <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
+    /* =========================================================
+       THEME DESIGN TOKENS (Matching Referral Aesthetics)
+       ========================================================= */
     :root {
-      --bg-midnight: #080811;
-      --bg-surface: rgba(18, 18, 32, 0.75);
-      --bg-surface-elevated: rgba(28, 28, 48, 0.85);
-      --border-soft: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(255, 255, 255, 0.18);
+      --color-bg: #090611;
+      --color-surface: rgba(18, 14, 28, 0.75);
+      --color-surface-card: rgba(22, 17, 36, 0.85);
+      --color-card-border: rgba(255, 255, 255, 0.08);
+      --color-card-border-hover: rgba(139, 92, 246, 0.35);
       
-      --brand-gradient: linear-gradient(135deg, #7928ca 0%, #ff007a 50%, #ff5e3a 100%);
-      --brand-coral: #ff5e3a;
-      --brand-magenta: #ff007a;
-      --brand-purple: #7928ca;
+      --color-white: #FFFFFF;
+      --color-slate-100: #F1F5F9;
+      --color-slate-200: #E2E8F0;
+      --color-slate-400: #94A3B8;
+      --color-slate-500: #64748B;
       
-      --text-white: #ffffff;
-      --text-dim: #9aa0a6;
-      --text-subtle: #6e7681;
+      --color-purple: #8B5CF6;
+      --color-pink: #EC4899;
+      --color-orange: #F97316;
+      --color-emerald: #10B981;
+      --color-rose: #F43F5E;
+      --color-cyan: #06B6D4;
+      --color-amber: #F59E0B;
+
+      --grad-primary: linear-gradient(135deg, #EC4899 0%, #F97316 100%);
+      --grad-purple: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
+      --grad-text: linear-gradient(90deg, #8B5CF6 0%, #EC4899 50%, #F97316 100%);
       
-      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --radius-full: 9999px;
-      --radius-card: 16px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font-family);
+    }
 
     body {
-      background-color: var(--bg-midnight);
-      color: var(--text-white);
-      font-family: var(--font-family);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.5;
+      background-color: var(--color-bg);
+      color: var(--color-slate-100);
+      min-height: 100vh;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
-    .hidden { display: none !important; }
+    /* Background Glow Mesh matching referral design */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: 
+        radial-gradient(ellipse 70% 40% at 20% 10%, rgba(139, 92, 246, 0.16) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 30%, rgba(236, 72, 153, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 50% at 50% 90%, rgba(6, 182, 212, 0.08) 0%, transparent 70%),
+        linear-gradient(180deg, rgba(11, 8, 19, 0.75) 0%, #090611 100%),
+        url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=2000&q=80') center top / cover no-repeat;
+      pointer-events: none;
+    }
 
-    /* Button Styles */
-    .btn {
-      display: inline-flex;
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-purple); }
+
+    /* =========================================================
+       PAGE 1: AUTHENTICATION GATEWAY (@acem.edu.in ONLY)
+       ========================================================= */
+    #pageAuth {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      font-family: var(--font-family);
-      font-weight: 500;
-      font-size: 0.88rem;
-      border-radius: var(--radius-full);
+      padding: 32px;
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 1050px;
+      background: rgba(18, 14, 28, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.75);
+    }
+
+    .auth-showcase {
+      padding: 56px 48px;
+      background: linear-gradient(145deg, rgba(30, 20, 50, 0.7) 0%, rgba(12, 9, 22, 0.95) 100%);
+      border-right: 1px solid var(--color-card-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand-logo-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon { width: 36px; height: 36px; }
+
+    .brand-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--color-white);
+    }
+
+    .brand-title span {
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .showcase-hero { margin: 40px 0; }
+    
+    .showcase-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: var(--color-purple);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+
+    .showcase-title {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--color-white);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .showcase-title em {
+      font-style: normal;
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .showcase-desc {
+      font-size: 14px;
+      color: var(--color-slate-400);
+      line-height: 1.6;
+    }
+
+    .showcase-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pill-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--color-slate-200);
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-emerald);
+      box-shadow: 0 0 10px var(--color-emerald);
+    }
+
+    .auth-form-side {
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .role-toggle-bar {
+      display: flex;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
+      border: 1px solid var(--color-card-border);
+    }
+
+    .role-btn {
+      flex: 1;
+      padding: 10px;
+      background: none;
+      border: none;
+      color: var(--color-slate-400);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .role-btn.active {
+      background: var(--color-purple);
+      color: var(--color-white);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 16px;
+      border-bottom: 1px solid var(--color-card-border);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+    }
+
+    .auth-tab-link {
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-slate-400);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .auth-tab-link.active {
+      color: var(--color-white);
+    }
+
+    .auth-tab-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -13px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--color-pink);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-slate-300);
+    }
+
+    .domain-input-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .domain-input-box:focus-within {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+    }
+
+    .domain-input-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 12px 14px;
+      color: var(--color-white);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .domain-suffix {
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--color-purple);
+      font-weight: 700;
+      font-size: 13px;
+      border-left: 1px solid var(--color-card-border);
+    }
+
+    .form-group input[type="password"], 
+    .form-group select {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      color: var(--color-white);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--color-purple);
+    }
+
+    .form-hint {
+      font-size: 11px;
+      color: var(--color-slate-400);
+      margin-top: 2px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      height: 48px;
+      background: var(--grad-primary);
+      border: none;
+      border-radius: var(--radius-md);
+      color: var(--color-white);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 24px rgba(236, 72, 153, 0.35);
+      transition: transform 0.2s;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover { transform: translateY(-2px); }
+
+    .demo-bar {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px dashed var(--color-card-border);
+      display: flex;
+      gap: 10px;
+    }
+
+    .demo-chip {
+      flex: 1;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-sm);
+      color: var(--color-slate-300);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .demo-chip:hover { background: rgba(255, 255, 255, 0.08); }
+
+    /* =========================================================
+       PAGE 2: ALUMNEX MAIN DASHBOARD
+       ========================================================= */
+    #pageMain {
+      position: relative;
+      z-index: 10;
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Top Navigation Bar */
+    .top-navbar {
+      height: 72px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--color-card-border);
+      background: rgba(11, 8, 19, 0.85);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-left { display: flex; align-items: center; gap: 32px; }
+
+    .search-input-wrap {
+      position: relative;
+      width: 320px;
+    }
+
+    .search-input-wrap input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+      border-radius: 24px;
+      padding: 10px 16px 10px 40px;
+      color: var(--color-white);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .search-input-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      stroke: var(--color-slate-400);
+      width: 16px;
+      height: 16px;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 18px; }
+
+    .user-profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+    }
+
+    .avatar-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--grad-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--color-white);
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .user-info { display: flex; flex-direction: column; text-align: left; }
+    .user-name-title { font-size: 14px; font-weight: 700; color: var(--color-white); }
+    .user-domain-tag { font-size: 11px; color: var(--color-purple); font-weight: 600; }
+
+    .btn-logout {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: #FDA4AF;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-logout:hover { background: rgba(244, 63, 94, 0.25); }
+
+    /* Dashboard Shell */
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      flex: 1;
+    }
+
+    /* Vertical Navigation Menu */
+    .vertical-sidebar {
+      border-right: 1px solid var(--color-card-border);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(11, 8, 19, 0.4);
+    }
+
+    .menu-category-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-slate-500);
+      padding: 16px 12px 6px 12px;
+    }
+
+    .vertical-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      background: none;
+      border: none;
+      color: var(--color-slate-400);
+      font-weight: 600;
+      font-size: 14px;
       cursor: pointer;
       transition: all 0.2s ease;
-      border: none;
-      text-decoration: none;
+      width: 100%;
+      text-align: left;
     }
 
-    .btn-brand {
-      background: var(--brand-gradient);
-      color: #fff;
-      padding: 0.65rem 1.4rem;
-      box-shadow: 0 4px 20px rgba(255, 0, 122, 0.35);
-    }
-    .btn-brand:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 24px rgba(255, 0, 122, 0.5);
+    .vertical-nav-btn svg { width: 18px; height: 18px; stroke: currentColor; }
+    .vertical-nav-btn:hover { background: rgba(255, 255, 255, 0.05); color: var(--color-white); }
+    
+    .vertical-nav-btn.active {
+      background: linear-gradient(90deg, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0.05) 100%);
+      color: var(--color-purple);
+      border-left: 3px solid var(--color-purple);
     }
 
-    .btn-dark {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-white);
-      border: 1px solid var(--border-soft);
-      backdrop-filter: blur(12px);
-      padding: 0.65rem 1.4rem;
-    }
-    .btn-dark:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: var(--border-hover);
+    /* Content Area */
+    .dashboard-content {
+      padding: 32px 40px;
+      overflow-y: auto;
+      max-height: calc(100vh - 72px);
     }
 
-    .btn-danger {
-      background: rgba(239, 68, 68, 0.15);
-      color: #ef4444;
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      padding: 0.65rem 1.4rem;
-    }
-    .btn-danger:hover {
-      background: rgba(239, 68, 68, 0.25);
-      border-color: #ef4444;
-      color: #fff;
+    .view-panel {
+      display: none;
+      flex-direction: column;
+      gap: 28px;
+      animation: fadeIn 0.3s ease;
     }
 
-    /* Fixed Glass Navbar */
-    .navbar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 72px;
-      padding: 0 3rem;
+    .view-panel.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Common Card Tokens */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .kpi-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .kpi-title { font-size: 13px; color: var(--color-slate-400); font-weight: 600; }
+    .kpi-value { font-size: 30px; font-weight: 800; color: var(--color-white); }
+
+    .panel-header-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-title { font-size: 22px; font-weight: 800; color: var(--color-white); }
+
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge-green { background: rgba(16, 185, 129, 0.2); color: #6EE7B7; }
+    .badge-amber { background: rgba(245, 158, 11, 0.2); color: #FCD34D; }
+    .badge-purple { background: rgba(139, 92, 246, 0.2); color: #C4B5FD; }
+    .badge-rose { background: rgba(244, 63, 94, 0.2); color: #FDA4AF; }
+
+    /* =========================================================
+       1. ACADEMICS & ERP VIEW
+       ========================================================= */
+    .acad-banner {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.15) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: var(--radius-xl);
+      padding: 28px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(8, 8, 17, 0.7);
-      backdrop-filter: blur(25px);
-      border-bottom: 1px solid var(--border-soft);
-      z-index: 1000;
     }
 
-    .brand-container {
+    .acad-tabs-bar {
+      display: flex;
+      gap: 12px;
+      border-bottom: 1px solid var(--color-card-border);
+      padding-bottom: 12px;
+    }
+
+    .acad-tab-item {
+      background: none;
+      border: none;
+      color: var(--color-slate-400);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+    }
+
+    .acad-tab-item.active {
+      background: rgba(139, 92, 246, 0.15);
+      color: var(--color-purple);
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .custom-table th, .custom-table td {
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .custom-table th {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--color-slate-400);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Attendance & Timetable Grid */
+    .timetable-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .timetable-day-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .day-name { font-size: 13px; font-weight: 700; color: var(--color-purple); text-transform: uppercase; }
+
+    .period-slot {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    /* =========================================================
+       2. OPPORTUNITIES & DRIVES VIEW (LinkedIn + Internshala Style)
+       ========================================================= */
+    .filter-pills-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .filter-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+      color: var(--color-slate-400);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .filter-pill.active {
+      background: var(--color-purple);
+      color: var(--color-white);
+      border-color: var(--color-purple);
+    }
+
+    .opportunities-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .opp-item-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .opp-item-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--color-card-border-hover);
+    }
+
+    .opp-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .opp-job-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-white);
+    }
+
+    .opp-tags-flex {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .opp-tag {
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 4px 10px;
+      border-radius: 6px;
+      color: var(--color-slate-400);
+    }
+
+    .opp-action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 14px;
+    }
+
+    /* =========================================================
+       3. COMMUNITY & CAMPUS FEED (LinkedIn + Campus Pulse Style)
+       ========================================================= */
+    .community-feed-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 28px;
+    }
+
+    .feed-composer {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .composer-textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      color: var(--color-white);
+      font-size: 14px;
+      outline: none;
+      resize: none;
+      height: 84px;
+    }
+
+    .composer-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .post-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .post-author-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-white);
+    }
+
+    .post-author-role {
+      font-size: 12px;
+      color: var(--color-slate-400);
+    }
+
+    .post-body-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--color-slate-200);
+    }
+
+    .post-social-bar {
+      display: flex;
+      gap: 24px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .social-btn {
+      background: none;
+      border: none;
+      color: var(--color-slate-400);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    .social-btn.liked { color: var(--color-pink); }
+
+    /* Trending side widget */
+    .trending-box {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* =========================================================
+       4. MESSAGING SUITE (All requested students)
+       ========================================================= */
+    .messaging-box {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-xl);
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .inbox-list {
+      border-right: 1px solid var(--color-card-border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .inbox-header {
+      padding: 18px 20px;
+      font-weight: 700;
+      font-size: 14px;
+      border-bottom: 1px solid var(--color-card-border);
+    }
+
+    .inbox-item {
+      padding: 14px 18px;
       display: flex;
       align-items: center;
       gap: 12px;
       cursor: pointer;
-    }
-
-    .brand-logo-svg { width: 32px; height: 32px; }
-
-    .brand-title-wrap h1 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: #ffffff;
-      line-height: 1.1;
-    }
-    .brand-title-wrap p {
-      font-size: 0.65rem;
-      color: var(--text-dim);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-link {
-      font-size: 0.88rem;
-      font-weight: 400;
-      color: var(--text-dim);
-      cursor: pointer;
-      position: relative;
-      transition: color 0.2s;
-    }
-    .nav-link:hover, .nav-link.active { color: var(--text-white); }
-    .nav-link.active::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 0; right: 0;
-      height: 2px;
-      background: var(--brand-coral);
-      border-radius: 2px;
-    }
-
-    .profile-pill {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-soft);
-      padding: 0.35rem 0.9rem;
-      border-radius: var(--radius-full);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .profile-pill:hover, .profile-pill.active {
-      border-color: var(--brand-coral);
-      background: rgba(255, 94, 58, 0.08);
-    }
-
-    /* Hero Section */
-    .hero-container {
-      position: relative;
-      min-height: 85vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 110px 1.5rem 50px;
-      background: radial-gradient(circle at 50% 25%, rgba(121, 40, 202, 0.25) 0%, rgba(8, 8, 17, 0.85) 60%),
-                  linear-gradient(180deg, rgba(8, 8, 17, 0.2) 0%, rgba(8, 8, 17, 0.98) 100%),
-                  url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop') center center / cover no-repeat;
-    }
-
-    .hero-pretitle {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 1.2rem;
-    }
-    .hero-pretitle::before, .hero-pretitle::after {
-      content: '';
-      width: 24px;
-      height: 1px;
-      background: var(--brand-magenta);
-    }
-
-    .hero-title {
-      font-size: clamp(2.2rem, 4.8vw, 4rem);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -1.2px;
-      margin-bottom: 1.2rem;
-    }
-
-    .gradient-word {
-      background: var(--brand-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: block;
-    }
-
-    .hero-desc {
-      max-width: 580px;
-      font-size: 1.05rem;
-      color: var(--text-dim);
-      margin-bottom: 2rem;
-    }
-
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-
-    /* Floating Metrics */
-    .metrics-container {
-      width: 100%;
-      max-width: 950px;
-      background: rgba(18, 18, 32, 0.65);
-      border: 1px solid var(--border-soft);
-      backdrop-filter: blur(20px);
-      border-radius: var(--radius-card);
-      padding: 1.25rem 2rem;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
-
-    .metric-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      text-align: left;
-    }
-
-    .metric-icon-wrap {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--brand-coral);
-      font-size: 1.1rem;
-    }
-
-    .metric-number { font-size: 1.4rem; font-weight: 700; line-height: 1.1; }
-    .metric-name { font-size: 0.78rem; color: var(--text-dim); }
-
-    /* Workspace */
-    .workspace-wrap {
-      max-width: 1100px;
-      margin: 2rem auto 6rem;
-      padding: 0 1.5rem;
-    }
-
-    .glass-panel {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius-card);
-      padding: 2rem;
-      backdrop-filter: blur(25px);
-    }
-
-    .card-entry {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-soft);
-      border-radius: 12px;
-      padding: 1.25rem;
-      margin-bottom: 1rem;
-    }
-
-    .pill-tag {
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 0.2rem 0.6rem;
-      border-radius: var(--radius-full);
-      background: rgba(255, 94, 58, 0.12);
-      color: var(--brand-coral);
-      border: 1px solid rgba(255, 94, 58, 0.2);
-    }
-
-    /* Chat Layout */
-    .chat-wrapper {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      border: 1px solid var(--border-soft);
-      border-radius: 12px;
-      overflow: hidden;
-      min-height: 580px;
-    }
-
-    .contacts-pane {
-      background: rgba(14, 14, 26, 0.75);
-      border-right: 1px solid var(--border-soft);
-      overflow-y: auto;
-      max-height: 580px;
-    }
-
-    .contact-card {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      padding: 0.85rem 1.1rem;
-      cursor: pointer;
       border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-      transition: background 0.15s ease;
-    }
-    .contact-card:hover, .contact-card.active {
-      background: rgba(255, 94, 58, 0.08);
+      transition: background 0.2s;
     }
 
-    .avatar-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: var(--brand-gradient);
+    .inbox-item:hover, .inbox-item.active { background: rgba(255, 255, 255, 0.05); }
+
+    .chat-convo-view { display: flex; flex-direction: column; height: 100%; }
+
+    .chat-header-bar {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--color-card-border);
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #fff;
-      font-size: 0.85rem;
-      position: relative;
-      flex-shrink: 0;
     }
 
-    .online-indicator {
-      width: 9px;
-      height: 9px;
-      background: #10b981;
-      border-radius: 50%;
-      border: 2px solid #0e0e1a;
-      position: absolute;
-      bottom: 0; right: 0;
-    }
-
-    .chat-thread-pane {
-      display: flex;
-      flex-direction: column;
-      background: rgba(20, 20, 36, 0.4);
-    }
-
-    .thread-body {
+    .thread-stream {
       flex: 1;
-      padding: 1.5rem;
+      padding: 24px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
-      max-height: 420px;
+      gap: 14px;
     }
 
-    .msg-bubble {
-      max-width: 72%;
-      padding: 0.65rem 1rem;
+    .chat-bubble {
+      max-width: 65%;
+      padding: 12px 18px;
       border-radius: 14px;
-      font-size: 0.88rem;
+      font-size: 14px;
+      line-height: 1.4;
     }
-    .msg-bubble.peer {
-      align-self: flex-start;
+
+    .bubble-incoming { align-self: flex-start; background: rgba(255, 255, 255, 0.08); }
+    .bubble-outgoing { align-self: flex-end; background: var(--grad-purple); }
+
+    .chat-input-row {
+      padding: 16px 24px;
+      border-top: 1px solid var(--color-card-border);
+      display: flex;
+      gap: 12px;
+    }
+
+    .chat-input-row input {
+      flex: 1;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-soft);
-    }
-    .msg-bubble.me {
-      align-self: flex-end;
-      background: var(--brand-gradient);
-      color: #fff;
-    }
-
-    /* Profile / ERP Academic Dashboard Layout */
-    .profile-grid {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 2rem;
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      color: var(--color-white);
+      outline: none;
     }
 
-    .profile-sidebar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      border-right: 1px solid var(--border-soft);
-      padding-right: 1.5rem;
-    }
-
-    .profile-avatar-lg {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: var(--brand-gradient);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 1rem;
-      box-shadow: 0 4px 20px rgba(255, 0, 122, 0.35);
-    }
-
-    .erp-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.2rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .erp-stat-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-soft);
-      border-radius: 12px;
-      padding: 1.1rem;
-      position: relative;
-    }
-
-    .progress-bar-wrap {
-      width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      margin-top: 0.6rem;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      background: var(--brand-gradient);
-      border-radius: 4px;
-    }
-
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      margin-top: 0.75rem;
-    }
-    .data-table th, .data-table td {
-      padding: 0.65rem 0.9rem;
-      text-align: left;
-      border-bottom: 1px solid var(--border-soft);
-    }
-    .data-table th {
-      color: var(--text-dim);
-      font-weight: 500;
-    }
-
-    /* Auth Overlay */
-    .auth-overlay {
+    /* Modal for payments & certificates */
+    .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(8, 8, 17, 0.92);
-      backdrop-filter: blur(20px);
-      display: flex;
+      background: rgba(11, 8, 19, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      display: none;
       align-items: center;
       justify-content: center;
-      z-index: 2000;
+      padding: 20px;
     }
 
-    .auth-card {
-      background: #0f1322;
-      border: 1px solid rgba(255, 0, 122, 0.3);
-      border-radius: var(--radius-card);
-      padding: 2.5rem;
+    .modal-backdrop.open { display: flex; }
+
+    .modal-card {
+      background: #141021;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-xl);
+      padding: 32px;
       width: 100%;
-      max-width: 420px;
-      text-align: center;
+      max-width: 480px;
+      position: relative;
     }
 
-    input, select, textarea {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-soft);
-      border-radius: 8px;
-      color: #fff;
-      padding: 0.65rem 0.9rem;
-      font-family: var(--font-family);
-      font-size: 0.88rem;
-    }
-    input:focus, select:focus, textarea:focus {
-      outline: 1px solid var(--brand-coral);
-      border-color: transparent;
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: none;
+      border: none;
+      color: var(--color-slate-400);
+      font-size: 24px;
+      cursor: pointer;
     }
 
-    @media (max-width: 900px) {
-      .metrics-container, .profile-grid { grid-template-columns: 1fr; }
-      .chat-wrapper { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-      .navbar { padding: 0 1.5rem; }
+    .app-toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: #18112C;
+      border: 1px solid var(--color-purple);
+      color: var(--color-white);
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: none;
+      z-index: 9999;
     }
+
+    .app-toast.show { display: block; }
   </style>
 </head>
 <body>
 
-  <!-- Re-Login / Authentication Overlay (Used for Logout feature) -->
-  <div id="auth-modal" class="auth-overlay hidden">
-    <div class="auth-card">
-      <div class="avatar-icon" style="margin: 0 auto 1rem; width: 48px; height: 48px; font-size: 1.2rem;">A</div>
-      <h2 style="font-size: 1.4rem; font-weight:700; margin-bottom: 0.25rem;">Sign In to Alumnex</h2>
-      <p style="color: var(--text-dim); font-size: 0.82rem; margin-bottom: 1.5rem;">Enter college credentials to restore your session</p>
-      
-      <form id="relogin-form" style="display: flex; flex-direction: column; gap: 0.9rem; text-align: left;">
-        <div>
-          <label style="font-size: 0.75rem; color: var(--text-dim);">College Email ID</label>
-          <input type="email" id="login-email" value="dev@acem.edu.in" style="width: 100%; margin-top: 3px;" required />
+  <div class="bg-mesh"></div>
+
+  <!-- =========================================================
+       PAGE 1: LOGIN & SIGNUP GATEWAY (@acem.edu.in ENFORCED)
+       ========================================================= -->
+  <div id="pageAuth">
+    <div class="auth-container">
+      <!-- Showcase side -->
+      <div class="auth-showcase">
+        <div class="brand-logo-group">
+          <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
+            <defs>
+              <linearGradient id="gLogo" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#8B5CF6"/>
+                <stop offset="0.5" stop-color="#EC4899"/>
+                <stop offset="1" stop-color="#F97316"/>
+              </linearGradient>
+            </defs>
+            <path d="M4 28L16 4L28 28H21.5L16 16.5L10.5 28H4Z" fill="url(#gLogo)"/>
+          </svg>
+          <div class="brand-title">Alumnex<span>Portal</span></div>
         </div>
-        <div>
-          <label style="font-size: 0.75rem; color: var(--text-dim);">Password</label>
-          <input type="password" value="••••••••" style="width: 100%; margin-top: 3px;" required />
+
+        <div class="showcase-hero">
+          <div class="showcase-badge">&#9679; ACEM Institutional Network</div>
+          <h2 class="showcase-title">One Campus. <em>Infinite Connections.</em></h2>
+          <p class="showcase-desc">
+            Unified institutional platform for ACEM students and faculty. Settle academic fees, track attendance, browse hackathons, and connect with peers.
+          </p>
         </div>
-        <button type="submit" class="btn btn-brand" style="width: 100%; margin-top: 0.5rem;">Access Portal</button>
-      </form>
+
+        <div class="showcase-pills">
+          <div class="pill-item"><span class="pill-dot"></span> Exclusively authenticated for <strong>@acem.edu.in</strong></div>
+          <div class="pill-item"><span class="pill-dot"></span> Automatic Profile ID extraction from email handle</div>
+          <div class="pill-item"><span class="pill-dot"></span> LinkedIn &amp; Okei Dokie inspired campus workflow</div>
+        </div>
+      </div>
+
+      <!-- Form side -->
+      <div class="auth-form-side">
+        <!-- Role Switcher -->
+        <div class="role-toggle-bar">
+          <button type="button" class="role-btn active" id="btnStudentRole" onclick="switchRole('student')">Student Portal</button>
+          <button type="button" class="role-btn" id="btnFacultyRole" onclick="switchRole('faculty')">Teacher / Faculty</button>
+        </div>
+
+        <!-- Mode Switcher -->
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab-link active" id="tabModeLogin" onclick="setMode('login')">Sign In</button>
+          <button type="button" class="auth-tab-link" id="tabModeRegister" onclick="setMode('register')">Create Account</button>
+        </div>
+
+        <form id="authForm" onsubmit="submitAuth(event)">
+          <div class="form-group">
+            <label id="emailLabel">Institutional ID (@acem.edu.in)</label>
+            <div class="domain-input-box">
+              <input type="text" id="usernameHandle" placeholder="e.g. dev or rajesh.verma" required autocomplete="off" />
+              <div class="domain-suffix">@acem.edu.in</div>
+            </div>
+            <div class="form-hint" id="extractedPreviewHint">Profile display name will be: <strong id="previewName">dev</strong></div>
+          </div>
+
+          <div class="form-group" id="deptGroup" style="display: none;">
+            <label>Department / Branch</label>
+            <select id="selectDept">
+              <option value="Computer Science & Engineering">Computer Science & Engineering (CSE)</option>
+              <option value="Electronics & Communication">Electronics & Communication (ECE)</option>
+              <option value="Mechanical Engineering">Mechanical Engineering (ME)</option>
+              <option value="Civil Engineering">Civil Engineering (CE)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Master Password</label>
+            <input type="password" id="inputPassword" placeholder="••••••••••••" required />
+          </div>
+
+          <button type="submit" class="btn-submit" id="authSubmitBtn">
+            Access Alumnex &rarr;
+          </button>
+        </form>
+
+        <!-- Fast Demo Quick Logins -->
+        <div class="demo-bar">
+          <button type="button" class="demo-chip" onclick="quickFill('dev', 'student')">
+            &#128104;&zwj;&#127891; Dev (Student)
+          </button>
+          <button type="button" class="demo-chip" onclick="quickFill('rajesh.verma', 'faculty')">
+            &#129489;&zwj;&#127979; Dr. Rajesh (Faculty)
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Glass Navbar -->
-  <header class="navbar">
-    <div class="brand-container" onclick="switchTab('feed')">
-      <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#7928ca" />
-            <stop offset="50%" stop-color="#ff007a" />
-            <stop offset="100%" stop-color="#ff5e3a" />
-          </linearGradient>
-        </defs>
-        <path d="M50 12 L15 82 A 6 6 0 0 0 21 90 L 37 90 A 4 4 0 0 0 40 87 L 50 64 L 60 87 A 4 4 0 0 0 63 90 L 79 90 A 6 6 0 0 0 85 82 Z" fill="url(#logoGrad)"/>
-        <polygon points="50,38 38,62 62,62" fill="#080811" />
-      </svg>
-      <div class="brand-title-wrap">
-        <h1>Alumnex</h1>
-        <p>Your Campus. Your Network.</p>
-      </div>
-    </div>
-
-    <ul class="nav-links">
-      <li><span class="nav-link active" onclick="switchTab('feed')">Home</span></li>
-      <li><span class="nav-link" onclick="switchTab('chat')">Messages</span></li>
-      <li><span class="nav-link" onclick="switchTab('community')">Community</span></li>
-      <li><span class="nav-link" onclick="switchTab('notices')">Notices</span></li>
-      <li><span class="nav-link" onclick="switchTab('opps')">Opportunities & Trials</span></li>
-    </ul>
-
-    <!-- Academic Profile Pill -->
-    <div class="profile-pill" onclick="switchTab('profile')" id="nav-profile-pill" title="Click to view Academic Record & ERP Details">
-      <div class="avatar-icon" style="width:28px; height:28px; font-size:0.75rem;">D</div>
-      <div style="font-size: 0.82rem; text-align:left;">
-        <span style="display:block; font-weight:600; line-height:1.1;">Dev Sharma</span>
-        <span style="font-size:0.68rem; color:var(--text-dim);">CSE • 2nd Year (3rd Sem)</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero-container">
-    <div class="hero-pretitle">A L U M N E X</div>
-    <h1 class="hero-title">
-      One Campus.<br>
-      Infinite Connections.<br>
-      <span class="gradient-word">Limitless Growth.</span>
-    </h1>
-    <p class="hero-desc">
-      Alumnex is more than a platform — it's a movement to connect, collaborate, and grow together.
-    </p>
-
-    <div class="hero-ctas">
-      <button class="btn btn-brand" onclick="switchTab('profile')">
-        My Academic Portal &nbsp;<i class="fa-solid fa-id-card"></i>
-      </button>
-      <button class="btn btn-dark" onclick="switchTab('chat')">
-        Open Peer Chat
-      </button>
-    </div>
-
-    <!-- Live Statistics Dock -->
-    <div class="metrics-container">
-      <div class="metric-item">
-        <div class="metric-icon-wrap"><i class="fa-solid fa-user-group"></i></div>
-        <div>
-          <div class="metric-number">10K+</div>
-          <div class="metric-name">Students</div>
+  <!-- =========================================================
+       PAGE 2: ALUMNEX MAIN APP (ACADEMICS, OPPORTUNITIES, ETC)
+       ========================================================= -->
+  <div id="pageMain">
+    <!-- Header -->
+    <header class="top-navbar">
+      <div class="nav-left">
+        <div class="brand-logo-group">
+          <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
+            <path d="M4 28L16 4L28 28H21.5L16 16.5L10.5 28H4Z" fill="url(#gLogo)"/>
+          </svg>
+          <div class="brand-title">Alumnex<span>Campus</span></div>
         </div>
-      </div>
-      <div class="metric-item">
-        <div class="metric-icon-wrap"><i class="fa-solid fa-graduation-cap"></i></div>
-        <div>
-          <div class="metric-number">500+</div>
-          <div class="metric-name">Colleges</div>
-        </div>
-      </div>
-      <div class="metric-item">
-        <div class="metric-icon-wrap"><i class="fa-solid fa-circle-nodes"></i></div>
-        <div>
-          <div class="metric-number">25K+</div>
-          <div class="metric-name">Connections</div>
-        </div>
-      </div>
-      <div class="metric-item">
-        <div class="metric-icon-wrap"><i class="fa-solid fa-comment-dots"></i></div>
-        <div>
-          <div class="metric-number">100K+</div>
-          <div class="metric-name">Messages</div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Workspace Container -->
-  <main class="workspace-wrap" id="workspace">
-    <div class="glass-panel">
-
-      <!-- 1. FEED VIEW -->
-      <div id="view-feed" class="tab-pane">
-        <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
-          <div>
-            <div class="card-entry">
-              <textarea id="post-input" placeholder="Share updates, project ideas, or campus queries..." style="width: 100%; min-height: 70px; background: transparent; border: none; outline: none; color:#fff;"></textarea>
-              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-soft); padding-top:0.75rem; margin-top:0.5rem;">
-                <span class="pill-tag">Discussion</span>
-                <button class="btn btn-brand" id="submit-post-btn">Publish</button>
-              </div>
-            </div>
-            <div id="feed-items-container"></div>
-          </div>
-          <div>
-            <div class="card-entry">
-              <h3 style="font-size: 0.95rem; margin-bottom: 0.85rem; display: flex; justify-content: space-between;">
-                <span>Active Peers</span>
-                <span class="pill-tag">Online</span>
-              </h3>
-              <div id="quick-connections-list" style="display: flex; flex-direction: column; gap: 0.6rem;"></div>
-            </div>
-          </div>
+        <div class="search-input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" placeholder="Search notices, courses, hackathons..." />
         </div>
       </div>
 
-      <!-- 2. MESSAGES VIEW (9 Active Peer Contacts) -->
-      <div id="view-chat" class="tab-pane hidden">
-        <div class="chat-wrapper">
-          <div class="contacts-pane" id="chat-contacts-mount"></div>
-          <div class="chat-thread-pane">
-            <div style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; gap: 0.75rem;">
-              <div class="avatar-icon" id="active-chat-avatar">I</div>
-              <div>
-                <h4 id="active-chat-name" style="font-size: 0.95rem; font-weight: 600;">Ishaan</h4>
-                <p id="active-chat-role" style="font-size: 0.72rem; color: var(--text-dim);">CSE 2nd Year • Connected Peer</p>
-              </div>
-            </div>
-            <div class="thread-body" id="chat-messages-mount"></div>
-            <div style="padding: 1rem 1.5rem; border-top: 1px solid var(--border-soft); display: flex; gap: 0.75rem;">
-              <input type="text" id="chat-text-input" placeholder="Type a message..." style="flex: 1;">
-              <button class="btn btn-brand" id="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
+      <div class="nav-right">
+        <!-- Logged In User Pill -->
+        <div class="user-profile-badge">
+          <div class="avatar-circle" id="userAvatar">DV</div>
+          <div class="user-info">
+            <span class="user-name-title" id="userNameLabel">dev</span>
+            <span class="user-domain-tag" id="userEmailTag">dev@acem.edu.in</span>
           </div>
         </div>
+
+        <button class="btn-logout" onclick="signOut()">Log Out</button>
       </div>
+    </header>
 
-      <!-- 3. COMMUNITY VIEW (Celebrations, Fests & Social Causes) -->
-      <div id="view-community" class="tab-pane hidden">
-        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Campus Communities & Celebrations</h2>
-        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Join active fest committees, cultural circles, and social initiatives.</p>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.25rem;">
-          <!-- Freshers Party Circle -->
-          <div class="card-entry" style="border-top: 3px solid #ec4899;">
-            <span class="pill-tag">Campus Fest Event</span>
-            <h3 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem;">🎉 Freshers' Party 2026: "Aura Horizon"</h3>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.85rem;">
-              Organizing hub led by 2nd-year CSE students. Open calls for anchors, DJ coordination, stage decorations, and badge distribution teams.
-            </p>
-            <div style="font-size: 0.75rem; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
-              <span>Target: Late September 2026</span>
-              <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Joined Freshers Organizing Team!')">Volunteer</button>
+    <div class="dashboard-layout">
+      <!-- Vertical Sidebar Menu -->
+      <aside class="vertical-sidebar">
+        <div class="menu-category-title">Navigation Hub</div>
+
+        <button class="vertical-nav-btn active" id="navBtnAcademics" onclick="switchVerticalView('academics', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
+          <span>Academics</span>
+        </button>
+
+        <button class="vertical-nav-btn" id="navBtnOpportunities" onclick="switchVerticalView('opportunities', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+          <span>Opportunities</span>
+        </button>
+
+        <button class="vertical-nav-btn" id="navBtnCommunity" onclick="switchVerticalView('community', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Community</span>
+        </button>
+
+        <button class="vertical-nav-btn" id="navBtnMessage" onclick="switchVerticalView('message', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Messages</span>
+        </button>
+      </aside>
+
+      <!-- Main Dynamic Content Views -->
+      <main class="dashboard-content">
+        <!-- =========================================================
+             VIEW 1: ACADEMICS (Okei Dokie & ERP Style)
+             ========================================================= -->
+        <section class="view-panel active" id="view-academics">
+          <div class="acad-banner">
+            <div>
+              <div class="status-badge badge-purple" style="margin-bottom: 8px;">ACEM Academic Audit</div>
+              <h2 style="font-size: 24px; font-weight: 800; color: var(--color-white);">Academic Progression &amp; Fee Ledger</h2>
+              <p style="font-size: 14px; color: var(--color-slate-300);">Review attendance percentage, mid-term evaluations, timetable, and pending fees.</p>
             </div>
-          </div>
-
-          <!-- Teachers Day Circle -->
-          <div class="card-entry" style="border-top: 3px solid #7928ca;">
-            <span class="pill-tag">Annual Tribute</span>
-            <h3 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem;">💐 Teachers' Day 2026 Celebration</h3>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.85rem;">
-              Honoring our faculty guides across departments. Submit greeting notes, coordinate memento distributions, or join the tribute chorus.
-            </p>
-            <div style="font-size: 0.75rem; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
-              <span>Auditorium Hall • Sep 5</span>
-              <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Submitted gratitude greeting to Faculty guide!')">Send Card</button>
-            </div>
-          </div>
-
-          <!-- NSS Blood Donation Camp -->
-          <div class="card-entry" style="border-top: 3px solid #ef4444;">
-            <span class="pill-tag">Social Drive</span>
-            <h3 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem;">🩸 Mega Blood Donation & Health Camp</h3>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.85rem;">
-              Organized by NSS ACEM Chapter in association with Red Cross Society. Donors will receive recognized certificates and refreshments.
-            </p>
-            <div style="font-size: 0.75rem; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
-              <span>Campus Dispensary • Sep 22</span>
-              <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Donor Pre-Registration confirmed!')">Register Donor</button>
-            </div>
-          </div>
-
-          <!-- Plantation Drive -->
-          <div class="card-entry" style="border-top: 3px solid #10b981;">
-            <span class="pill-tag">Eco-Green Initiative</span>
-            <h3 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem;">🌱 "Green Campus" Tree Plantation Drive</h3>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.85rem;">
-              Join student volunteers planting over 250 native saplings across the sports complex and cafeteria perimeter this weekend.
-            </p>
-            <div style="font-size: 0.75rem; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
-              <span>North Lawn • Sep 19</span>
-              <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Eco volunteer badge awarded!')">Join Drive</button>
-            </div>
-          </div>
-
-          <!-- Diwali Fest Pre-Planning -->
-          <div class="card-entry" style="border-top: 3px solid #f97316;">
-            <span class="pill-tag">Cultural Buzz</span>
-            <h3 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem;">🪔 Diwali Mela & Rangoli Arena Committee</h3>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.85rem;">
-              Early conceptualization of student stalls, fundraising charity games, musical open-mics, and inter-department rangoli competitions.
-            </p>
-            <div style="font-size: 0.75rem; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
-              <span>Cultural Council Circle</span>
-              <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Added to Diwali Mela planning channel!')">Participate</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. NOTICES VIEW (10 Comprehensive Circulars: Exams, Fees, Holidays, SIH) -->
-      <div id="view-notices" class="tab-pane hidden">
-        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Official Campus Circulars (10 Notices)</h2>
-        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Verified administrative circulars, exam datesheets, fee deadlines, and holiday notices.</p>
-        
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
-          
-          <!-- Notice 1 -->
-          <div class="card-entry" style="border-left: 3px solid #ff007a;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-              <h3 style="font-size:0.98rem; font-weight:600;">1. Smart India Hackathon (SIH 2026) — Internal Scrutiny Round</h3>
-              <span class="pill-tag">Hackathon</span>
-            </div>
-            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
-              All registered student teams must submit their problem statement PPT abstract and architecture flowcharts by September 10, 2026. Top 15 teams will be nominated for the National Portal.
-            </p>
-            <span style="font-size:0.72rem; color:var(--text-dim);">Sep 02, 2026 • Innovation & Incubation Cell (IIC)</span>
-          </div>
-
-          <!-- Notice 2 -->
-          <div class="card-entry" style="border-left: 3px solid #f97316;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-              <h3 style="font-size:0.98rem; font-weight:600;">2. Gazetted Campus Holiday: Eid-e-Milad</h3>
-              <span class="pill-tag">Holiday</span>
-            </div>
-            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
-              The college will remain closed on Wednesday, September 16, 2026, on account of Eid-e-Milad. Regular B.Tech theory lectures and lab sessions will resume on September 17.
-            </p>
-            <span style="font-size:0.72rem; color:var(--text-dim);">Sep 01, 2026 • Office of the Registrar</span>
-          </div>
-
-          <!-- Notice 3 -->
-          <div class="card-entry" style="border-left: 3px solid #7928ca;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-              <h3 style="font-size:0.98rem; font-weight:600;">3. Mid-Term Examination (Odd Semester 2026-27) Datesheet Announcement</h3>
-              <span class="pill-tag">Examination</span>
-            </div>
-            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
-              The 1st Sessional Mid-Term examinations for 2nd, 3rd, and 4th-year B.Tech students will commence from October 12, 2026. Detailed seating plans will be displayed on department noticeboards.
-            </p>
-            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 30, 2026 • Controller of Examinations (COE)</span>
-          </div>
-
-          <!-- Notice 4 -->
-          <div class="card-entry" style="border-left: 3px solid #10b981;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-              <h3 style="font-size:0.98rem; font-weight:600;">4. Semester Tuition Fee Installment Deadline Notice</h3>
-              <span class="pill-tag">Fee Notice</span>
-            </div>
-            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
-              The last date to deposit the remaining fee installment for Academic Session 2026-27 without a late fine is September 25, 2026. Online receipts can be generated via the student portal.
-            </p>
-            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 28, 2026 • Finance & Accounts Branch</span>
-          </div>
-
-          <!-- Notice 5 -->
-          <div class="card-entry" style="border-left: 3px solid #3b82f6;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-              <h3 style="font-size:0.98rem; font-weight:600;">5. August 2026 Holiday Recaps: Janmashtami & Independence Day</h3>
-              <span class="pill-tag">Holiday</span>
-            </div>
-            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
-              Classes stood suspended on August 15 (Independence Day) and August 26 (Shri Krishna Janmashtami). Subject coordinators have adjusted the lab syllabus accordingly.
-            </p>
-            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 27, 2026 • Academic Affairs</span>
-          </div>
-
-          <!-- Notice 6 -->
-          <div class="card-entry" style="border-left: 3px solid #eab308;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-              <h3 style="font-size:0.98rem; font-weight:600;">6. Backlog Re-appear Examination Form Submission (Odd Sem)</h3>
-              <span class="pill-tag">Examination</span>
-            </div>
-            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
-              Students with re-appear subjects in Semesters 1 and 3 must fill their university examination forms through the ERP counter before September 20, 2026.
-            </p>
-            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 25, 2026 • Academic Cell</span>
-          </div>
-
-          <!-- Notice 7 -->
-          <div class="card-entry" style="border-left: 3px solid #ec4899;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-              <h3 style="font-size:0.98rem; font-weight:600;">7. 2nd Year Mini-Project Synopsis Verification</h3>
-              <span class="pill-tag">Academic</span>
-            </div>
-            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
-              CSE 2nd Year students must submit approved copies of their project synopsis (Alumnex / MERN / AI tracks) signed by their respective faculty guides by next Monday.
-            </p>
-            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 24, 2026 • HOD Computer Science & Engineering</span>
-          </div>
-
-          <!-- Notice 8 -->
-          <div class="card-entry" style="border-left: 3px solid #6366f1;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-              <h3 style="font-size:0.98rem; font-weight:600;">8. Upcoming National Holiday: Mahatma Gandhi Jayanti</h3>
-              <span class="pill-tag">Holiday</span>
-            </div>
-            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
-              Notification of holiday on Friday, October 02, 2026, observing Mahatma Gandhi Jayanti. All administrative and academic divisions will remain shut.
-            </p>
-            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 22, 2026 • General Administration</span>
-          </div>
-
-          <!-- Notice 9 -->
-          <div class="card-entry" style="border-left: 3px solid #06b6d4;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-              <h3 style="font-size:0.98rem; font-weight:600;">9. Central Library Dues Clearance & Book Renewal Week</h3>
-              <span class="pill-tag">Library</span>
-            </div>
-            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
-              A special window with a 100% late-fee waiver on delayed textbook returns is active from September 07 to September 14, 2026, at the central library circulation desk.
-            </p>
-            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 20, 2026 • Head Librarian</span>
-          </div>
-
-          <!-- Notice 10 -->
-          <div class="card-entry" style="border-left: 3px solid #a855f7;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-              <h3 style="font-size:0.98rem; font-weight:600;">10. IEEE Student Branch Membership Drive 2026-27</h3>
-              <span class="pill-tag">Professional</span>
-            </div>
-            <p style="font-size:0.86rem; color:#cbd5e1; margin-bottom:0.4rem;">
-              Subsidized IEEE Student Memberships are open for 2nd and 3rd year engineering students. Gain free access to IEEE Xplore digital library papers and technical symposiums.
-            </p>
-            <span style="font-size:0.72rem; color:var(--text-dim);">Aug 18, 2026 • IEEE Branch Counselor</span>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- 5. OPPORTUNITIES & TRIALS VIEW (8 Clubs, Recruitment & Sports Trials) -->
-      <div id="view-opps" class="tab-pane hidden">
-        <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">Club Recruitments & Sports Trials (8 Opportunities)</h2>
-        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Explore team inductions, technical core recruitments, and varsity team trials.</p>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.25rem;">
-          
-          <!-- 1. GDSC -->
-          <div class="card-entry">
-            <span class="pill-tag">Tech Chapter</span>
-            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">Google Developer Student Clubs (GDSC)</h3>
-            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Recruiting: Web, Cloud, AI & Management Leads</p>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-              Join the core leadership team for upcoming Google Solution Challenges. Interviews for 2nd year students start this Friday.
-            </p>
-            <button class="btn btn-brand" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Application submitted for GDSC Core team!')">Apply for Core</button>
-          </div>
-
-          <!-- 2. Cricket Trials -->
-          <div class="card-entry">
-            <span class="pill-tag">Sports Trials</span>
-            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">College Varsity Cricket Team Trials</h3>
-            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Venue: Main Cricket Turf • Sep 11, 3:30 PM</p>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-              Selection trials for the upcoming Inter-University State Championship. Open for batsmen, wicket-keepers, and fast bowlers in whites.
-            </p>
-            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Trial Slot #44 confirmed for Dev Sharma!')">Register for Trials</button>
-          </div>
-
-          <!-- 3. Badminton Trials -->
-          <div class="card-entry">
-            <span class="pill-tag">Sports Trials</span>
-            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">Inter-College Badminton Trials</h3>
-            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Indoor Sports Complex • Sep 14, 4:00 PM</p>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-              Singles and doubles team trials for male and female categories. Bring non-marking shoes and personal racquets.
-            </p>
-            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Slot registered with Sports Officer!')">Join Trials</button>
-          </div>
-
-          <!-- 4. Robotics Club -->
-          <div class="card-entry">
-            <span class="pill-tag">Hardware Club</span>
-            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">Robotics & IoT Innovation Guild</h3>
-            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Robo-War, Drone Tech & Embedded C</p>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-              Hands-on lab recruitment. Work with Arduino, ESP32, and Raspberry Pi modules representing the college in national bot-fights.
-            </p>
-            <button class="btn btn-brand" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Applied for Robotics Guild!')">Submit Portfolio</button>
-          </div>
-
-          <!-- 5. Dramatics & Cultural Society -->
-          <div class="card-entry">
-            <span class="pill-tag">Cultural Club</span>
-            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">"Rangmanch" Dramatics & Nukkad Natak Society</h3>
-            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Auditions: Open Amphitheatre • Sep 15</p>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-              Auditions for actors, voice-artists, script writers, and stage directors for youth festival skits and street plays.
-            </p>
-            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Audition Token #18 generated!')">Book Audition</button>
-          </div>
-
-          <!-- 6. Rotaract Club -->
-          <div class="card-entry">
-            <span class="pill-tag">Youth NGO</span>
-            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">Rotaract Youth Club (RID 3011)</h3>
-            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Community Service & International Relations</p>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-              Engage in social entrepreneurship, blood donation camps, and leadership exchanges across Delhi-NCR colleges.
-            </p>
-            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Rotaract induction interview slot booked!')">Join Chapter</button>
-          </div>
-
-          <!-- 7. E-Cell -->
-          <div class="card-entry">
-            <span class="pill-tag">Incubation</span>
-            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">Entrepreneurship Cell (E-Cell) Cohort</h3>
-            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Startup Pitching & Venture Seed Funding</p>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-              Have a campus startup idea? Access alumni angel investors, government incubation grants, and co-working labs.
-            </p>
-            <button class="btn btn-brand" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Startup pitch deck submitted to E-Cell coordinator!')">Pitch Idea</button>
-          </div>
-
-          <!-- 8. CodeChef Chapter -->
-          <div class="card-entry">
-            <span class="pill-tag">Competitive Coding</span>
-            <h3 style="font-size: 1rem; margin: 0.4rem 0 0.2rem;">CodeChef Campus Chapter</h3>
-            <p style="font-size: 0.78rem; color: var(--brand-coral); margin-bottom: 0.4rem;">Event Leads & Problem Setter Induction</p>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-              Host monthly rating contests on CodeChef and run peer code-review cohorts for 1st and 2nd year students.
-            </p>
-            <button class="btn btn-dark" style="font-size:0.75rem; padding:0.35rem 0.85rem;" onclick="alert('Coding assessment link emailed!')">Take Coding Test</button>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- 6. STUDENT ACADEMIC PROFILE WITH LOGOUT FEATURE -->
-      <div id="view-profile" class="tab-pane hidden">
-        <div class="profile-grid">
-          
-          <!-- Left: Identity Details with Logout Button -->
-          <div class="profile-sidebar">
-            <div class="profile-avatar-lg">D</div>
-            <h3 style="font-size: 1.2rem; font-weight:700;">Dev Sharma</h3>
-            <span class="pill-tag" style="margin: 0.35rem 0 0.75rem;">Verified Student</span>
-            <p style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 1.25rem;">
-              B.Tech Computer Science & Engineering<br>
-              Semester: 3rd (2nd Year) • Batch 2024-2028
-            </p>
-
-            <div style="width: 100%; text-align: left; font-size: 0.8rem; display: flex; flex-direction: column; gap: 0.6rem; border-top: 1px solid var(--border-soft); padding-top: 1rem; margin-bottom: 1.5rem;">
-              <div><strong style="color:var(--text-dim);">Roll Number:</strong> 24ACEMCSE042</div>
-              <div><strong style="color:var(--text-dim);">College Mail:</strong> dev@acem.edu.in</div>
-              <div><strong style="color:var(--text-dim);">Faculty Mentor:</strong> [Guide Name]</div>
-              <div><strong style="color:var(--text-dim);">Campus Status:</strong> Day Scholar</div>
-            </div>
-
-            <!-- LOGOUT BUTTON -->
-            <button class="btn btn-danger" style="width: 100%; font-size: 0.85rem;" onclick="handleLogout()">
-              <i class="fa-solid fa-arrow-right-from-bracket"></i> &nbsp;Log Out Account
+            <button class="btn-submit" style="width: auto; padding: 0 22px; height: 42px; margin: 0;" onclick="showToast('Grade Transcript PDF Generated!')">
+              Download Marksheet
             </button>
           </div>
 
-          <!-- Right: Complete Academic Records -->
-          <div>
-            <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">Academic & Campus Records</h3>
-            
-            <!-- Highlights -->
-            <div class="erp-stats-grid">
-              <!-- Attendance -->
-              <div class="erp-stat-card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-size: 0.78rem; color: var(--text-dim);">Cumulative Attendance</span>
-                  <i class="fa-solid fa-clipboard-user" style="color: #10b981;"></i>
-                </div>
-                <div style="font-size: 1.5rem; font-weight: 700; margin-top: 0.3rem;">84.2%</div>
-                <div class="progress-bar-wrap"><div class="progress-fill" style="width: 84.2%;"></div></div>
-                <span style="font-size: 0.7rem; color: #10b981; margin-top: 0.4rem; display: block;">Above minimum threshold (75%)</span>
-              </div>
-
-              <!-- CGPA -->
-              <div class="erp-stat-card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-size: 0.78rem; color: var(--text-dim);">Current CGPA</span>
-                  <i class="fa-solid fa-chart-line" style="color: var(--brand-coral);"></i>
-                </div>
-                <div style="font-size: 1.5rem; font-weight: 700; margin-top: 0.3rem;">8.72 / 10</div>
-                <span style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.4rem; display: block;">All backlogs clear (Sem 1 & 2)</span>
-              </div>
-
-              <!-- Fees -->
-              <div class="erp-stat-card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-size: 0.78rem; color: var(--text-dim);">Semester 3 Fees</span>
-                  <i class="fa-solid fa-receipt" style="color: var(--brand-magenta);"></i>
-                </div>
-                <div style="font-size: 1.5rem; font-weight: 700; margin-top: 0.3rem; color: #10b981;">Paid in Full</div>
-                <span style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.4rem; display: block;">Transaction: #ACEM-2026-9812</span>
-              </div>
-            </div>
-
-            <!-- Subject-wise Attendance Table -->
-            <div class="card-entry" style="margin-bottom: 1.25rem;">
-              <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Subject-wise Attendance & Sessional Tracking</h4>
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Course Code</th>
-                    <th>Subject Name</th>
-                    <th>Lectures</th>
-                    <th>Percentage</th>
-                    <th>Eligibility</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>PCC-CSE-201</td>
-                    <td>Data Structures & Algorithms</td>
-                    <td>38 / 34</td>
-                    <td>89.4%</td>
-                    <td><span style="color:#10b981; font-weight:600;">Eligible</span></td>
-                  </tr>
-                  <tr>
-                    <td>PCC-CSE-203</td>
-                    <td>Database Management Systems</td>
-                    <td>32 / 28</td>
-                    <td>87.5%</td>
-                    <td><span style="color:#10b981; font-weight:600;">Eligible</span></td>
-                  </tr>
-                  <tr>
-                    <td>PCC-CSE-205</td>
-                    <td>Object Oriented Programming</td>
-                    <td>30 / 24</td>
-                    <td>80.0%</td>
-                    <td><span style="color:#10b981; font-weight:600;">Eligible</span></td>
-                  </tr>
-                  <tr>
-                    <td>LC-CSE-209</td>
-                    <td>Web Dev Lab (Full Stack)</td>
-                    <td>14 / 14</td>
-                    <td>100%</td>
-                    <td><span style="color:var(--brand-coral); font-weight:600;">Exemplary</span></td>
-                  </tr>
-                  <tr>
-                    <td>BSC-MATH-201</td>
-                    <td>Discrete Mathematics</td>
-                    <td>28 / 22</td>
-                    <td>78.5%</td>
-                    <td><span style="color:#10b981; font-weight:600;">Eligible</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Library & Project Footnotes -->
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-              <div class="card-entry">
-                <h4 style="font-size: 0.9rem; margin-bottom: 0.4rem;"><i class="fa-solid fa-book" style="color:var(--brand-coral);"></i> Library Dues & Books</h4>
-                <p style="font-size: 0.8rem; color: var(--text-dim);">Issued: 2 Books (Cormen - DSA, Korth - DBMS). Outstanding late dues: ₹0. Valid until Sep 24.</p>
-              </div>
-              <div class="card-entry">
-                <h4 style="font-size: 0.9rem; margin-bottom: 0.4rem;"><i class="fa-solid fa-award" style="color:#ec4899;"></i> 2nd Year Project Synopsis</h4>
-                <p style="font-size: 0.8rem; color: var(--text-dim);">Project: Alumnex Campus Platform[cite: 1]. Team: Dev Sharma, Garv Jakhar. Guide verification pending.</p>
-              </div>
-            </div>
-
+          <!-- Academic Sub Tabs -->
+          <div class="acad-tabs-bar">
+            <button class="acad-tab-item active" onclick="switchAcadInner('fee', this)">Fee Ledger &amp; Clearance</button>
+            <button class="acad-tab-item" onclick="switchAcadInner('attendance', this)">Attendance Tracker</button>
+            <button class="acad-tab-item" onclick="switchAcadInner('marks', this)">Mid-Term &amp; Lab Marks</button>
+            <button class="acad-tab-item" onclick="switchAcadInner('timetable', this)">Weekly Schedule</button>
           </div>
-        </div>
+
+          <!-- Sub View A: Fee Ledger -->
+          <div id="acad-sub-fee" style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="kpi-row">
+              <div class="kpi-card">
+                <span class="kpi-title">Total Semester Fee</span>
+                <span class="kpi-value">&#8377;85,000</span>
+                <span style="font-size: 12px; color: var(--color-slate-400);">Tuition + Lab Maintenance</span>
+              </div>
+              <div class="kpi-card">
+                <span class="kpi-title">Amount Paid</span>
+                <span class="kpi-value" style="color: var(--color-emerald);">&#8377;72,500</span>
+                <span style="font-size: 12px; color: var(--color-emerald);">&#10003; Online Verified</span>
+              </div>
+              <div class="kpi-card">
+                <span class="kpi-title">Pending Balance</span>
+                <span class="kpi-value" style="color: var(--color-rose);">&#8377;12,500</span>
+                <button class="btn-submit" style="height: 34px; font-size: 12px; margin-top: 6px;" onclick="openFeeModal()">Pay Due Fee</button>
+              </div>
+              <div class="kpi-card">
+                <span class="kpi-title">Exam Hall Ticket</span>
+                <span class="kpi-value" style="color: var(--color-amber);">Provisional</span>
+                <span style="font-size: 12px; color: var(--color-slate-400);">Clears upon full payment</span>
+              </div>
+            </div>
+
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Due Date</th>
+                  <th>Payment Status</th>
+                  <th>Receipt</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tuition Fee (Autumn Term 2026)</td>
+                  <td>&#8377;45,000</td>
+                  <td>Aug 20, 2026</td>
+                  <td><span class="status-badge badge-green">Cleared</span></td>
+                  <td><button class="demo-chip" onclick="showToast('Receipt #ACEM-7429 downloaded')">Receipt</button></td>
+                </tr>
+                <tr>
+                  <td>Laboratory &amp; Library Access Fee</td>
+                  <td>&#8377;27,500</td>
+                  <td>Sep 10, 2026</td>
+                  <td><span class="status-badge badge-green">Cleared</span></td>
+                  <td><button class="demo-chip" onclick="showToast('Receipt #ACEM-8114 downloaded')">Receipt</button></td>
+                </tr>
+                <tr>
+                  <td>Odd-Semester University Exam Fee</td>
+                  <td>&#8377;12,500</td>
+                  <td>Nov 15, 2026</td>
+                  <td><span class="status-badge badge-rose">Pending</span></td>
+                  <td><button class="demo-chip" style="color: var(--color-pink);" onclick="openFeeModal()">Settle Now</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Sub View B: Attendance -->
+          <div id="acad-sub-attendance" style="display: none; flex-direction: column; gap: 20px;">
+            <div class="panel-header-wrap">
+              <h3 class="panel-title" style="font-size: 18px;">Subject Attendance (75% Criteria)</h3>
+              <span class="status-badge badge-green">Overall: 88.6%</span>
+            </div>
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Subject Code</th>
+                  <th>Course Title</th>
+                  <th>Total Lectures</th>
+                  <th>Attended</th>
+                  <th>Attendance %</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>CS-401</td>
+                  <td>Advanced Data Structures</td>
+                  <td>45</td>
+                  <td>41</td>
+                  <td><strong>91.1%</strong></td>
+                  <td><span class="status-badge badge-green">Eligible</span></td>
+                </tr>
+                <tr>
+                  <td>CS-402</td>
+                  <td>Database Systems &amp; Web Eng</td>
+                  <td>42</td>
+                  <td>38</td>
+                  <td><strong>90.4%</strong></td>
+                  <td><span class="status-badge badge-green">Eligible</span></td>
+                </tr>
+                <tr>
+                  <td>CS-403</td>
+                  <td>Computer Networks &amp; Security</td>
+                  <td>40</td>
+                  <td>31</td>
+                  <td><strong>77.5%</strong></td>
+                  <td><span class="status-badge badge-amber">Borderline</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Sub View C: Marks -->
+          <div id="acad-sub-marks" style="display: none; flex-direction: column; gap: 20px;">
+            <div class="panel-header-wrap">
+              <h3 class="panel-title" style="font-size: 18px;">Mid-Term &amp; Lab Evaluations</h3>
+              <span class="status-badge badge-purple">SGPA: 8.94</span>
+            </div>
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Course Code</th>
+                  <th>Subject</th>
+                  <th>Mid-Term (30)</th>
+                  <th>Internal Assignment (10)</th>
+                  <th>Lab Practical (10)</th>
+                  <th>Total (50)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>CS-401</td>
+                  <td>Advanced Data Structures</td>
+                  <td>28</td>
+                  <td>9</td>
+                  <td>10</td>
+                  <td><strong>47 / 50</strong></td>
+                </tr>
+                <tr>
+                  <td>CS-402</td>
+                  <td>Database Systems</td>
+                  <td>27</td>
+                  <td>9</td>
+                  <td>9</td>
+                  <td><strong>45 / 50</strong></td>
+                </tr>
+                <tr>
+                  <td>CS-403</td>
+                  <td>Computer Networks</td>
+                  <td>24</td>
+                  <td>8</td>
+                  <td>9</td>
+                  <td><strong>41 / 50</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Sub View D: Timetable -->
+          <div id="acad-sub-timetable" style="display: none; flex-direction: column; gap: 20px;">
+            <h3 class="panel-title" style="font-size: 18px;">Weekly Lecture Schedule</h3>
+            <div class="timetable-grid">
+              <div class="timetable-day-card">
+                <span class="day-name">Monday</span>
+                <div class="period-slot"><strong>09:30 AM</strong><br>CS-401 &bull; Hall 102</div>
+                <div class="period-slot"><strong>11:30 AM</strong><br>CS-402 &bull; Lab 3</div>
+              </div>
+              <div class="timetable-day-card">
+                <span class="day-name">Tuesday</span>
+                <div class="period-slot"><strong>10:00 AM</strong><br>CS-403 &bull; Hall 104</div>
+                <div class="period-slot"><strong>02:00 PM</strong><br>System Design Workshop</div>
+              </div>
+              <div class="timetable-day-card">
+                <span class="day-name">Wednesday</span>
+                <div class="period-slot"><strong>09:30 AM</strong><br>CS-401 &bull; Hall 102</div>
+                <div class="period-slot"><strong>01:30 PM</strong><br>DBMS Project Review</div>
+              </div>
+              <div class="timetable-day-card">
+                <span class="day-name">Thursday</span>
+                <div class="period-slot"><strong>11:00 AM</strong><br>CS-402 &bull; Hall 105</div>
+                <div class="period-slot"><strong>03:00 PM</strong><br>Cybersecurity Lab</div>
+              </div>
+              <div class="timetable-day-card">
+                <span class="day-name">Friday</span>
+                <div class="period-slot"><strong>10:30 AM</strong><br>Mentorship &amp; Hackathon Meet</div>
+                <div class="period-slot"><strong>02:00 PM</strong><br>Library Study Hour</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 2: OPPORTUNITIES (LinkedIn & Career Style)
+             ========================================================= -->
+        <section class="view-panel" id="view-opportunities">
+          <div class="panel-header-wrap">
+            <div>
+              <h2 class="panel-title">Campus &amp; Global Opportunities</h2>
+              <p style="font-size: 14px; color: var(--color-slate-400);">Curated internships, hackathons, and placement drives for ACEM students.</p>
+            </div>
+            <div class="filter-pills-row">
+              <button class="filter-pill active">All</button>
+              <button class="filter-pill">Hackathons</button>
+              <button class="filter-pill">Internships</button>
+              <button class="filter-pill">Placements</button>
+            </div>
+          </div>
+
+          <div class="opportunities-stream">
+            <!-- Opportunity 1 -->
+            <div class="opp-item-card">
+              <div class="opp-meta-row">
+                <span class="status-badge badge-purple">National Hackathon</span>
+                <span style="font-size: 12px; color: var(--color-rose); font-weight: 600;">Deadline in 48 Hours</span>
+              </div>
+              <div class="opp-job-title">Smart India Hackathon (SIH 2026) Screening</div>
+              <p style="font-size: 14px; color: var(--color-slate-300);">
+                Represent ACEM in problem statements covering smart governance, sustainable transport, and decentralized applications.
+              </p>
+              <div class="opp-tags-flex">
+                <span class="opp-tag">Team Size: 6</span>
+                <span class="opp-tag">AI/ML &amp; Web</span>
+                <span class="opp-tag">ACEM R&amp;D Endorsed</span>
+              </div>
+              <div class="opp-action-row">
+                <span style="font-size: 13px; color: var(--color-slate-400);">Internal college round starts Nov 12</span>
+                <button class="btn-submit" style="width: auto; padding: 0 18px; height: 38px; font-size: 13px; margin: 0;" onclick="showToast('Abstract submitted for SIH 2026!')">Submit Abstract</button>
+              </div>
+            </div>
+
+            <!-- Opportunity 2 -->
+            <div class="opp-item-card">
+              <div class="opp-meta-row">
+                <span class="status-badge badge-green">Tech Internship</span>
+                <span style="font-size: 12px; color: var(--color-slate-400);">Starts Summer 2027</span>
+              </div>
+              <div class="opp-job-title">Google Campus Summer Analyst Drive</div>
+              <p style="font-size: 14px; color: var(--color-slate-300);">
+                Eligible for pre-final year ACEM students. Covers core data structures, algorithms, and distributed backend cloud systems.
+              </p>
+              <div class="opp-tags-flex">
+                <span class="opp-tag">Stipend: &#8377;1.1L / Month</span>
+                <span class="opp-tag">Bangalore / Hyderabad</span>
+                <span class="opp-tag">Alumni Referral Available</span>
+              </div>
+              <div class="opp-action-row">
+                <span style="font-size: 13px; color: var(--color-slate-400);">Referral posted by ACEM Alumni Network</span>
+                <button class="btn-submit" style="width: auto; padding: 0 18px; height: 38px; font-size: 13px; margin: 0;" onclick="showToast('Application packet sent to referral desk!')">Apply with Referral</button>
+              </div>
+            </div>
+
+            <!-- Opportunity 3 -->
+            <div class="opp-item-card">
+              <div class="opp-meta-row">
+                <span class="status-badge badge-amber">Campus Placement</span>
+                <span style="font-size: 12px; color: var(--color-slate-400);">Drive on Dec 04</span>
+              </div>
+              <div class="opp-job-title">Amazon Cloud Support Associate (CSA)</div>
+              <p style="font-size: 14px; color: var(--color-slate-300);">
+                On-campus recruitment for final year B.Tech students. Knowledge of TCP/IP, Linux command line, and databases required.
+              </p>
+              <div class="opp-tags-flex">
+                <span class="opp-tag">CTC: 18.5 LPA</span>
+                <span class="opp-tag">Full-Time</span>
+                <span class="opp-tag">Training &amp; Placement Cell</span>
+              </div>
+              <div class="opp-action-row">
+                <span style="font-size: 13px; color: var(--color-slate-400);">Eligible: CGPA &ge; 7.5 &bull; Zero active backlogs</span>
+                <button class="btn-submit" style="width: auto; padding: 0 18px; height: 38px; font-size: 13px; margin: 0;" onclick="showToast('Resume submitted to ACEM Placement Cell!')">Register for Drive</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 3: COMMUNITY & CAMPUS FEED (LinkedIn Style)
+             ========================================================= -->
+        <section class="view-panel" id="view-community">
+          <div class="community-feed-layout">
+            <!-- Feed stream -->
+            <div>
+              <div class="feed-composer">
+                <textarea class="composer-textarea" id="communityPostText" placeholder="Share a project update, hackathon question, or club announcement..."></textarea>
+                <div class="composer-toolbar">
+                  <span style="font-size: 12px; color: var(--color-slate-400);">Posting publicly to @acem.edu.in stream</span>
+                  <button class="btn-submit" style="width: auto; padding: 0 20px; height: 38px; font-size: 13px; margin: 0;" onclick="publishPost()">Post Update</button>
+                </div>
+              </div>
+
+              <div id="postsStreamContainer" style="margin-top: 24px;">
+                <!-- Post 1 -->
+                <div class="post-card">
+                  <div class="post-header">
+                    <div class="avatar-circle" style="background: var(--grad-purple);">SJ</div>
+                    <div>
+                      <div class="post-author-name">Sarah Jenkins</div>
+                      <div class="post-author-role">Alum @ Google &bull; ACEM '22 &bull; 2 hours ago</div>
+                    </div>
+                  </div>
+                  <div class="post-body-text">
+                    Excited to review the project prototypes for the upcoming hackathon! Remember: keep your API endpoints modular and document your GitHub commits cleanly. Happy to mentor ACEM sophomores this weekend.
+                  </div>
+                  <div class="post-social-bar">
+                    <button class="social-btn" onclick="toggleLike(this)">&#9825; <span>54</span> Likes</button>
+                    <button class="social-btn">&#128172; 18 Comments</button>
+                    <button class="social-btn">&#8618; Repost</button>
+                  </div>
+                </div>
+
+                <!-- Post 2 -->
+                <div class="post-card">
+                  <div class="post-header">
+                    <div class="avatar-circle">DS</div>
+                    <div>
+                      <div class="post-author-name">Dev Sharma</div>
+                      <div class="post-author-role">Student &bull; CSE Sem 4 &bull; Yesterday</div>
+                    </div>
+                  </div>
+                  <div class="post-body-text">
+                    Just finalized our Smart India Hackathon internal team registration for PS26089. We've got <strong>Garv, Puneet, Ankur, Sahil, Ishaan, and Dhruv</strong> on board! Let's bring this home for ACEM.
+                  </div>
+                  <div class="post-social-bar">
+                    <button class="social-btn" onclick="toggleLike(this)">&#9825; <span>89</span> Likes</button>
+                    <button class="social-btn">&#128172; 26 Comments</button>
+                    <button class="social-btn">&#8618; Repost</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trending side widget -->
+            <div class="trending-box">
+              <h4 style="font-size: 16px; font-weight: 700; color: var(--color-white);">Campus Trends</h4>
+              <div style="font-size: 13px; color: var(--color-slate-300); display: flex; flex-direction: column; gap: 12px;">
+                <div><strong>#SIH2026Screening</strong><br><span style="font-size: 11px; color: var(--color-slate-400);">342 students discussing</span></div>
+                <div><strong>#OddSemExams</strong><br><span style="font-size: 11px; color: var(--color-slate-400);">Datesheet published</span></div>
+                <div><strong>#Web3Hackathon</strong><br><span style="font-size: 11px; color: var(--color-slate-400);">Registrations open</span></div>
+                <div><strong>#Library24x7</strong><br><span style="font-size: 11px; color: var(--color-slate-400);">Exam hours active</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 4: MESSAGES (Requested Students in Inbox)
+             ========================================================= -->
+        <section class="view-panel" id="view-message">
+          <div class="messaging-box">
+            <!-- Sidebar with requested students -->
+            <div class="inbox-list">
+              <div class="inbox-header">Campus Conversations</div>
+              
+              <div class="inbox-item active" onclick="loadChat('dev', 'Dev Sharma')">
+                <div class="avatar-circle">DS</div>
+                <div>
+                  <div style="font-size: 14px; font-weight: 600;">dev (Dev Sharma)</div>
+                  <div style="font-size: 12px; color: var(--color-slate-400);">Pushed the database schema!</div>
+                </div>
+              </div>
+
+              <div class="inbox-item" onclick="loadChat('garv', 'Garv Chawla')">
+                <div class="avatar-circle">GC</div>
+                <div>
+                  <div style="font-size: 14px; font-weight: 600;">garv (Garv Chawla)</div>
+                  <div style="font-size: 12px; color: var(--color-slate-400);">Are we meeting in Lab 3 today?</div>
+                </div>
+              </div>
+
+              <div class="inbox-item" onclick="loadChat('puneet', 'Puneet Sethi')">
+                <div class="avatar-circle">PS</div>
+                <div>
+                  <div style="font-size: 14px; font-weight: 600;">puneet (Puneet Sethi)</div>
+                  <div style="font-size: 12px; color: var(--color-slate-400);">Checking mid-term lab marks.</div>
+                </div>
+              </div>
+
+              <div class="inbox-item" onclick="loadChat('ankur', 'Ankur Verma')">
+                <div class="avatar-circle">AV</div>
+                <div>
+                  <div style="font-size: 14px; font-weight: 600;">ankur (Ankur Verma)</div>
+                  <div style="font-size: 12px; color: var(--color-slate-400);">Fee clearance confirmed.</div>
+                </div>
+              </div>
+
+              <div class="inbox-item" onclick="loadChat('sahil', 'Sahil Gupta')">
+                <div class="avatar-circle">SG</div>
+                <div>
+                  <div style="font-size: 14px; font-weight: 600;">sahil (Sahil Gupta)</div>
+                  <div style="font-size: 12px; color: var(--color-slate-400);">Let's grab study material.</div>
+                </div>
+              </div>
+
+              <div class="inbox-item" onclick="loadChat('ishaan', 'Ishaan Malhotra')">
+                <div class="avatar-circle">IM</div>
+                <div>
+                  <div style="font-size: 14px; font-weight: 600;">ishaan (Ishaan Malhotra)</div>
+                  <div style="font-size: 12px; color: var(--color-slate-400);">Shared SIH presentation slides.</div>
+                </div>
+              </div>
+
+              <div class="inbox-item" onclick="loadChat('dhruv', 'Dhruv Mehta')">
+                <div class="avatar-circle">DM</div>
+                <div>
+                  <div style="font-size: 14px; font-weight: 600;">dhruv (Dhruv Mehta)</div>
+                  <div style="font-size: 12px; color: var(--color-slate-400);">See you at the hackathon meet.</div>
+                </div>
+              </div>
+
+              <div class="inbox-item" onclick="loadChat('harsh', 'Harsh Patel')">
+                <div class="avatar-circle">HP</div>
+                <div>
+                  <div style="font-size: 14px; font-weight: 600;">harsh (Harsh Patel)</div>
+                  <div style="font-size: 12px; color: var(--color-slate-400);">Notes for computer networks?</div>
+                </div>
+              </div>
+
+              <div class="inbox-item" onclick="loadChat('kapil', 'Kapil Yadav')">
+                <div class="avatar-circle">KY</div>
+                <div>
+                  <div style="font-size: 14px; font-weight: 600;">kapil (Kapil Yadav)</div>
+                  <div style="font-size: 12px; color: var(--color-slate-400);">Reviewed the lecture notes.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="chat-convo-view">
+              <div class="chat-header-bar">
+                <div>
+                  <strong id="activeChatRecipient" style="color: var(--color-white);">dev (Dev Sharma)</strong>
+                  <div style="font-size: 12px; color: var(--color-emerald);">&#9679; @acem.edu.in &bull; Verified Student</div>
+                </div>
+                <button class="demo-chip" style="width: auto; padding: 6px 14px;" onclick="showToast('Initiating peer call...')">&#128222; Call</button>
+              </div>
+
+              <div class="thread-stream" id="chatStreamBox">
+                <div class="chat-bubble bubble-incoming">
+                  Hey! Did you submit the fee balance so your exam hall ticket clears?
+                </div>
+                <div class="chat-bubble bubble-outgoing">
+                  Yes, paying via UPI right now. The portal is instant!
+                </div>
+                <div class="chat-bubble bubble-incoming">
+                  Awesome, let's sync up for SIH project review afterward.
+                </div>
+              </div>
+
+              <form class="chat-input-row" onsubmit="sendPeerMessage(event)">
+                <input type="text" id="peerMsgInput" placeholder="Write a message to your peer..." required autocomplete="off" />
+                <button type="submit" class="btn-submit" style="width: auto; padding: 0 20px; height: 42px; margin: 0;">Send</button>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal-backdrop" id="feePaymentModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeFeeModal()">&times;</button>
+      <h3 style="font-size: 20px; font-weight: 700; color: var(--color-white); margin-bottom: 8px;">ACEM Online Fee Payment</h3>
+      <p style="font-size: 13px; color: var(--color-slate-400); margin-bottom: 20px;">Clear pending semester balance of &#8377;12,500 to validate examination credentials.</p>
+      
+      <div class="form-group">
+        <label>Payment Gateway</label>
+        <select>
+          <option>UPI Instant (GooglePay / PhonePe / Paytm)</option>
+          <option>ACEM Net Banking Direct</option>
+          <option>Debit / Credit Card</option>
+        </select>
       </div>
 
+      <div class="form-group">
+        <label>Your UPI ID / VPA</label>
+        <input type="text" id="upiVpaField" value="dev@acem.edu.in" />
+      </div>
+
+      <button class="btn-submit" onclick="executeFeePayment()">Pay &#8377;12,500 Now &rarr;</button>
     </div>
-  </main>
+  </div>
 
+  <div class="app-toast" id="toastBox">Notification</div>
+
+  <!-- =========================================================
+       APPLICATION LOGIC & DATA HANDLING
+       ========================================================= -->
   <script>
-    // State model populated with 9 active peer contacts
-    const state = {
-      activeChat: "ishaan",
-      contacts: [
-        { id: "ishaan", name: "Ishaan", role: "CSE 2nd Year", avatar: "I" },
-        { id: "aditya", name: "Aditya", role: "CSE 2nd Year", avatar: "A" },
-        { id: "ankur", name: "Ankur", role: "CSE 2nd Year", avatar: "An" },
-        { id: "puneet", name: "Puneet", role: "CSE 2nd Year", avatar: "P" },
-        { id: "garv", name: "Garv Jakhar", role: "CSE 2nd Year (Partner)", avatar: "G" },
-        { id: "sneha", name: "Sneha Rao", role: "CSE 2nd Year", avatar: "S" },
-        { id: "rohan", name: "Rohan Verma", role: "ECE 3rd Year (Senior)", avatar: "R" },
-        { id: "priya", name: "Priya Nair", role: "CSE 2nd Year", avatar: "Pr" },
-        { id: "kartik", name: "Kartik Mehta", role: "CSE 2nd Year", avatar: "K" }
-      ],
-      messages: {
-        ishaan: [
-          { from: "peer", text: "Hey Dev, did you finish making our SIH 2026 architecture diagram?" },
-          { from: "me", text: "Yes! Added the modular flowcharts for the real-time chat and feed sync." },
-          { from: "peer", text: "Great, let's submit it before the internal scrutiny round on September 10th." }
-        ],
-        aditya: [
-          { from: "peer", text: "Dev, are you free to test the Teachers' Day stage microphones today?" },
-          { from: "me", text: "Yes, I will meet you near the auditorium right after our DSA lab." },
-          { from: "peer", text: "Perfect, Garv is already there arranging the projector cords." }
-        ],
-        ankur: [
-          { from: "peer", text: "Did you check the attendance list on the profile page?" },
-          { from: "me", text: "Yes, currently at 84.2%, so well above 75% for sessional exam hall tickets." },
-          { from: "peer", text: "Nice, same here. Mid-terms are starting October 12." }
-        ],
-        puneet: [
-          { from: "peer", text: "Hey, what are we preparing for the freshers party committee meeting?" },
-          { from: "me", text: "Drafting the stage decor, sound checklist, and band performance slots." },
-          { from: "peer", text: "Awesome, let's share the final document with the student council tomorrow." }
-        ],
-        garv: [
-          { from: "peer", text: "Dev, check out the Alumnex project synopsis; all modules match our web app!" },
-          { from: "me", text: "Yes Garv! Role-based access, messaging, and opportunities board are integrated." },
-          { from: "peer", text: "Let's print the hard copies for the faculty guide on Monday." }
-        ],
-        sneha: [
-          { from: "peer", text: "Hey Dev, are you attending the GDSC core team interview this Friday?" },
-          { from: "me", text: "Yes, applying under the Web Development track." },
-          { from: "peer", text: "Best of luck! Let's prep some React state management questions." }
-        ],
-        rohan: [
-          { from: "peer", text: "Hey Dev, saw you guys building Alumnex. As an alumni network coordinator, it looks super relevant[cite: 1]." },
-          { from: "me", text: "Thanks Rohan bhaiya! We specifically designed the mentorship board for seniors." },
-          { from: "peer", text: "Happy to run a mock review session whenever you are ready." }
-        ],
-        priya: [
-          { from: "peer", text: "Dev, did you fill out the blood donation drive form for Sep 22?" },
-          { from: "me", text: "Just registered from the community tab!" },
-          { from: "peer", text: "Great, NSS volunteers are setting up the juice counter too." }
-        ],
-        kartik: [
-          { from: "peer", text: "Are you coming to the college cricket trials on September 11?" },
-          { from: "me", text: "Yes, going as a top-order batsman. Registered slot #44." },
-          { from: "peer", text: "Awesome, bring your batting pads to the main turf by 3:30 PM." }
-        ]
-      },
-      posts: [
-        { author: "Garv Jakhar", role: "Student", text: "Alumnex v2.4 with 10 notices and 9 peer chat channels is live for testing!" },
-        { author: "Ishaan", role: "Student", text: "Reminder to all SIH teams: submit your abstract presentations before September 10th." }
-      ]
-    };
+    // State
+    let selectedRole = 'student'; // 'student' or 'faculty'
+    let currentAuthMode = 'login'; // 'login' or 'register'
+    let activeUser = null;
 
-    // Navigation Switcher
-    function switchTab(tabKey) {
-      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+    const usernameHandle = document.getElementById('usernameHandle');
+    const previewName = document.getElementById('previewName');
 
-      const profilePill = document.getElementById('nav-profile-pill');
-      if (tabKey === 'profile') {
-        profilePill.classList.add('active');
-      } else {
-        profilePill.classList.remove('active');
-      }
-
-      const target = document.getElementById(`view-${tabKey}`);
-      if (target) target.classList.remove('hidden');
-
-      const activeLink = Array.from(document.querySelectorAll('.nav-link')).find(el => 
-        el.textContent.toLowerCase().includes(tabKey) || (tabKey === 'feed' && el.textContent.toLowerCase() === 'home')
-      );
-      if (activeLink) activeLink.classList.add('active');
-
-      document.getElementById('workspace').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Chat Contacts Render
-    function renderChat() {
-      const contactsContainer = document.getElementById('chat-contacts-mount');
-      const quickContainer = document.getElementById('quick-connections-list');
-      contactsContainer.innerHTML = '';
-      quickContainer.innerHTML = '';
-
-      state.contacts.forEach(c => {
-        // Chat Page Contact
-        const item = document.createElement('div');
-        item.className = `contact-card ${c.id === state.activeChat ? 'active' : ''}`;
-        item.onclick = () => selectContact(c.id);
-        item.innerHTML = `
-          <div class="avatar-icon">${c.avatar}<div class="online-indicator"></div></div>
-          <div style="overflow:hidden;">
-            <h4 style="font-size: 0.88rem; font-weight: 600; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${c.name}</h4>
-            <p style="font-size: 0.72rem; color: var(--text-dim);">${c.role}</p>
-          </div>
-        `;
-        contactsContainer.appendChild(item);
-
-        // Sidebar Quick Dock in Feed
-        const quick = document.createElement('div');
-        quick.style.cssText = 'display:flex; align-items:center; gap:0.75rem; cursor:pointer; padding:0.4rem; border-radius:8px;';
-        quick.onclick = () => { selectContact(c.id); switchTab('chat'); };
-        quick.innerHTML = `
-          <div class="avatar-icon" style="width:30px; height:30px; font-size:0.75rem;">${c.avatar}</div>
-          <div style="font-size:0.82rem;">
-            <strong>${c.name}</strong>
-            <span style="font-size:0.7rem; color:var(--text-dim); display:block;">${c.role}</span>
-          </div>
-        `;
-        quickContainer.appendChild(quick);
-      });
-
-      renderChatThread();
-    }
-
-    function selectContact(contactId) {
-      state.activeChat = contactId;
-      const c = state.contacts.find(x => x.id === contactId);
-      document.getElementById('active-chat-name').textContent = c.name;
-      document.getElementById('active-chat-avatar').textContent = c.avatar;
-      document.getElementById('active-chat-role').textContent = `${c.role} • Connected Peer`;
-      renderChat();
-    }
-
-    function renderChatThread() {
-      const mount = document.getElementById('chat-messages-mount');
-      mount.innerHTML = '';
-      const list = state.messages[state.activeChat] || [];
-      list.forEach(m => {
-        const bubble = document.createElement('div');
-        bubble.className = `msg-bubble ${m.from === 'me' ? 'me' : 'peer'}`;
-        bubble.textContent = m.text;
-        mount.appendChild(bubble);
-      });
-      mount.scrollTop = mount.scrollHeight;
-    }
-
-    document.getElementById('chat-send-btn').addEventListener('click', () => {
-      const input = document.getElementById('chat-text-input');
-      const val = input.value.trim();
-      if (!val) return;
-
-      if (!state.messages[state.activeChat]) state.messages[state.activeChat] = [];
-      state.messages[state.activeChat].push({ from: "me", text: val });
-      input.value = '';
-      renderChatThread();
+    // Real-time extraction of what comes before @acem.edu.in
+    usernameHandle.addEventListener('input', (e) => {
+      let raw = e.target.value.trim().toLowerCase();
+      // Remove any accidently typed domain
+      raw = raw.replace('@acem.edu.in', '').replace('@acem', '');
+      previewName.textContent = raw || 'name';
     });
 
-    // Posts Feed Render
-    function renderPosts() {
-      const mount = document.getElementById('feed-items-container');
-      mount.innerHTML = '';
-      state.posts.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'card-entry';
-        card.innerHTML = `
-          <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem;">
-            <div><strong>${p.author}</strong> <span style="font-size:0.72rem; color:var(--text-dim);">(${p.role})</span></div>
-            <span class="pill-tag">Campus Feed</span>
-          </div>
-          <p style="font-size:0.9rem; color:#cbd5e1;">${p.text}</p>
-        `;
-        mount.appendChild(card);
-      });
+    function switchRole(role) {
+      selectedRole = role;
+      document.getElementById('btnStudentRole').classList.toggle('active', role === 'student');
+      document.getElementById('btnFacultyRole').classList.toggle('active', role === 'faculty');
+      document.getElementById('deptGroup').style.display = (role === 'faculty' || currentAuthMode === 'register') ? 'flex' : 'none';
     }
 
-    document.getElementById('submit-post-btn').addEventListener('click', () => {
-      const input = document.getElementById('post-input');
-      const val = input.value.trim();
-      if (!val) return;
-
-      state.posts.unshift({ author: "Dev Sharma", role: "Student", text: val });
-      input.value = '';
-      renderPosts();
-    });
-
-    // Logout and Re-login Handler
-    function handleLogout() {
-      const confirmLogout = confirm("Are you sure you want to log out from Alumnex?");
-      if (confirmLogout) {
-        document.getElementById('auth-modal').classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+    function setMode(mode) {
+      currentAuthMode = mode;
+      document.getElementById('tabModeLogin').classList.toggle('active', mode === 'login');
+      document.getElementById('tabModeRegister').classList.toggle('active', mode === 'register');
+      document.getElementById('deptGroup').style.display = (mode === 'register' || selectedRole === 'faculty') ? 'flex' : 'none';
+      document.getElementById('authSubmitBtn').textContent = mode === 'register' ? 'Register with @acem.edu.in →' : 'Access Alumnex →';
     }
 
-    document.getElementById('relogin-form').addEventListener('submit', (e) => {
+    function quickFill(handle, role) {
+      switchRole(role);
+      usernameHandle.value = handle;
+      previewName.textContent = handle;
+      document.getElementById('inputPassword').value = 'acem2026';
+    }
+
+    // Submit Auth & enforce @acem.edu.in handle logic
+    function submitAuth(e) {
       e.preventDefault();
-      document.getElementById('auth-modal').classList.add('hidden');
-      switchTab('feed');
-    });
+      let handle = usernameHandle.value.trim().toLowerCase();
+      handle = handle.replace('@acem.edu.in', '').replace('@acem', '');
 
-    // Initial Execution
-    renderChat();
-    renderPosts();
+      if (!handle) {
+        showToast('Please enter your institutional user handle');
+        return;
+      }
+
+      // Name is strictly what comes before @acem
+      const displayName = handle;
+      const fullEmail = `${handle}@acem.edu.in`;
+
+      activeUser = {
+        name: displayName,
+        email: fullEmail,
+        role: selectedRole,
+        initials: displayName.substring(0, 2).toUpperCase()
+      };
+
+      // Launch Main App
+      launchMainApp();
+    }
+
+    function launchMainApp() {
+      document.getElementById('pageAuth').style.display = 'none';
+      document.getElementById('pageMain').style.display = 'flex';
+
+      // Set Profile information
+      document.getElementById('userNameLabel').textContent = activeUser.name;
+      document.getElementById('userEmailTag').textContent = activeUser.email;
+      document.getElementById('userAvatar').textContent = activeUser.initials;
+      document.getElementById('upiVpaField').value = `${activeUser.name}@oksbi`;
+
+      showToast(`Welcome back, ${activeUser.name}!`);
+    }
+
+    function signOut() {
+      document.getElementById('pageAuth').style.display = 'flex';
+      document.getElementById('pageMain').style.display = 'none';
+      activeUser = null;
+      showToast('Signed out of ACEM network');
+    }
+
+    // Vertical Nav Controller
+    function switchVerticalView(viewId, btn) {
+      document.querySelectorAll('.vertical-nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      document.getElementById(`view-${viewId}`).classList.add('active');
+    }
+
+    // Academics inner tabs (Fee, Attendance, Marks, Timetable)
+    function switchAcadInner(tabName, btn) {
+      document.querySelectorAll('.acad-tab-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.getElementById('acad-sub-fee').style.display = tabName === 'fee' ? 'flex' : 'none';
+      document.getElementById('acad-sub-attendance').style.display = tabName === 'attendance' ? 'flex' : 'none';
+      document.getElementById('acad-sub-marks').style.display = tabName === 'marks' ? 'flex' : 'none';
+      document.getElementById('acad-sub-timetable').style.display = tabName === 'timetable' ? 'flex' : 'none';
+    }
+
+    // Community Feed Interaction
+    function publishPost() {
+      const field = document.getElementById('communityPostText');
+      const text = field.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('postsStreamContainer');
+      const newPost = document.createElement('div');
+      newPost.className = 'post-card';
+      newPost.innerHTML = `
+        <div class="post-header">
+          <div class="avatar-circle">${activeUser ? activeUser.initials : 'ME'}</div>
+          <div>
+            <div class="post-author-name">${activeUser ? activeUser.name : 'User'}</div>
+            <div class="post-author-role">${activeUser ? activeUser.email : '@acem.edu.in'} &bull; Just now</div>
+          </div>
+        </div>
+        <div class="post-body-text">${text}</div>
+        <div class="post-social-bar">
+          <button class="social-btn" onclick="toggleLike(this)">&#9825; <span>0</span> Likes</button>
+          <button class="social-btn">&#128172; 0 Comments</button>
+          <button class="social-btn">&#8618; Repost</button>
+        </div>
+      `;
+
+      container.prepend(newPost);
+      field.value = '';
+      showToast('Post shared with ACEM community!');
+    }
+
+    function toggleLike(btn) {
+      const span = btn.querySelector('span');
+      let count = parseInt(span.textContent);
+      if (btn.classList.contains('liked')) {
+        btn.classList.remove('liked');
+        span.textContent = count - 1;
+      } else {
+        btn.classList.add('liked');
+        span.textContent = count + 1;
+      }
+    }
+
+    // Direct Messaging with requested students
+    function loadChat(handle, fullName) {
+      document.getElementById('activeChatRecipient').textContent = `${handle} (${fullName})`;
+      document.querySelectorAll('.inbox-item').forEach(el => el.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    function sendPeerMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('peerMsgInput');
+      const stream = document.getElementById('chatStreamBox');
+      if (!input.value.trim()) return;
+
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble bubble-outgoing';
+      bubble.textContent = input.value;
+      stream.appendChild(bubble);
+      input.value = '';
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    // Fee Modal Controller
+    function openFeeModal() {
+      document.getElementById('feePaymentModal').classList.add('open');
+    }
+
+    function closeFeeModal() {
+      document.getElementById('feePaymentModal').classList.remove('open');
+    }
+
+    function executeFeePayment() {
+      closeFeeModal();
+      showToast('Fee of ₹12,500 cleared! Hall ticket generated.');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastBox');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3200);
+    }
   </script>
 </body>
 </html>
