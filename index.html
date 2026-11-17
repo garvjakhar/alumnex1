@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alumnex — Next-Gen Campus Network</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       THEME DESIGN TOKENS (Matching Referral Aesthetics)
+       ========================================================= */
+    :root {
+      --color-bg: #090611;
+      --color-surface: rgba(18, 14, 28, 0.75);
+      --color-surface-card: rgba(22, 17, 36, 0.85);
+      --color-card-border: rgba(255, 255, 255, 0.08);
+      --color-card-border-hover: rgba(139, 92, 246, 0.35);
+      
+      --color-white: #FFFFFF;
+      --color-slate-100: #F1F5F9;
+      --color-slate-200: #E2E8F0;
+      --color-slate-400: #94A3B8;
+      --color-slate-500: #64748B;
+      
+      --color-purple: #8B5CF6;
+      --color-pink: #EC4899;
+      --color-orange: #F97316;
+      --color-emerald: #10B981;
+      --color-rose: #F43F5E;
+      --color-cyan: #06B6D4;
+      --color-amber: #F59E0B;
+
+      --grad-primary: linear-gradient(135deg, #EC4899 0%, #F97316 100%);
+      --grad-purple: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
+      --grad-text: linear-gradient(90deg, #8B5CF6 0%, #EC4899 50%, #F97316 100%);
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font-family);
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-slate-100);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Background Glow Mesh matching referral design */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: 
+        radial-gradient(ellipse 70% 40% at 20% 10%, rgba(139, 92, 246, 0.16) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 30%, rgba(236, 72, 153, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 50% at 50% 90%, rgba(6, 182, 212, 0.08) 0%, transparent 70%),
+        linear-gradient(180deg, rgba(11, 8, 19, 0.75) 0%, #090611 100%),
+        url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=2000&q=80') center top / cover no-repeat;
+      pointer-events: none;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-purple); }
+
+    /* =========================================================
+       PAGE 1: AUTHENTICATION GATEWAY (@acem.edu.in ONLY)
+       ========================================================= */
+    #pageAuth {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 1050px;
+      background: rgba(18, 14, 28, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.75);
+    }
+
+    .auth-showcase {
+      padding: 56px 48px;
+      background: linear-gradient(145deg, rgba(30, 20, 50, 0.7) 0%, rgba(12, 9, 22, 0.95) 100%);
+      border-right: 1px solid var(--color-card-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand-logo-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon { width: 36px; height: 36px; }
+
+    .brand-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--color-white);
+    }
+
+    .brand-title span {
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .showcase-hero { margin: 40px 0; }
+    
+    .showcase-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: var(--color-purple);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+
+    .showcase-title {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--color-white);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .showcase-title em {
+      font-style: normal;
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .showcase-desc {
+      font-size: 14px;
+      color: var(--color-slate-400);
+      line-height: 1.6;
+    }
+
+    .showcase-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pill-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--color-slate-200);
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-emerald);
+      box-shadow: 0 0 10px var(--color-emerald);
+    }
+
+    .auth-form-side {
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .role-toggle-bar {
+      display: flex;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
+      border: 1px solid var(--color-card-border);
+    }
+
+    .role-btn {
+      flex: 1;
+      padding: 10px;
+      background: none;
+      border: none;
+      color: var(--color-slate-400);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .role-btn.active {
+      background: var(--color-purple);
+      color: var(--color-white);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 16px;
+      border-bottom: 1px solid var(--color-card-border);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+    }
+
+    .auth-tab-link {
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-slate-400);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .auth-tab-link.active {
+      color: var(--color-white);
+    }
+
+    .auth-tab-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -13px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--color-pink);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-slate-300);
+    }
+
+    .domain-input-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .domain-input-box:focus-within {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+    }
+
+    .domain-input-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 12px 14px;
+      color: var(--color-white);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .domain-suffix {
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--color-purple);
+      font-weight: 700;
+      font-size: 13px;
+      border-left: 1px solid var(--color-card-border);
+    }
+
+    .form-group input[type="password"], 
+    .form-group input[type="text"],
+    .form-group select {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      color: var(--color-white);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-group select option {
+      background-color: #141021;
+      color: #FFFFFF;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--color-purple);
+    }
+
+    .form-hint {
+      font-size: 11px;
+      color: var(--color-slate-400);
+      margin-top: 2px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      height: 48px;
+      background: var(--grad-primary);
+      border: none;
+      border-radius: var(--radius-md);
+      color: var(--color-white);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 24px rgba(236, 72, 153, 0.35);
+      transition: transform 0.2s;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover { transform: translateY(-2px); }
+
+    .demo-bar {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px dashed var(--color-card-border);
+      display: flex;
+      gap: 10px;
+    }
+
+    .demo-chip {
+      flex: 1;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-sm);
+      color: var(--color-slate-300);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .demo-chip:hover { background: rgba(255, 255, 255, 0.08); }
+
+    /* =========================================================
+       PAGE 2: ALUMNEX MAIN DASHBOARD
+       ========================================================= */
+    #pageMain {
+      position: relative;
+      z-index: 10;
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Top Navigation Bar */
+    .top-navbar {
+      height: 72px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--color-card-border);
+      background: rgba(11, 8, 19, 0.85);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-left { display: flex; align-items: center; gap: 32px; }
+
+    .search-input-wrap {
+      position: relative;
+      width: 320px;
+    }
+
+    .search-input-wrap input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+      border-radius: 24px;
+      padding: 10px 16px 10px 40px;
+      color: var(--color-white);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .search-input-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      stroke: var(--color-slate-400);
+      width: 16px;
+      height: 16px;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 18px; }
+
+    .user-profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+    }
+
+    .avatar-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--grad-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--color-white);
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .user-info { display: flex; flex-direction: column; text-align: left; }
+    .user-name-title { font-size: 14px; font-weight: 700; color: var(--color-white); }
+    .user-domain-tag { font-size: 11px; color: var(--color-purple); font-weight: 600; }
+
+    .btn-logout {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: #FDA4AF;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-logout:hover { background: rgba(244, 63, 94, 0.25); }
+
+    /* Dashboard Shell */
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      flex: 1;
+    }
+
+    /* Vertical Navigation Menu */
+    .vertical-sidebar {
+      border-right: 1px solid var(--color-card-border);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(11, 8, 19, 0.4);
+    }
+
+    .menu-category-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-slate-500);
+      padding: 16px 12px 6px 12px;
+    }
+
+    .vertical-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      background: none;
+      border: none;
+      color: var(--color-slate-400);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+      text-align: left;
+    }
+
+    .vertical-nav-btn svg { width: 18px; height: 18px; stroke: currentColor; }
+    .vertical-nav-btn:hover { background: rgba(255, 255, 255, 0.05); color: var(--color-white); }
+    
+    .vertical-nav-btn.active {
+      background: linear-gradient(90deg, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0.05) 100%);
+      color: var(--color-purple);
+      border-left: 3px solid var(--color-purple);
+    }
+
+    /* Content Area */
+    .dashboard-content {
+      padding: 32px 40px;
+      overflow-y: auto;
+      max-height: calc(100vh - 72px);
+    }
+
+    .view-panel {
+      display: none;
+      flex-direction: column;
+      gap: 28px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .view-panel.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Common Card Tokens */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .kpi-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .kpi-title { font-size: 13px; color: var(--color-slate-400); font-weight: 600; }
+    .kpi-value { font-size: 30px; font-weight: 800; color: var(--color-white); }
+
+    .panel-header-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-title { font-size: 22px; font-weight: 800; color: var(--color-white); }
+
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge-green { background: rgba(16, 185, 129, 0.2); color: #6EE7B7; }
+    .badge-amber { background: rgba(245, 158, 11, 0.2); color: #FCD34D; }
+    .badge-purple { background: rgba(139, 92, 246, 0.2); color: #C4B5FD; }
+    .badge-rose { background: rgba(244, 63, 94, 0.2); color: #FDA4AF; }
+
+    /* =========================================================
+       1. ACADEMICS & ERP VIEW
+       ========================================================= */
+    .acad-banner {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.15) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: var(--radius-xl);
+      padding: 28px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .acad-tabs-bar {
+      display: flex;
+      gap: 12px;
+      border-bottom: 1px solid var(--color-card-border);
+      padding-bottom: 12px;
+    }
+
+    .acad-tab-item {
+      background: none;
+      border: none;
+      color: var(--color-slate-400);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+    }
+
+    .acad-tab-item.active {
+      background: rgba(139, 92, 246, 0.15);
+      color: var(--color-purple);
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .custom-table th, .custom-table td {
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .custom-table th {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--color-slate-400);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Attendance & Timetable Grid */
+    .timetable-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .timetable-day-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .day-name { font-size: 13px; font-weight: 700; color: var(--color-purple); text-transform: uppercase; }
+
+    .period-slot {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    /* =========================================================
+       2. OPPORTUNITIES & DRIVES VIEW
+       ========================================================= */
+    .filter-pills-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .filter-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+      color: var(--color-slate-400);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .filter-pill.active {
+      background: var(--color-purple);
+      color: var(--color-white);
+      border-color: var(--color-purple);
+    }
+
+    .opportunities-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .opp-item-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .opp-item-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--color-card-border-hover);
+    }
+
+    .opp-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .opp-job-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-white);
+    }
+
+    .opp-tags-flex {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .opp-tag {
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 4px 10px;
+      border-radius: 6px;
+      color: var(--color-slate-400);
+    }
+
+    .opp-action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 14px;
+    }
+
+    /* =========================================================
+       3. COMMUNITY & CAMPUS FEED
+       ========================================================= */
+    .community-feed-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 28px;
+    }
+
+    .feed-composer {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .composer-textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      color: var(--color-white);
+      font-size: 14px;
+      outline: none;
+      resize: none;
+      height: 84px;
+    }
+
+    .composer-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .post-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .post-author-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-white);
+    }
+
+    .post-author-role {
+      font-size: 12px;
+      color: var(--color-slate-400);
+    }
+
+    .post-body-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--color-slate-200);
+    }
+
+    .post-social-bar {
+      display: flex;
+      gap: 24px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .social-btn {
+      background: none;
+      border: none;
+      color: var(--color-slate-400);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    .social-btn.liked { color: var(--color-pink); }
+
+    .trending-box {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* =========================================================
+       4. MESSAGING SUITE
+       ========================================================= */
+    .messaging-box {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-xl);
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .inbox-list {
+      border-right: 1px solid var(--color-card-border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .inbox-header {
+      padding: 18px 20px;
+      font-weight: 700;
+      font-size: 14px;
+      border-bottom: 1px solid var(--color-card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .inbox-item {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      transition: background 0.2s;
+    }
+
+    .inbox-item:hover, .inbox-item.active { background: rgba(255, 255, 255, 0.05); }
+
+    .chat-convo-view { display: flex; flex-direction: column; height: 100%; }
+
+    .chat-header-bar {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--color-card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .thread-stream {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .chat-bubble {
+      max-width: 65%;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .bubble-incoming { align-self: flex-start; background: rgba(255, 255, 255, 0.08); }
+    .bubble-outgoing { align-self: flex-end; background: var(--grad-purple); }
+
+    .chat-time {
+      display: block;
+      font-size: 10px;
+      opacity: 0.65;
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .chat-input-row {
+      padding: 16px 24px;
+      border-top: 1px solid var(--color-card-border);
+      display: flex;
+      gap: 12px;
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      color: var(--color-white);
+      outline: none;
+    }
+
+    /* Modal for payments */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 8, 19, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal-card {
+      background: #141021;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: none;
+      border: none;
+      color: var(--color-slate-400);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .app-toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: #18112C;
+      border: 1px solid var(--color-purple);
+      color: var(--color-white);
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: none;
+      z-index: 9999;
+    }
+
+    .app-toast.show { display: block; }
+  </style>
+</head>
+<body>
+
+  <div class="bg-mesh"></div>
+
+  <!-- =========================================================
+       PAGE 1: LOGIN & SIGNUP GATEWAY (@acem.edu.in ENFORCED)
+       ========================================================= -->
+  <div id="pageAuth">
+    <div class="auth-container">
+      <!-- Showcase side -->
+      <div class="auth-showcase">
+        <div class="brand-logo-group">
+          <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
+            <defs>
+              <linearGradient id="gLogo" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#8B5CF6"/>
+                <stop offset="0.5" stop-color="#EC4899"/>
+                <stop offset="1" stop-color="#F97316"/>
+              </linearGradient>
+            </defs>
+            <path d="M4 28L16 4L28 28H21.5L16 16.5L10.5 28H4Z" fill="url(#gLogo)"/>
+          </svg>
+          <div class="brand-title">Alumnex<span>Portal</span></div>
+        </div>
+
+        <div class="showcase-hero">
+          <div class="showcase-badge">&#9679; ACEM Institutional Network</div>
+          <h2 class="showcase-title">One Campus. <em>Infinite Connections.</em></h2>
+          <p class="showcase-desc">
+            Unified institutional platform for ACEM students and faculty. Settle academic fees, track attendance, browse hackathons, and connect with peers.
+          </p>
+        </div>
+
+        <div class="showcase-pills">
+          <div class="pill-item"><span class="pill-dot"></span> Exclusively authenticated for <strong>@acem.edu.in</strong></div>
+          <div class="pill-item"><span class="pill-dot"></span> Live Activity &amp; Audit Logs for Project Evaluation</div>
+          <div class="pill-item"><span class="pill-dot"></span> LinkedIn &amp; Okei Dokie inspired campus workflow</div>
+        </div>
+      </div>
+
+      <!-- Form side -->
+      <div class="auth-form-side">
+        <!-- Role Switcher -->
+        <div class="role-toggle-bar">
+          <button type="button" class="role-btn active" id="btnStudentRole" onclick="switchRole('student')">Student Portal</button>
+          <button type="button" class="role-btn" id="btnFacultyRole" onclick="switchRole('faculty')">Teacher / Faculty</button>
+        </div>
+
+        <!-- Mode Switcher -->
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab-link active" id="tabModeLogin" onclick="setMode('login')">Sign In</button>
+          <button type="button" class="auth-tab-link" id="tabModeRegister" onclick="setMode('register')">Create Account</button>
+        </div>
+
+        <form id="authForm" onsubmit="submitAuth(event)">
+          <div class="form-group" id="fullNameGroup" style="display: none;">
+            <label>Full Name</label>
+            <input type="text" id="inputFullName" placeholder="e.g. Dev Sharma" autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <label id="emailLabel">Institutional ID (@acem.edu.in)</label>
+            <div class="domain-input-box">
+              <input type="text" id="usernameHandle" placeholder="e.g. dev or rajesh.verma" required autocomplete="off" />
+              <div class="domain-suffix">@acem.edu.in</div>
+            </div>
+            <div class="form-hint" id="extractedPreviewHint">Profile email will be: <strong id="previewName">dev@acem.edu.in</strong></div>
+          </div>
+
+          <div class="form-group" id="deptGroup" style="display: none;">
+            <label>Department / Branch</label>
+            <select id="selectDept">
+              <option value="Computer Science & Engineering">Computer Science & Engineering (CSE)</option>
+              <option value="Electronics & Communication">Electronics & Communication (ECE)</option>
+              <option value="Mechanical Engineering">Mechanical Engineering (ME)</option>
+              <option value="Civil Engineering">Civil Engineering (CE)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Master Password</label>
+            <input type="password" id="inputPassword" placeholder="••••••••••••" required />
+          </div>
+
+          <button type="submit" class="btn-submit" id="authSubmitBtn">
+            Access Alumnex &rarr;
+          </button>
+        </form>
+
+        <!-- Fast Demo Quick Logins -->
+        <div class="demo-bar">
+          <button type="button" class="demo-chip" onclick="quickFill('dev', 'student')">
+            &#128104;&zwj;&#127891; Dev (Student)
+          </button>
+          <button type="button" class="demo-chip" onclick="quickFill('garv', 'student')">
+            &#128104;&zwj;&#127891; Garv (Student)
+          </button>
+          <button type="button" class="demo-chip" onclick="quickFill('rajesh.verma', 'faculty')">
+            &#129489;&zwj;&#127979; Dr. Rajesh
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       PAGE 2: ALUMNEX MAIN APP
+       ========================================================= -->
+  <div id="pageMain">
+    <!-- Header -->
+    <header class="top-navbar">
+      <div class="nav-left">
+        <div class="brand-logo-group">
+          <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
+            <path d="M4 28L16 4L28 28H21.5L16 16.5L10.5 28H4Z" fill="url(#gLogo)"/>
+          </svg>
+          <div class="brand-title">Alumnex<span>Campus</span></div>
+        </div>
+
+        <div class="search-input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" placeholder="Search notices, courses, hackathons..." />
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <div class="user-profile-badge">
+          <div class="avatar-circle" id="userAvatar">DV</div>
+          <div class="user-info">
+            <span class="user-name-title" id="userNameLabel">dev</span>
+            <span class="user-domain-tag" id="userEmailTag">dev@acem.edu.in</span>
+          </div>
+        </div>
+
+        <button class="btn-logout" onclick="signOut()">Log Out</button>
+      </div>
+    </header>
+
+    <div class="dashboard-layout">
+      <!-- Vertical Sidebar Menu -->
+      <aside class="vertical-sidebar">
+        <div class="menu-category-title">Navigation Hub</div>
+
+        <button class="vertical-nav-btn active" id="navBtnAcademics" onclick="switchVerticalView('academics', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
+          <span>Academics</span>
+        </button>
+
+        <button class="vertical-nav-btn" id="navBtnOpportunities" onclick="switchVerticalView('opportunities', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+          <span>Opportunities</span>
+        </button>
+
+        <button class="vertical-nav-btn" id="navBtnCommunity" onclick="switchVerticalView('community', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Community</span>
+        </button>
+
+        <button class="vertical-nav-btn" id="navBtnMessage" onclick="switchVerticalView('message', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Messages</span>
+        </button>
+
+        <!-- ADDED ADMIN DASHBOARD BUTTON FOR VIVA & EVALUATION -->
+        <button class="vertical-nav-btn" id="navBtnAdmin" onclick="switchVerticalView('admin', this)" style="border-top: 1px solid var(--color-card-border); margin-top: 10px; padding-top: 14px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+          <span style="color: var(--color-pink); font-weight: 700;">Admin Logs (Demo)</span>
+        </button>
+      </aside>
+
+      <!-- Main Dynamic Content Views -->
+      <main class="dashboard-content">
+        <!-- =========================================================
+             VIEW 1: ACADEMICS
+             ========================================================= -->
+        <section class="view-panel active" id="view-academics">
+          <div class="acad-banner">
+            <div>
+              <div class="status-badge badge-purple" style="margin-bottom: 8px;">ACEM Academic Audit</div>
+              <h2 style="font-size: 24px; font-weight: 800; color: var(--color-white);">Academic Progression &amp; Fee Ledger</h2>
+              <p style="font-size: 14px; color: var(--color-slate-300);">Review attendance percentage, mid-term evaluations, timetable, and pending fees.</p>
+            </div>
+            <button class="btn-submit" style="width: auto; padding: 0 22px; height: 42px; margin: 0;" onclick="showToast('Grade Transcript PDF Generated!')">
+              Download Marksheet
+            </button>
+          </div>
+
+          <div class="acad-tabs-bar">
+            <button class="acad-tab-item active" onclick="switchAcadInner('fee', this)">Fee Ledger &amp; Clearance</button>
+            <button class="acad-tab-item" onclick="switchAcadInner('attendance', this)">Attendance Tracker</button>
+            <button class="acad-tab-item" onclick="switchAcadInner('marks', this)">Mid-Term &amp; Lab Marks</button>
+            <button class="acad-tab-item" onclick="switchAcadInner('timetable', this)">Weekly Schedule</button>
+          </div>
+
+          <div id="acad-sub-fee" style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="kpi-row">
+              <div class="kpi-card">
+                <span class="kpi-title">Total Semester Fee</span>
+                <span class="kpi-value">&#8377;85,000</span>
+                <span style="font-size: 12px; color: var(--color-slate-400);">Tuition + Lab Maintenance</span>
+              </div>
+              <div class="kpi-card">
+                <span class="kpi-title">Amount Paid</span>
+                <span class="kpi-value" id="feePaidVal" style="color: var(--color-emerald);">&#8377;72,500</span>
+                <span style="font-size: 12px; color: var(--color-emerald);">&#10003; Online Verified</span>
+              </div>
+              <div class="kpi-card">
+                <span class="kpi-title">Pending Balance</span>
+                <span class="kpi-value" id="feePendingVal" style="color: var(--color-rose);">&#8377;12,500</span>
+                <button class="btn-submit" id="feePayBtnMain" style="height: 34px; font-size: 12px; margin-top: 6px;" onclick="openFeeModal()">Pay Due Fee</button>
+              </div>
+              <div class="kpi-card">
+                <span class="kpi-title">Exam Hall Ticket</span>
+                <span class="kpi-value" id="hallTicketVal" style="color: var(--color-amber);">Provisional</span>
+                <span style="font-size: 12px; color: var(--color-slate-400);">Clears upon full payment</span>
+              </div>
+            </div>
+
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Due Date</th>
+                  <th>Payment Status</th>
+                  <th>Receipt</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tuition Fee (Autumn Term 2026)</td>
+                  <td>&#8377;45,000</td>
+                  <td>Aug 20, 2026</td>
+                  <td><span class="status-badge badge-green">Cleared</span></td>
+                  <td><button class="demo-chip" onclick="showToast('Receipt #ACEM-7429 downloaded')">Receipt</button></td>
+                </tr>
+                <tr>
+                  <td>Laboratory &amp; Library Access Fee</td>
+                  <td>&#8377;27,500</td>
+                  <td>Sep 10, 2026</td>
+                  <td><span class="status-badge badge-green">Cleared</span></td>
+                  <td><button class="demo-chip" onclick="showToast('Receipt #ACEM-8114 downloaded')">Receipt</button></td>
+                </tr>
+                <tr>
+                  <td>Odd-Semester University Exam Fee</td>
+                  <td>&#8377;12,500</td>
+                  <td>Nov 15, 2026</td>
+                  <td><span class="status-badge badge-rose" id="examFeeBadge">Pending</span></td>
+                  <td><button class="demo-chip" id="examFeeActionBtn" style="color: var(--color-pink);" onclick="openFeeModal()">Settle Now</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="acad-sub-attendance" style="display: none; flex-direction: column; gap: 20px;">
+            <div class="panel-header-wrap">
+              <h3 class="panel-title" style="font-size: 18px;">Subject Attendance (75% Criteria)</h3>
+              <span class="status-badge badge-green">Overall: 88.6%</span>
+            </div>
+            <table class="custom-table">
+              <thead>
+                <tr><th>Subject Code</th><th>Course Title</th><th>Total Lectures</th><th>Attended</th><th>Attendance %</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>CS-401</td><td>Advanced Data Structures</td><td>45</td><td>41</td><td><strong>91.1%</strong></td><td><span class="status-badge badge-green">Eligible</span></td></tr>
+                <tr><td>CS-402</td><td>Database Systems &amp; Web Eng</td><td>42</td><td>38</td><td><strong>90.4%</strong></td><td><span class="status-badge badge-green">Eligible</span></td></tr>
+                <tr><td>CS-403</td><td>Computer Networks &amp; Security</td><td>40</td><td>31</td><td><strong>77.5%</strong></td><td><span class="status-badge badge-amber">Borderline</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="acad-sub-marks" style="display: none; flex-direction: column; gap: 20px;">
+            <div class="panel-header-wrap">
+              <h3 class="panel-title" style="font-size: 18px;">Mid-Term &amp; Lab Evaluations</h3>
+              <span class="status-badge badge-purple">SGPA: 8.94</span>
+            </div>
+            <table class="custom-table">
+              <thead>
+                <tr><th>Course Code</th><th>Subject</th><th>Mid-Term (30)</th><th>Internal Assignment (10)</th><th>Lab Practical (10)</th><th>Total (50)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>CS-401</td><td>Advanced Data Structures</td><td>28</td><td>9</td><td>10</td><td><strong>47 / 50</strong></td></tr>
+                <tr><td>CS-402</td><td>Database Systems</td><td>27</td><td>9</td><td>9</td><td><strong>45 / 50</strong></td></tr>
+                <tr><td>CS-403</td><td>Computer Networks</td><td>24</td><td>8</td><td>9</td><td><strong>41 / 50</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="acad-sub-timetable" style="display: none; flex-direction: column; gap: 20px;">
+            <h3 class="panel-title" style="font-size: 18px;">Weekly Lecture Schedule</h3>
+            <div class="timetable-grid">
+              <div class="timetable-day-card"><span class="day-name">Monday</span><div class="period-slot"><strong>09:30 AM</strong><br>CS-401 &bull; Hall 102</div><div class="period-slot"><strong>11:30 AM</strong><br>CS-402 &bull; Lab 3</div></div>
+              <div class="timetable-day-card"><span class="day-name">Tuesday</span><div class="period-slot"><strong>10:00 AM</strong><br>CS-403 &bull; Hall 104</div><div class="period-slot"><strong>02:00 PM</strong><br>System Design Workshop</div></div>
+              <div class="timetable-day-card"><span class="day-name">Wednesday</span><div class="period-slot"><strong>09:30 AM</strong><br>CS-401 &bull; Hall 102</div><div class="period-slot"><strong>01:30 PM</strong><br>DBMS Project Review</div></div>
+              <div class="timetable-day-card"><span class="day-name">Thursday</span><div class="period-slot"><strong>11:00 AM</strong><br>CS-402 &bull; Hall 105</div><div class="period-slot"><strong>03:00 PM</strong><br>Cybersecurity Lab</div></div>
+              <div class="timetable-day-card"><span class="day-name">Friday</span><div class="period-slot"><strong>10:30 AM</strong><br>Mentorship &amp; Hackathon Meet</div><div class="period-slot"><strong>02:00 PM</strong><br>Library Study Hour</div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 2: OPPORTUNITIES
+             ========================================================= -->
+        <section class="view-panel" id="view-opportunities">
+          <div class="panel-header-wrap">
+            <div>
+              <h2 class="panel-title">Campus &amp; Global Opportunities</h2>
+              <p style="font-size: 14px; color: var(--color-slate-400);">Curated internships, hackathons, and placement drives for ACEM students.</p>
+            </div>
+            <div class="filter-pills-row">
+              <button class="filter-pill active">All</button>
+              <button class="filter-pill">Hackathons</button>
+              <button class="filter-pill">Internships</button>
+              <button class="filter-pill">Placements</button>
+            </div>
+          </div>
+
+          <div class="opportunities-stream">
+            <div class="opp-item-card">
+              <div class="opp-meta-row">
+                <span class="status-badge badge-purple">National Hackathon</span>
+                <span style="font-size: 12px; color: var(--color-rose); font-weight: 600;">Deadline in 48 Hours</span>
+              </div>
+              <div class="opp-job-title">Smart India Hackathon (SIH 2026) Screening</div>
+              <p style="font-size: 14px; color: var(--color-slate-300);">Represent ACEM in problem statements covering smart governance, sustainable transport, and decentralized applications.</p>
+              <div class="opp-tags-flex"><span class="opp-tag">Team Size: 6</span><span class="opp-tag">AI/ML &amp; Web</span><span class="opp-tag">ACEM R&amp;D Endorsed</span></div>
+              <div class="opp-action-row">
+                <span style="font-size: 13px; color: var(--color-slate-400);">Internal college round starts Nov 12</span>
+                <button class="btn-submit" style="width: auto; padding: 0 18px; height: 38px; font-size: 13px; margin: 0;" onclick="showToast('Abstract submitted for SIH 2026!')">Submit Abstract</button>
+              </div>
+            </div>
+
+            <div class="opp-item-card">
+              <div class="opp-meta-row">
+                <span class="status-badge badge-green">Tech Internship</span>
+                <span style="font-size: 12px; color: var(--color-slate-400);">Starts Summer 2027</span>
+              </div>
+              <div class="opp-job-title">Google Campus Summer Analyst Drive</div>
+              <p style="font-size: 14px; color: var(--color-slate-300);">Eligible for pre-final year ACEM students. Covers core data structures, algorithms, and distributed backend cloud systems.</p>
+              <div class="opp-tags-flex"><span class="opp-tag">Stipend: &#8377;1.1L / Month</span><span class="opp-tag">Bangalore / Hyderabad</span><span class="opp-tag">Alumni Referral Available</span></div>
+              <div class="opp-action-row">
+                <span style="font-size: 13px; color: var(--color-slate-400);">Referral posted by ACEM Alumni Network</span>
+                <button class="btn-submit" style="width: auto; padding: 0 18px; height: 38px; font-size: 13px; margin: 0;" onclick="showToast('Application packet sent to referral desk!')">Apply with Referral</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 3: COMMUNITY FEED
+             ========================================================= -->
+        <section class="view-panel" id="view-community">
+          <div class="community-feed-layout">
+            <div>
+              <div class="feed-composer">
+                <textarea class="composer-textarea" id="communityPostText" placeholder="Share a project update, hackathon question, or club announcement..."></textarea>
+                <div class="composer-toolbar">
+                  <span style="font-size: 12px; color: var(--color-slate-400);">Posting publicly to @acem.edu.in stream</span>
+                  <button class="btn-submit" style="width: auto; padding: 0 20px; height: 38px; font-size: 13px; margin: 0;" onclick="publishPost()">Post Update</button>
+                </div>
+              </div>
+              <div id="postsStreamContainer" style="margin-top: 24px;"></div>
+            </div>
+
+            <div class="trending-box">
+              <h4 style="font-size: 16px; font-weight: 700; color: var(--color-white);">Campus Trends</h4>
+              <div style="font-size: 13px; color: var(--color-slate-300); display: flex; flex-direction: column; gap: 12px;">
+                <div><strong>#SIH2026Screening</strong><br><span style="font-size: 11px; color: var(--color-slate-400);">342 students discussing</span></div>
+                <div><strong>#OddSemExams</strong><br><span style="font-size: 11px; color: var(--color-slate-400);">Datesheet published</span></div>
+                <div><strong>#Web3Hackathon</strong><br><span style="font-size: 11px; color: var(--color-slate-400);">Registrations open</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 4: MESSAGING SUITE
+             ========================================================= -->
+        <section class="view-panel" id="view-message">
+          <div class="messaging-box">
+            <div class="inbox-list">
+              <div class="inbox-header">
+                <span>Campus Conversations</span>
+                <span class="status-badge badge-green" style="font-size: 10px;">Live DB</span>
+              </div>
+              <div id="inboxContactsContainer"></div>
+            </div>
+
+            <div class="chat-convo-view">
+              <div class="chat-header-bar">
+                <div>
+                  <strong id="activeChatRecipient" style="color: var(--color-white);">Select a student</strong>
+                  <div id="activeChatSubtext" style="font-size: 12px; color: var(--color-emerald);">&#9679; @acem.edu.in &bull; Verified Peer</div>
+                </div>
+                <button class="demo-chip" style="width: auto; padding: 6px 14px;" onclick="showToast('Initiating peer call...')">&#128222; Call</button>
+              </div>
+
+              <div class="thread-stream" id="chatStreamBox"></div>
+
+              <form class="chat-input-row" onsubmit="sendPeerMessage(event)">
+                <input type="text" id="peerMsgInput" placeholder="Write a message to your peer..." required autocomplete="off" />
+                <button type="submit" class="btn-submit" style="width: auto; padding: 0 20px; height: 42px; margin: 0;">Send</button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 5: NEW ADMIN & ACTIVITY LOGS DASHBOARD (ADDED)
+             ========================================================= -->
+        <section class="view-panel" id="view-admin">
+          <div class="panel-header-wrap">
+            <div>
+              <div class="status-badge badge-purple" style="margin-bottom: 8px;">Evaluator / Admin Panel</div>
+              <h2 class="panel-title">System Audit &amp; Activity Logs</h2>
+              <p style="font-size: 14px; color: var(--color-slate-400);">Real-time track of all student registrations, logins, fee settlements, and system events.</p>
+            </div>
+            <button class="btn-submit" style="width: auto; height: 38px; font-size: 13px; margin: 0;" onclick="clearAuditLogs()">Clear Logs</button>
+          </div>
+
+          <div class="kpi-row">
+            <div class="kpi-card">
+              <span class="kpi-title">Total Registered Users</span>
+              <span class="kpi-value" id="adminTotalUsers">0</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-title">Total Chat Messages</span>
+              <span class="kpi-value" id="adminTotalMsgs">0</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-title">Total Community Posts</span>
+              <span class="kpi-value" id="adminTotalPosts">0</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-title">System Status</span>
+              <span class="kpi-value" style="color: var(--color-emerald); font-size: 20px; margin-top: 6px;">● Online (Sync)</span>
+            </div>
+          </div>
+
+          <div style="background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-lg); padding: 24px;">
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--color-white); margin-bottom: 16px;">Live Authentication &amp; Action Audit Trail</h3>
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>User Handle / ID</th>
+                  <th>Role</th>
+                  <th>Action Performed</th>
+                </tr>
+              </thead>
+              <tbody id="adminLogsTableBody">
+                <!-- Dynamically Populated -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal-backdrop" id="feePaymentModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeFeeModal()">&times;</button>
+      <h3 style="font-size: 20px; font-weight: 700; color: var(--color-white); margin-bottom: 8px;">ACEM Online Fee Payment</h3>
+      <p style="font-size: 13px; color: var(--color-slate-400); margin-bottom: 20px;">Clear pending semester balance of &#8377;12,500 to validate examination credentials.</p>
+      
+      <div class="form-group">
+        <label>Payment Gateway</label>
+        <select>
+          <option>UPI Instant (GooglePay / PhonePe / Paytm)</option>
+          <option>ACEM Net Banking Direct</option>
+          <option>Debit / Credit Card</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Your UPI ID / VPA</label>
+        <input type="text" id="upiVpaField" value="dev@acem.edu.in" />
+      </div>
+
+      <button class="btn-submit" onclick="executeFeePayment()">Pay &#8377;12,500 Now &rarr;</button>
+    </div>
+  </div>
+
+  <div class="app-toast" id="toastBox">Notification</div>
+
+  <!-- =========================================================
+       APPLICATION LOGIC & DATABASE ENGINE
+       ========================================================= -->
+  <script>
+    const DB_KEYS = {
+      USERS: 'alumnex_db_users_v1',
+      MESSAGES: 'alumnex_db_messages_v1',
+      POSTS: 'alumnex_db_posts_v1',
+      LOGS: 'alumnex_db_logs_v1',
+      SESSION: 'alumnex_active_session_v1'
+    };
+
+    const DEFAULT_USERS = [
+      { handle: 'dev', fullName: 'Dev Sharma', email: 'dev@acem.edu.in', password: 'acem2026', role: 'student', dept: 'Computer Science & Engineering', feePaid: false },
+      { handle: 'garv', fullName: 'Garv Chawla', email: 'garv@acem.edu.in', password: 'acem2026', role: 'student', dept: 'Computer Science & Engineering', feePaid: true },
+      { handle: 'puneet', fullName: 'Puneet Sethi', email: 'puneet@acem.edu.in', password: 'acem2026', role: 'student', dept: 'Computer Science & Engineering', feePaid: true },
+      { handle: 'rajesh.verma', fullName: 'Dr. Rajesh Verma', email: 'rajesh.verma@acem.edu.in', password: 'acem2026', role: 'faculty', dept: 'Computer Science & Engineering', feePaid: true }
+    ];
+
+    const DEFAULT_MESSAGES = [
+      { id: 1, from: 'garv', to: 'dev', text: 'Hey Dev! Pushed the database schema to GitHub.', time: '10:15 AM' },
+      { id: 2, from: 'dev', to: 'garv', text: 'Great! Reaching Lab 3 for project review.', time: '10:17 AM' }
+    ];
+
+    const DEFAULT_POSTS = [
+      { id: 101, authorName: 'Sarah Jenkins', authorMeta: "Alum @ Google • ACEM '22", initials: 'SJ', grad: 'var(--grad-purple)', text: 'Excited to review the project prototypes for the upcoming hackathon!', likes: 54, likedBy: [] }
+    ];
+
+    function initDatabase() {
+      if (!localStorage.getItem(DB_KEYS.USERS)) localStorage.setItem(DB_KEYS.USERS, JSON.stringify(DEFAULT_USERS));
+      if (!localStorage.getItem(DB_KEYS.MESSAGES)) localStorage.setItem(DB_KEYS.MESSAGES, JSON.stringify(DEFAULT_MESSAGES));
+      if (!localStorage.getItem(DB_KEYS.POSTS)) localStorage.setItem(DB_KEYS.POSTS, JSON.stringify(DEFAULT_POSTS));
+      if (!localStorage.getItem(DB_KEYS.LOGS)) {
+        localStorage.setItem(DB_KEYS.LOGS, JSON.stringify([
+          { time: new Date().toLocaleTimeString(), user: 'System', role: 'System', action: 'Database initialized successfully' }
+        ]));
+      }
+    }
+
+    function getUsers() { return JSON.parse(localStorage.getItem(DB_KEYS.USERS) || '[]'); }
+    function saveUsers(users) { localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users)); }
+
+    function getMessages() { return JSON.parse(localStorage.getItem(DB_KEYS.MESSAGES) || '[]'); }
+    function saveMessages(msgs) { localStorage.setItem(DB_KEYS.MESSAGES, JSON.stringify(msgs)); }
+
+    function getPosts() { return JSON.parse(localStorage.getItem(DB_KEYS.POSTS) || '[]'); }
+    function savePosts(posts) { localStorage.setItem(DB_KEYS.POSTS, JSON.stringify(posts)); }
+
+    function getLogs() { return JSON.parse(localStorage.getItem(DB_KEYS.LOGS) || '[]'); }
+    function logActivity(user, role, action) {
+      const logs = getLogs();
+      logs.unshift({
+        time: new Date().toLocaleString(),
+        user: user,
+        role: role,
+        action: action
+      });
+      localStorage.setItem(DB_KEYS.LOGS, JSON.stringify(logs));
+    }
+
+    let selectedRole = 'student';
+    let currentAuthMode = 'login';
+    let activeUser = null;
+    let activeChatPartner = null;
+
+    const usernameHandle = document.getElementById('usernameHandle');
+    const previewName = document.getElementById('previewName');
+
+    initDatabase();
+
+    usernameHandle.addEventListener('input', (e) => {
+      let raw = e.target.value.trim().toLowerCase().replace('@acem.edu.in', '').replace('@acem', '');
+      previewName.textContent = raw ? `${raw}@acem.edu.in` : 'name@acem.edu.in';
+    });
+
+    function switchRole(role) {
+      selectedRole = role;
+      document.getElementById('btnStudentRole').classList.toggle('active', role === 'student');
+      document.getElementById('btnFacultyRole').classList.toggle('active', role === 'faculty');
+    }
+
+    function setMode(mode) {
+      currentAuthMode = mode;
+      document.getElementById('tabModeLogin').classList.toggle('active', mode === 'login');
+      document.getElementById('tabModeRegister').classList.toggle('active', mode === 'register');
+      
+      const isRegister = mode === 'register';
+      document.getElementById('fullNameGroup').style.display = isRegister ? 'flex' : 'none';
+      document.getElementById('deptGroup').style.display = isRegister ? 'flex' : 'none';
+      document.getElementById('inputFullName').required = isRegister;
+      document.getElementById('authSubmitBtn').textContent = isRegister ? 'Create Account & Save to DB →' : 'Access Alumnex →';
+    }
+
+    function quickFill(handle, role) {
+      setMode('login');
+      switchRole(role);
+      usernameHandle.value = handle;
+      previewName.textContent = `${handle}@acem.edu.in`;
+      document.getElementById('inputPassword').value = 'acem2026';
+    }
+
+    function submitAuth(e) {
+      e.preventDefault();
+      let handle = usernameHandle.value.trim().toLowerCase().replace('@acem.edu.in', '').replace('@acem', '');
+      const password = document.getElementById('inputPassword').value.trim();
+
+      if (!handle || !password) {
+        showToast('Please fill all required fields');
+        return;
+      }
+
+      const users = getUsers();
+
+      if (currentAuthMode === 'register') {
+        const fullNameInput = document.getElementById('inputFullName').value.trim();
+        const deptInput = document.getElementById('selectDept').value;
+
+        if (!fullNameInput) {
+          showToast('Please enter your Full Name');
+          return;
+        }
+
+        if (users.find(u => u.handle === handle)) {
+          showToast('ID already registered! Please Sign In.');
+          setMode('login');
+          return;
+        }
+
+        const newUser = {
+          handle: handle,
+          fullName: fullNameInput,
+          email: `${handle}@acem.edu.in`,
+          password: password,
+          role: selectedRole,
+          dept: deptInput,
+          feePaid: false
+        };
+
+        users.push(newUser);
+        saveUsers(users);
+        activeUser = newUser;
+        sessionStorage.setItem(DB_KEYS.SESSION, JSON.stringify(activeUser));
+
+        logActivity(handle, selectedRole, 'New Account Created (Sign Up)');
+        showToast('Account created & saved in DB!');
+        launchMainApp();
+
+      } else {
+        const userRecord = users.find(u => u.handle === handle);
+        if (!userRecord) {
+          showToast('User not found! Click "Create Account" first.');
+          return;
+        }
+        if (userRecord.password !== password) {
+          showToast('Incorrect password! (Demo: acem2026)');
+          return;
+        }
+
+        activeUser = userRecord;
+        sessionStorage.setItem(DB_KEYS.SESSION, JSON.stringify(activeUser));
+
+        logActivity(handle, userRecord.role, 'User Signed In Successfully');
+        launchMainApp();
+      }
+    }
+
+    function getInitials(name) {
+      const parts = name.trim().split(' ');
+      if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+      return name.substring(0, 2).toUpperCase();
+    }
+
+    function launchMainApp() {
+      document.getElementById('pageAuth').style.display = 'none';
+      document.getElementById('pageMain').style.display = 'flex';
+
+      document.getElementById('userNameLabel').textContent = activeUser.fullName;
+      document.getElementById('userEmailTag').textContent = `${activeUser.email} (${activeUser.role.toUpperCase()})`;
+      document.getElementById('userAvatar').textContent = getInitials(activeUser.fullName);
+      document.getElementById('upiVpaField').value = `${activeUser.handle}@oksbi`;
+
+      updateFeeUI();
+      renderCommunityPosts();
+      renderInboxContacts();
+      renderAdminLogs();
+
+      showToast(`Welcome, ${activeUser.fullName}!`);
+    }
+
+    function signOut() {
+      if (activeUser) logActivity(activeUser.handle, activeUser.role, 'User Signed Out');
+      sessionStorage.removeItem(DB_KEYS.SESSION);
+      document.getElementById('pageAuth').style.display = 'flex';
+      document.getElementById('pageMain').style.display = 'none';
+      activeUser = null;
+      activeChatPartner = null;
+      showToast('Signed out of ACEM network');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedSession = sessionStorage.getItem(DB_KEYS.SESSION);
+      if (savedSession) {
+        activeUser = JSON.parse(savedSession);
+        launchMainApp();
+      }
+    });
+
+    function switchVerticalView(viewId, btn) {
+      document.querySelectorAll('.vertical-nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      document.getElementById(`view-${viewId}`).classList.add('active');
+
+      if (viewId === 'message') {
+        renderInboxContacts();
+        if (activeChatPartner) renderChatThread();
+      }
+      if (viewId === 'admin') {
+        renderAdminLogs();
+      }
+    }
+
+    function switchAcadInner(tabName, btn) {
+      document.querySelectorAll('.acad-tab-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.getElementById('acad-sub-fee').style.display = tabName === 'fee' ? 'flex' : 'none';
+      document.getElementById('acad-sub-attendance').style.display = tabName === 'attendance' ? 'flex' : 'none';
+      document.getElementById('acad-sub-marks').style.display = tabName === 'marks' ? 'flex' : 'none';
+      document.getElementById('acad-sub-timetable').style.display = tabName === 'timetable' ? 'flex' : 'none';
+    }
+
+    function renderCommunityPosts() {
+      const posts = getPosts();
+      const container = document.getElementById('postsStreamContainer');
+      container.innerHTML = '';
+
+      posts.forEach(post => {
+        const isLiked = activeUser && post.likedBy && post.likedBy.includes(activeUser.handle);
+        const card = document.createElement('div');
+        card.className = 'post-card';
+        card.innerHTML = `
+          <div class="post-header">
+            <div class="avatar-circle" style="background: ${post.grad || 'var(--grad-primary)'};">${post.initials}</div>
+            <div>
+              <div class="post-author-name">${post.authorName}</div>
+              <div class="post-author-role">${post.authorMeta}</div>
+            </div>
+          </div>
+          <div class="post-body-text">${escapeHTML(post.text)}</div>
+          <div class="post-social-bar">
+            <button class="social-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${post.id})">&#9825; <span>${post.likes}</span> Likes</button>
+            <button class="social-btn">&#128172; Comment</button>
+            <button class="social-btn">&#8618; Repost</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function publishPost() {
+      const field = document.getElementById('communityPostText');
+      const text = field.value.trim();
+      if (!text || !activeUser) return;
+
+      const posts = getPosts();
+      posts.unshift({
+        id: Date.now(),
+        authorName: activeUser.fullName,
+        authorMeta: `${activeUser.email} • Just now`,
+        initials: getInitials(activeUser.fullName),
+        grad: 'var(--grad-primary)',
+        text: text,
+        likes: 0,
+        likedBy: []
+      });
+
+      savePosts(posts);
+      logActivity(activeUser.handle, activeUser.role, 'Published Community Post');
+      field.value = '';
+      renderCommunityPosts();
+      showToast('Post shared with ACEM community!');
+    }
+
+    function toggleLike(postId) {
+      if (!activeUser) return;
+      const posts = getPosts();
+      const target = posts.find(p => p.id === postId);
+      if (!target) return;
+
+      if (!target.likedBy) target.likedBy = [];
+      const idx = target.likedBy.indexOf(activeUser.handle);
+
+      if (idx > -1) {
+        target.likedBy.splice(idx, 1);
+        target.likes = Math.max(0, target.likes - 1);
+      } else {
+        target.likedBy.push(activeUser.handle);
+        target.likes += 1;
+      }
+
+      savePosts(posts);
+      renderCommunityPosts();
+    }
+
+    function renderInboxContacts() {
+      if (!activeUser) return;
+      const users = getUsers().filter(u => u.handle !== activeUser.handle);
+      const allMessages = getMessages();
+      const container = document.getElementById('inboxContactsContainer');
+      container.innerHTML = '';
+
+      if (!activeChatPartner && users.length > 0) activeChatPartner = users[0];
+
+      users.forEach(peer => {
+        const convo = allMessages.filter(m =>
+          (m.from === activeUser.handle && m.to === peer.handle) ||
+          (m.from === peer.handle && m.to === activeUser.handle)
+        );
+        const lastMsg = convo.length > 0 ? convo[convo.length - 1].text : `Click to message ${peer.fullName}`;
+        const isActive = activeChatPartner && activeChatPartner.handle === peer.handle;
+
+        const item = document.createElement('div');
+        item.className = `inbox-item ${isActive ? 'active' : ''}`;
+        item.onclick = () => selectPeerChat(peer.handle);
+        item.innerHTML = `
+          <div class="avatar-circle">${getInitials(peer.fullName)}</div>
+          <div style="overflow: hidden;">
+            <div style="font-size: 14px; font-weight: 600;">${peer.handle} (${peer.fullName})</div>
+            <div style="font-size: 12px; color: var(--color-slate-400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              ${escapeHTML(lastMsg)}
+            </div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+
+      if (activeChatPartner) {
+        document.getElementById('activeChatRecipient').textContent = `${activeChatPartner.handle} (${activeChatPartner.fullName})`;
+        document.getElementById('activeChatSubtext').innerHTML = `&#9679; ${activeChatPartner.email} &bull; ${activeChatPartner.dept}`;
+        renderChatThread();
+      }
+    }
+
+    function selectPeerChat(peerHandle) {
+      activeChatPartner = getUsers().find(u => u.handle === peerHandle);
+      renderInboxContacts();
+    }
+
+    function renderChatThread() {
+      if (!activeUser || !activeChatPartner) return;
+      const stream = document.getElementById('chatStreamBox');
+      const allMessages = getMessages();
+
+      const convo = allMessages.filter(m =>
+        (m.from === activeUser.handle && m.to === activeChatPartner.handle) ||
+        (m.from === activeChatPartner.handle && m.to === activeUser.handle)
+      );
+
+      stream.innerHTML = '';
+      if (convo.length === 0) {
+        stream.innerHTML = `<div style="text-align: center; color: var(--color-slate-400); font-size: 13px; margin-top: 40px;">Start conversation with <strong>${activeChatPartner.fullName}</strong></div>`;
+        return;
+      }
+
+      convo.forEach(msg => {
+        const isOutgoing = msg.from === activeUser.handle;
+        const bubble = document.createElement('div');
+        bubble.className = `chat-bubble ${isOutgoing ? 'bubble-outgoing' : 'bubble-incoming'}`;
+        bubble.innerHTML = `${escapeHTML(msg.text)}<span class="chat-time">${msg.time}</span>`;
+        stream.appendChild(bubble);
+      });
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    function sendPeerMessage(e) {
+      e.preventDefault();
+      if (!activeUser || !activeChatPartner) return;
+      const input = document.getElementById('peerMsgInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      const allMessages = getMessages();
+      allMessages.push({ id: Date.now(), from: activeUser.handle, to: activeChatPartner.handle, text: text, time: timeStr });
+      saveMessages(allMessages);
+
+      logActivity(activeUser.handle, activeUser.role, `Sent Direct Message to ${activeChatPartner.handle}`);
+      input.value = '';
+      renderInboxContacts();
+    }
+
+    function renderAdminLogs() {
+      const users = getUsers();
+      const msgs = getMessages();
+      const posts = getPosts();
+      const logs = getLogs();
+
+      document.getElementById('adminTotalUsers').textContent = users.length;
+      document.getElementById('adminTotalMsgs').textContent = msgs.length;
+      document.getElementById('adminTotalPosts').textContent = posts.length;
+
+      const tbody = document.getElementById('adminLogsTableBody');
+      tbody.innerHTML = '';
+
+      logs.forEach(log => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-size: 12px; color: var(--color-slate-400);">${log.time}</td>
+          <td><strong style="color: var(--color-purple);">${log.user}</strong></td>
+          <td><span class="status-badge badge-purple">${log.role}</span></td>
+          <td>${log.action}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function clearAuditLogs() {
+      localStorage.setItem(DB_KEYS.LOGS, JSON.stringify([]));
+      renderAdminLogs();
+      showToast('Audit logs cleared.');
+    }
+
+    function openFeeModal() { document.getElementById('feePaymentModal').classList.add('open'); }
+    function closeFeeModal() { document.getElementById('feePaymentModal').classList.remove('open'); }
+
+    function executeFeePayment() {
+      closeFeeModal();
+      if (activeUser) {
+        activeUser.feePaid = true;
+        sessionStorage.setItem(DB_KEYS.SESSION, JSON.stringify(activeUser));
+        const users = getUsers();
+        const idx = users.findIndex(u => u.handle === activeUser.handle);
+        if (idx > -1) { users[idx].feePaid = true; saveUsers(users); }
+        updateFeeUI();
+        logActivity(activeUser.handle, activeUser.role, 'Cleared Semester Fee (₹12,500)');
+      }
+      showToast('Fee cleared & saved in DB! Hall ticket generated.');
+    }
+
+    function updateFeeUI() {
+      if (!activeUser) return;
+      const isPaid = activeUser.feePaid;
+      document.getElementById('feePaidVal').innerHTML = isPaid ? '&#8377;85,000' : '&#8377;72,500';
+      document.getElementById('feePendingVal').innerHTML = isPaid ? '&#8377;0' : '&#8377;12,500';
+      document.getElementById('feePendingVal').style.color = isPaid ? 'var(--color-emerald)' : 'var(--color-rose)';
+      document.getElementById('feePayBtnMain').style.display = isPaid ? 'none' : 'block';
+      document.getElementById('hallTicketVal').textContent = isPaid ? 'Approved' : 'Provisional';
+      document.getElementById('hallTicketVal').style.color = isPaid ? 'var(--color-emerald)' : 'var(--color-amber)';
+
+      const badge = document.getElementById('examFeeBadge');
+      const actionBtn = document.getElementById('examFeeActionBtn');
+      if (isPaid) {
+        badge.className = 'status-badge badge-green'; badge.textContent = 'Cleared';
+        actionBtn.style.color = 'var(--color-slate-300)'; actionBtn.textContent = 'Receipt';
+      } else {
+        badge.className = 'status-badge badge-rose'; badge.textContent = 'Pending';
+        actionBtn.style.color = 'var(--color-pink)'; actionBtn.textContent = 'Settle Now';
+        actionBtn.onclick = openFeeModal;
+      }
+    }
+
+    window.addEventListener('storage', (event) => {
+      if (!activeUser) return;
+      if (event.key === DB_KEYS.MESSAGES) renderInboxContacts();
+      if (event.key === DB_KEYS.POSTS) renderCommunityPosts();
+      if (event.key === DB_KEYS.LOGS) renderAdminLogs();
+    });
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag]));
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastBox');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+  </script>
+</body>
+</html>
